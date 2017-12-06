@@ -5,8 +5,13 @@ import pickle
 import os
 import discord
 from data import token
+from discord.ext.commands import Bot
+from discord.ext import commands
 
 client = discord.Client()
+bot_prefix = '>'
+client = commands.Bot(command_prefix=bot_prefix)
+
 
 @client.event
 async def on_ready():
