@@ -3,15 +3,11 @@
 import random
 import pickle
 import os
+import aiohttp
 import discord
 from data import token
-from discord.ext.commands import Bot
-from discord.ext import commands
 
 client = discord.Client()
-bot_prefix = '>'
-client = commands.Bot(command_prefix=bot_prefix)
-
 
 @client.event
 async def on_ready():
@@ -20,7 +16,7 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('-------')
-    await client.change_presence(game=discord.Game(name='>help'))
+    await client.change_presence(game=discord.Game(name='>help for help'))
 
 @client.event
 async def on_message(message):
@@ -54,13 +50,9 @@ async def on_message(message):
     # Help command
     if message.content.startswith('>help'):
         await client.send_message(message.channel, 'No contents')
-"""
-	# Change game
-    if message.content.startswith('>setgame'):
-        await client.send_message(message.channel, 'hello')
-        msg = await client.wait_for_message(author=message.author, content='hello')
-        await client.change_presence(game=discord.Game(name='Set'))
-        await client.send_message(message.channel, 'ye')
-"""
+
+    # Poke bot host
+    if message.content.startswith('>poke'):
+        await client.send_message(message.channel, 'GRRR..')
 
 client.run(token)
