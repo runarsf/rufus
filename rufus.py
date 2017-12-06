@@ -1,4 +1,5 @@
 #import asyncio
+""" Import asyncio """
 import random
 import pickle
 import os
@@ -9,6 +10,7 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
+    """ Returns true if bot is ready """
     print('Logged in as')
     print(client.user.name)
     print(client.user.id)
@@ -17,6 +19,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    """ All on_message functions """
 	# Ping
     if message.content.startswith('>ping'):
         await client.send_message(message.channel, 'pong')
