@@ -1,3 +1,4 @@
 # pcsetup
 pip install discord.py[voice]
 pip install pylint
+pip install lxml

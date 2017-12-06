@@ -5,9 +5,15 @@ import pickle
 import os
 import aiohttp
 import discord
-from data import token
+from discord.ext import commands
+import lxml.html as l
+from config import token
+
+bot_prefix = '>'
+description = 'Descropt'
 
 client = discord.Client()
+bot = commands.Bot(command_prefix='>', description='Lol')
 
 @client.event
 async def on_ready():
