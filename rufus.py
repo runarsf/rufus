@@ -43,12 +43,16 @@ async def on_message(message):
             quote_list = pickle.load(quotes)
         await client.send_message(message.channel, random.choice(quote_list))
 
+    # Help command
+    if message.content.startswith('>help'):
+        await client.send_message(message.channel, 'No contents')
+"""
 	# Change game
     if message.content.startswith('>setgame'):
         await client.send_message(message.channel, 'hello')
         msg = await client.wait_for_message(author=message.author, content='hello')
         await client.change_presence(game=discord.Game(name='Set'))
         await client.send_message(message.channel, 'ye')
-
+"""
 
 client.run(token)
