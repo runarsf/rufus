@@ -8,6 +8,8 @@ import discord
 from discord.ext import commands
 from config import token
 
+# https://discordpy.readthedocs.io/en/rewrite/ext/commands/api.html
+
 bot_prefix = '>'
 description = 'Descropt'
 
@@ -29,9 +31,16 @@ async def ping(ctx):
     """ Pings the bot host """
     await client.say('pong')
 
+@client.command(pass_context=True)
 async def roll(ctx):
     """ Rolls a dice """
-    roll = random.choice(['1', '2', '3', '4', '5', '6']):
-    await client.say(roll)
+    roll = random.choice(['1', '2', '3', '4', '5', '6'])
+    await client.say('```' + client.user.name + ' rolled ' + roll + '```')
+
+@client.command(pass_context=True)
+async def flip(ctx):
+    """ Flips a coin """
+    flip = random.choice(['Heads', 'Tails'])
+    await client.say('```' + flip + '```')
 
 client.run(token)
