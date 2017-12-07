@@ -10,8 +10,6 @@ from lxml import html
 from discord.ext import commands
 from config import token
 
-# https://discordpy.readthedocs.io/en/rewrite/ext/commands/api.html
-
 bot_prefix = '>'
 description = 'prefix = \'>\''
 btc_url = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
