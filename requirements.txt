@@ -1,7 +1,11 @@
+#pip install -r requirements.txt
 discord.py[voice]
+os
+asyncio"!"
 pip
-pylint
+pylint 
 aiohhtp
 lxml
-pickle
 random
+requests
+pickle
