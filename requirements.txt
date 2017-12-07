@@ -1,0 +1,7 @@
+discord.py[voice]
+pip
+pylint
+aiohhtp
+lxml
+pickle
+random
