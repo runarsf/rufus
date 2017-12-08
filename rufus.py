@@ -49,7 +49,19 @@ async def roll(ctx):
 async def flip(ctx):
     """ Flips a coin """
     flip = random.choice(['Heads', 'Tails'])
-    await client.say('```' + flip + '```')
+    #await client.say('```' + flip + '```')
+    if flip == 'Heads':
+        await client.add_reaction(ctx.message, '🇭')
+        await client.add_reaction(ctx.message, '🇪')
+        await client.add_reaction(ctx.message, '🇦')
+        await client.add_reaction(ctx.message, '🇩')
+        await client.add_reaction(ctx.message, '🇸')
+    else:
+        await client.add_reaction(ctx.message, '🇹')
+        await client.add_reaction(ctx.message, '🇦')
+        await client.add_reaction(ctx.message, '🇮')
+        await client.add_reaction(ctx.message, '🇱')
+        await client.add_reaction(ctx.message, '🇸')
 
 @client.command(pass_context=True)
 async def brainpower(ctx):
@@ -78,6 +90,16 @@ async def info(ctx):
 @client.command(pass_context=True)
 async def hug(ctx):
     """ <3 """
-    await client.say(ctx.message.author.name + ' hugged ' + ctx.message.author.name)
+    await client.say(ctx.message.author.name + ' hugged ' + ctx.message.content[5:] + ' :hearts: ')
+
+@client.command(pass_context=True)
+async def send(ctx):
+	""" Sends the message specified by the user. """
+	await  client.say(ctx.message.content[6:])
+
+@client.command(pass_context=True)
+async def lenny(ctx):
+	""" ( ͡° ͜ʖ ͡°) """
+	await client.say('( ͡° ͜ʖ ͡°)')
 
 client.run(c.token)
