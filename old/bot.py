@@ -7,13 +7,10 @@ import aiohttp
 import discord
 from discord.ext import commands
 import lxml.html as l
-from config import token
-
-bot_prefix = '>'
-description = 'Descropt'
+import config as c
 
 client = discord.Client()
-bot = commands.Bot(command_prefix='>', description='Lol')
+bot = commands.Bot(command_prefix=c.bot_prefix, description=c.description)
 
 @client.event
 async def on_ready():
@@ -48,7 +45,7 @@ async def on_message(message):
             pickle.dump(quote_list, quotes)
 
 	# Get random quote from quotes.pk1
-    if message.content.startswith('>quote'):
+    if message.content.startswith(c.bot_prefix + 'quote'):
         with open('quotes.pk1', 'rb') as quotes:
             quote_list = pickle.load(quotes)
         await client.send_message(message.channel, random.choice(quote_list))
@@ -61,26 +58,4 @@ async def on_message(message):
     if message.content.startswith('>poke'):
         await client.send_message(message.channel, 'GRRR..')
 
-        """ # Currently not supported. 
-@client.event
-async def on_message(message):
-    \"\"\" Adds and calls quotes. Uses old way of handling messages. \"\"\"
-    # Add quote to quotes.pk1
-    if message.content.startswith('>addquote'):
-        if not os.path.isfile('quotes.pk1'):
-            quote_list = []
-        else:
-            with open('quotes.pk1', 'rb') as quotes:
-                quote_list = pickle.load(quotes)
-        quote_list.append(message.content[9:])
-        with open('quotes.pk1', 'wb') as quotes:
-            pickle.dump(quote_list, quotes)
-
-	# Get random quote from quotes.pk1
-    if message.content.startswith('>quote'):
-        with open('quotes.pk1', 'rb') as quotes:
-            quote_list = pickle.load(quotes)
-        await client.send_message(message.channel, random.choice(quote_list))
-"""
-
-client.run(token)
+client.run(c.token)

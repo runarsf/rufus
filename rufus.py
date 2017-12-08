@@ -63,7 +63,7 @@ async def brainpower(ctx):
 @client.command(pass_context=True)
 async def btc(ctx):
     """ Shows BitCoin price in USD """
-    await client.say('BTC price is currently at $' + btc_usd + ' USD')
+    await client.say('``' + 'BTC price is currently at $' + btc_usd + ' USD' + '``')
 
 @client.command(pass_context=True)
 async def poke(ctx):
