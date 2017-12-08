@@ -1,4 +1,5 @@
 # bot.py config
 token = 'AbC1b2c3'
-bot_prefix = '>'
+prefix = '>'
 description = 'prefix = \'>\''
+game = 'asd'
