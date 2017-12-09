@@ -2,20 +2,20 @@
 """ . """
 # unused import asyncio
 import random
-import aiohttp
+# unused import aiohttp
 # unused import pickle
 # unused import os
 import requests
-import discord
 import config as c
 # unused from lxml import html
+import discord
 from discord.ext import commands
 
-btc_url = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
-data = requests.get(btc_url).json()
-btc_usd = data['bpi']['USD']['rate']
+BTC_URL = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
+DATA = requests.get(BTC_URL).json()
+BTC_USD = DATA['bpi']['USD']['rate']
 
-bot = discord.Client()
+BOT = discord.Client()
 client = commands.Bot(description=c.description, command_prefix=c.prefix)
 
 @client.event
@@ -83,7 +83,7 @@ async def brainpower():
 @client.command(pass_context=True)
 async def btc():
     """ Shows BitCoin price in USD """
-    await client.say('``' + 'BTC price is currently at $' + btc_usd + ' USD' + '``')
+    await client.say('``' + 'BTC price is currently at $' + BTC_USD + ' USD' + '``')
 
 @client.command(pass_context=True)
 async def poke(ctx):
@@ -92,7 +92,8 @@ async def poke(ctx):
     if mcont == c.prefix + 'poke':
         await client.say('GRRR..')
     else:
-        await client.say('*' + ctx.message.author.name + ' poked' + mcont.replace(c.prefix + 'poke', '*'))
+        await client.say('*' + ctx.message.author.name +
+                         ' poked' + mcont.replace(c.prefix + 'poke', '*'))
 
 @client.command(pass_context=True)
 async def info(ctx):
@@ -116,7 +117,8 @@ async def hug(ctx):
     elif mcont == c.prefix + 'hug <@387390496038977536>':
         await client.say('')
     else:
-        await client.say(ctx.message.author.name + ' hugged' + mcont.replace(c.prefix + 'hug', '') + ' :hearts:')
+        await client.say(ctx.message.author.name + ' hugged'
+                         + mcont.replace(c.prefix + 'hug', '') + ' :hearts:')
 
 @client.command(pass_context=True)
 async def send(ctx):
@@ -134,7 +136,7 @@ async def tocch(ctx):
     """ DOO NOTT TOUCH SPAGOOT """
     await client.add_reaction(ctx.message, '🍝')
     await client.send_file(ctx.message.channel, 'tocch.png')
-    
+
 @client.command(pass_context=True)
 async def balls(ctx):
     """ ... """
@@ -151,7 +153,7 @@ async def tangerine(ctx):
     await client.send_file(ctx.message.channel, 'tangerine.png')
 
 @client.command(pass_context=True)
-async def addbtc(ctx, create_custom_emoji):
+async def addbtc(create_custom_emoji):
     """ Adds the BitCoin emoji """
     dserver = client.get_server_id()
     await create_custom_emoji(dserver, 'BitCoin', 'btc.png')
