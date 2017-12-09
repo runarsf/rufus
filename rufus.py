@@ -97,9 +97,13 @@ async def poke(ctx):
 @client.command(pass_context=True)
 async def info(ctx):
     """ Shows information about the specified user. """
-    musr = str(ctx.message.content[6:])
-    await client.say('Name = {}'.format(ctx.message.author.mention))
-    await client.say('')
+    mcont = ctx.message.content
+    if mcont == str(c.prefix + 'info'):
+        await client.say('Mention = {}'.format(ctx.message.author.mention))
+    elif c.prefix + 'info <@' in mcont:
+        await client.say('Mention = ' + mcont.replace(c.prefix + 'info', ''))
+    else:
+        await client.say('It would help if... you know.. the mention was valid...')
 
 @client.command(pass_context=True)
 async def hug(ctx):
@@ -107,8 +111,12 @@ async def hug(ctx):
     mcont = ctx.message.content
     if mcont <= c.prefix + 'hug':
         await client.say('*' + ctx.message.author.name + ' tries to hug the air*')
+        await client.say('https://www.youtube.com/watch?v=CCVdQ8xXBfk')
+        await client.say('*AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*')
+    elif mcont == c.prefix + 'hug <@387390496038977536>':
+        await client.say('')
     else:
-        await client.say('``' + ctx.message.author.name + ' hugged ' + mcont.replace(c.prefix + 'hug', '') + ' :hearts: ``')
+        await client.say(ctx.message.author.name + ' hugged' + mcont.replace(c.prefix + 'hug', '') + ' :hearts:')
 
 @client.command(pass_context=True)
 async def send(ctx):
