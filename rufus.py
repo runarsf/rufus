@@ -5,6 +5,7 @@ import random
 # unused import aiohttp
 # unused import pickle
 # unused import os
+import time
 import requests
 import config as c
 # unused from lxml import html
@@ -25,7 +26,6 @@ async def on_ready():
     print('Name :: {}'.format(client.user.name))
     print('ID :: {}'.format(client.user.id))
     print(discord.__version__)
-
     await client.change_presence(game=discord.Game(name=c.game))
 
 @client.command(pass_context=True)
@@ -53,14 +53,13 @@ async def roll(ctx):
 async def flip(ctx):
     """ Flips a coin """
     cflip = random.choice(['Heads', 'Tails'])
-    #await client.say('```' + flip + '```')
     if cflip == 'Heads':
         await client.add_reaction(ctx.message, '🇭')
         await client.add_reaction(ctx.message, '🇪')
         await client.add_reaction(ctx.message, '🇦')
         await client.add_reaction(ctx.message, '🇩')
         await client.add_reaction(ctx.message, '🇸')
-    else:
+    elif cflip == 'Tails':
         await client.add_reaction(ctx.message, '🇹')
         await client.add_reaction(ctx.message, '🇦')
         await client.add_reaction(ctx.message, '🇮')
@@ -99,12 +98,21 @@ async def poke(ctx):
 async def info(ctx):
     """ Shows information about the specified user. """
     mcont = ctx.message.content
+    userid = str(mcont.replace(c.prefix + 'info <@', '').replace('>', ''))
+    embed = discord.Embed(title="Tile", description="Desc", color=0x3b4d7c)
+    embed.add_field(name="Fiel1", value="hi", inline=False)
+    embed.add_field(name="Field2", value="hi2", inline=False)
+    print(userid)
     if mcont == str(c.prefix + 'info'):
-        await client.say('Mention = {}'.format(ctx.message.author.mention))
+        await client.say('Mention = {}'.format(ctx.message.author.mention) +
+                         '\nID = ' + ctx.message.author.id)
+        await client.say(ctx.message.channel, embed=embed)
+
     elif c.prefix + 'info <@' in mcont:
-        await client.say('Mention = ' + mcont.replace(c.prefix + 'info', ''))
+        await client.say('Mention = ' + mcont.replace(c.prefix + 'info', '') + '\nID = ' + userid)
+
     else:
-        await client.say('It would help if... you know.. the mention was valid...')
+        await client.say('It would help if... you know.. the mention was. VALID...')
 
 @client.command(pass_context=True)
 async def hug(ctx):
@@ -133,30 +141,65 @@ async def lenny():
 
 @client.command(pass_context=True)
 async def tocch(ctx):
-    """ DOO NOTT TOUCH SPAGOOT """
+    """ DOON NOTT TOUCH SPAGOOT """
     await client.add_reaction(ctx.message, '🍝')
-    await client.send_file(ctx.message.channel, 'tocch.png')
+    await client.send_file(ctx.message.channel, 'img/tocch.png')
 
 @client.command(pass_context=True)
 async def balls(ctx):
     """ ... """
-    await client.send_file(ctx.message.channel, 'balls.png')
+    await client.send_file(ctx.message.channel, 'img/balls.png')
 
 @client.command(pass_context=True)
 async def drincc(ctx):
     """ i am DEHYDRATION """
-    await client.send_file(ctx.message.channel, 'drincc.jpg')
+    await client.send_file(ctx.message.channel, 'img/drincc.jpg')
 
 @client.command(pass_context=True)
 async def tangerine(ctx):
     """ tAnGeRiNe eS mIsSin atOM? """
-    await client.send_file(ctx.message.channel, 'tangerine.png')
+    await client.send_file(ctx.message.channel, 'img/tangerine.png')
 
 @client.command(pass_context=True)
-async def addbtc(create_custom_emoji):
-    """ Adds the BitCoin emoji """
-    dserver = client.get_server_id()
-    await create_custom_emoji(dserver, 'BitCoin', 'btc.png')
-    await client.say('done')
+async def kms(ctx):
+    """ hey bows do the kys pleas """
+    await client.send_file(ctx.message.channel, 'img/anoose.jpg')
+    await client.say('Come ' + ctx.message.author.mention + '. *~~She~~* He\'s waiting for you!')
+
+@client.command(pass_context=True)
+async def kys(ctx):
+    """ yes pelase """
+    mcont = ctx.message.content
+    if mcont == str(c.prefix + 'kys'):
+        print('command.kys :: no argument')
+    else:
+        await client.say('Hey' + mcont.replace(c.prefix + 'kys', '') + '. ' +
+                         ctx.message.author.name + ' Is implying *he/she/it/social construct*' +
+                         'wants you to cease existing, however, for their argument to apply,' +
+                         'the death needs to be inflicted by yourself and yourself alone.')
+
+@client.command(pass_context=True)
+async def chuchu():
+    """ Kanna is waifu, cuz age is just a number. """
+    await client.say('YEA!')
+
+@client.command(pass_context=True)
+async def pooser(ctx):
+    """ Why the fuq did I implement this? """
+    await client.send_file(ctx.message.channel, 'img/pooser.png')
+    await client.say('OwO wat dis?')
+    time.sleep(4)
+    await client.send_file(ctx.message.channel, 'img/poosna.png')
+    await client.say('It are his lips you porv.')
+    time.sleep(4)
+    await client.send_file(ctx.message.channel, 'img/ramboozled.png')
+    await client.say('jk it am the handees of the Re:0*GB* Ram')
+
+@client.command(pass_context=True)
+async def deathnote(ctx):
+    """ kys """
+    await client.say('Say hello')
+    await client.waiting(author=ctx.message.author, content='hello')
+    await client.say(ctx.message.channel, 'Hello.')
 
 client.run(c.token)
