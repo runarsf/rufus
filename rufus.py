@@ -99,6 +99,7 @@ async def poke(ctx):
     else:
         await client.say('*' + ctx.message.author.name +
                          ' poked' + mcont.replace(c.prefix + 'poke', '*'))
+        await client.delete_message(ctx.message)
 
 @client.command(pass_context=True)
 async def info(ctx):
@@ -131,10 +132,11 @@ async def hug(ctx):
         await client.say('https://www.youtube.com/watch?v=CCVdQ8xXBfk')
         await client.say('*AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*')
     elif mcont == c.prefix + 'hug <@387390496038977536>':
-        await client.say('')
+        await client.say(' OwO wat dis? Am I being hugger? Hmmmm... always be a mystery it will')
     else:
         await client.say(ctx.message.author.name + ' hugged'
                          + mcont.replace(c.prefix + 'hug', '') + ' :hearts:')
+        await client.delete_message(ctx.message)
 
 @client.command(pass_context=True)
 async def send(ctx):
@@ -142,6 +144,7 @@ async def send(ctx):
     print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     mcont = ctx.message.content
     await client.say(mcont.replace(c.prefix + 'send', ''))
+    await client.delete_message(ctx.message)
 
 @client.command(pass_context=True)
 async def lenny(ctx):
@@ -187,12 +190,14 @@ async def kys(ctx):
     print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     mcont = ctx.message.content
     if mcont == str(c.prefix + 'kys'):
+        await client.delete_message(ctx.message)
         print('command.kys :: no argument')
     else:
         await client.say('Hey' + mcont.replace(c.prefix + 'kys', '') + '. ' +
                          ctx.message.author.name + ' Is implying *he/she/it/social construct* ' +
                          'wants you to cease existing, however, for their argument to apply, ' +
                          'the death needs to be inflicted by yourself and yourself alone.')
+        await client.delete_message(ctx.message)
 
 @client.command(pass_context=True)
 async def chuchu(ctx):
@@ -220,5 +225,21 @@ async def deathnote(ctx):
     await client.say('Say hello')
     await client.waiting(author=ctx.message.author, content='hello')
     await client.say(ctx.message.channel, 'Hello.')
+
+@client.command(pass_context=True)
+async def purge(ctx):
+    """ Deletes the messages of the specified user. """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
+    mcont = ctx.message.content
+    if mcont == str(c.prefix + 'purge'):
+        await client.delete_message(ctx.message)
+        print('command.purge :: no argument')
+    elif mcont == c.prefix + 'purge all':
+        await client.send_message(ctx.message.channel, 'Clearing messages...')
+        time.sleep(2)
+        async for msg in client.logs_from(ctx.message.channel):
+            await client.delete_message(msg)
+    else:
+        print('error')
 
 client.run(c.token)
