@@ -29,13 +29,15 @@ async def on_ready():
     await client.change_presence(game=discord.Game(name=c.game))
 
 @client.command(pass_context=True)
-async def ping():
+async def ping(ctx):
     """ Pings the bot host """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.say('pong 🏓')
 
 @client.command(pass_context=True)
 async def roll(ctx):
     """ Rolls a random number (0-100) """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     droll = random.randint(0, 100)
     if droll <= 0:
         await client.say('```' + ctx.message.author.name +
@@ -52,6 +54,7 @@ async def roll(ctx):
 @client.command(pass_context=True)
 async def flip(ctx):
     """ Flips a coin """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     cflip = random.choice(['Heads', 'Tails'])
     if cflip == 'Heads':
         await client.add_reaction(ctx.message, '🇭')
@@ -67,8 +70,9 @@ async def flip(ctx):
         await client.add_reaction(ctx.message, '🇸')
 
 @client.command(pass_context=True)
-async def brainpower():
+async def brainpower(ctx):
     """ OwO wat dis"""
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-')
     await client.say('A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo' +
                      '\nEEEEO-A-AAA-AAAA')
@@ -80,13 +84,15 @@ async def brainpower():
     await client.say('JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA-O----------')
 
 @client.command(pass_context=True)
-async def btc():
+async def btc(ctx):
     """ Shows BitCoin price in USD """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.say('``' + 'BTC price is currently at $' + BTC_USD + ' USD' + '``')
 
 @client.command(pass_context=True)
 async def poke(ctx):
     """ >:c """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     mcont = ctx.message.content
     if mcont == c.prefix + 'poke':
         await client.say('GRRR..')
@@ -97,6 +103,7 @@ async def poke(ctx):
 @client.command(pass_context=True)
 async def info(ctx):
     """ Shows information about the specified user. """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     mcont = ctx.message.content
     userid = str(mcont.replace(c.prefix + 'info <@', '').replace('>', ''))
     embed = discord.Embed(title="Tile", description="Desc", color=0x3b4d7c)
@@ -117,6 +124,7 @@ async def info(ctx):
 @client.command(pass_context=True)
 async def hug(ctx):
     """ <3 """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     mcont = ctx.message.content
     if mcont <= c.prefix + 'hug':
         await client.say('*' + ctx.message.author.name + ' tries to hug the air*')
@@ -131,44 +139,52 @@ async def hug(ctx):
 @client.command(pass_context=True)
 async def send(ctx):
     """ Sends the message specified by the user. """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     mcont = ctx.message.content
     await client.say(mcont.replace(c.prefix + 'send', ''))
 
 @client.command(pass_context=True)
-async def lenny():
+async def lenny(ctx):
     """ ( ͡° ͜ʖ ͡°) """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.say('( ͡° ͜ʖ ͡°)')
 
 @client.command(pass_context=True)
 async def tocch(ctx):
     """ DOON NOTT TOUCH SPAGOOT """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.add_reaction(ctx.message, '🍝')
     await client.send_file(ctx.message.channel, 'img/tocch.png')
 
 @client.command(pass_context=True)
 async def balls(ctx):
     """ ... """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.send_file(ctx.message.channel, 'img/balls.png')
 
 @client.command(pass_context=True)
 async def drincc(ctx):
     """ i am DEHYDRATION """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.send_file(ctx.message.channel, 'img/drincc.jpg')
 
 @client.command(pass_context=True)
 async def tangerine(ctx):
     """ tAnGeRiNe eS mIsSin atOM? """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.send_file(ctx.message.channel, 'img/tangerine.png')
 
 @client.command(pass_context=True)
 async def kms(ctx):
     """ hey bows do the kys pleas """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.send_file(ctx.message.channel, 'img/anoose.jpg')
     await client.say('Come ' + ctx.message.author.mention + '. *~~She~~* He\'s waiting for you!')
 
 @client.command(pass_context=True)
 async def kys(ctx):
     """ yes pelase """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     mcont = ctx.message.content
     if mcont == str(c.prefix + 'kys'):
         print('command.kys :: no argument')
@@ -179,13 +195,15 @@ async def kys(ctx):
                          'the death needs to be inflicted by yourself and yourself alone.')
 
 @client.command(pass_context=True)
-async def chuchu():
+async def chuchu(ctx):
     """ Kanna is waifu, cuz age is just a number. """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.say('YEA!')
 
 @client.command(pass_context=True)
 async def pooser(ctx):
     """ Why the fuq did I implement this? """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.send_file(ctx.message.channel, 'img/pooser.png')
     await client.say('OwO wat dis?')
     time.sleep(4)
@@ -198,6 +216,7 @@ async def pooser(ctx):
 @client.command(pass_context=True)
 async def deathnote(ctx):
     """ kys """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.say('Say hello')
     await client.waiting(author=ctx.message.author, content='hello')
     await client.say(ctx.message.channel, 'Hello.')
