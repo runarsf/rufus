@@ -1,14 +1,9 @@
 # pip install -r requirements.txt
 """ . """
-# unused import asyncio
 import random
-# unused import aiohttp
-# unused import pickle
-# unused import os
 import time
 import requests
 import config as c
-# unused from lxml import html
 import discord
 from discord.ext import commands
 
@@ -33,6 +28,12 @@ async def ping(ctx):
     """ Pings the bot host """
     print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.say('pong 🏓')
+
+@client.command(pass_context=True)
+async def test(ctx):
+    """ You probably shouldn't use this... """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
+    await client.say(client.user.id)
 
 @client.command(pass_context=True)
 async def roll(ctx):
@@ -102,27 +103,6 @@ async def poke(ctx):
         await client.delete_message(ctx.message)
 
 @client.command(pass_context=True)
-async def info(ctx):
-    """ Shows information about the specified user. """
-    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
-    mcont = ctx.message.content
-    userid = str(mcont.replace(c.prefix + 'info <@', '').replace('>', ''))
-    embed = discord.Embed(title="Tile", description="Desc", color=0x3b4d7c)
-    embed.add_field(name="Fiel1", value="hi", inline=False)
-    embed.add_field(name="Field2", value="hi2", inline=False)
-    print(userid)
-    if mcont == str(c.prefix + 'info'):
-        await client.say('Mention = {}'.format(ctx.message.author.mention) +
-                         '\nID = ' + ctx.message.author.id)
-        await client.say(ctx.message.channel, embed=embed)
-
-    elif c.prefix + 'info <@' in mcont:
-        await client.say('Mention = ' + mcont.replace(c.prefix + 'info', '') + '\nID = ' + userid)
-
-    else:
-        await client.say('It would help if... you know.. the mention was. VALID...')
-
-@client.command(pass_context=True)
 async def hug(ctx):
     """ <3 """
     print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
@@ -131,7 +111,7 @@ async def hug(ctx):
         await client.say('*' + ctx.message.author.name + ' tries to hug the air*')
         await client.say('https://www.youtube.com/watch?v=CCVdQ8xXBfk')
         await client.say('*AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*')
-    elif mcont == c.prefix + 'hug <@387390496038977536>':
+    elif mcont == c.prefix + 'hug <@' + client.user.id + '>':
         await client.say(' OwO wat dis? Am I being hugger? Hmmmm... always be a mystery it will')
     else:
         await client.say(ctx.message.author.name + ' hugged'
@@ -240,6 +220,30 @@ async def purge(ctx):
         async for msg in client.logs_from(ctx.message.channel):
             await client.delete_message(msg)
     else:
-        print('error')
+        print('purge error.else')
+
+@client.command(pass_context=True)
+async def info(ctx):
+    """ Shows information about the specified user. """
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
+    mcont = ctx.message.content
+    userid = str(mcont.replace(c.prefix + 'info <@', '').replace('>', ''))
+
+    embed = discord.Embed(title="Tile", description="Desc", color=0x3b4d7c)
+    embed.add_field(name="Fiel1", value="hi", inline=False)
+    embed.add_field(name="Field2", value="hi2", inline=False)
+
+    print(userid)
+    if mcont == str(c.prefix + 'info'):
+        await client.say('Mention = {}'.format(ctx.message.author.mention) +
+                         '\nID = ' + ctx.message.author.id)
+        await client.say(ctx.message.channel, embed=embed)
+    elif mcont == c.prefix + 'hug <@' + client.user.id + '>':
+        # INFO ABOUT BOT
+    elif c.prefix + 'info <@' in mcont:
+        await client.say('Mention = ' + mcont.replace(c.prefix + 'info', '') + '\nID = ' + userid)
+
+    else:
+        await client.say('It would help if... you know.. the mention was. VALID...')
 
 client.run(c.token)
