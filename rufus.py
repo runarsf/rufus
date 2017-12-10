@@ -190,8 +190,8 @@ async def kys(ctx):
         print('command.kys :: no argument')
     else:
         await client.say('Hey' + mcont.replace(c.prefix + 'kys', '') + '. ' +
-                         ctx.message.author.name + ' Is implying *he/she/it/social construct*' +
-                         'wants you to cease existing, however, for their argument to apply,' +
+                         ctx.message.author.name + ' Is implying *he/she/it/social construct* ' +
+                         'wants you to cease existing, however, for their argument to apply, ' +
                          'the death needs to be inflicted by yourself and yourself alone.')
 
 @client.command(pass_context=True)
