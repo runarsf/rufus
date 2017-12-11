@@ -10,6 +10,7 @@ from discord.ext import commands
 BTC_URL = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
 DATA = requests.get(BTC_URL).json()
 BTC_USD = DATA['bpi']['USD']['rate']
+CON_LOG = 'ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content'
 
 BOT = discord.Client()
 client = commands.Bot(description=c.description, command_prefix=c.prefix)
@@ -24,16 +25,16 @@ async def on_ready():
     await client.change_presence(game=discord.Game(name=c.game))
 
 @client.command(pass_context=True)
+async def test(ctx):
+    """ You probably shouldn't use this... """
+    print(CON_LOG)
+    await client.say(client.user.id)
+
+@client.command(pass_context=True)
 async def ping(ctx):
     """ Pings the bot host """
     print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.say('pong 🏓')
-
-@client.command(pass_context=True)
-async def test(ctx):
-    """ You probably shouldn't use this... """
-    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
-    await client.say(client.user.id)
 
 @client.command(pass_context=True)
 async def roll(ctx):
@@ -182,7 +183,7 @@ async def kys(ctx):
 @client.command(pass_context=True)
 async def chuchu(ctx):
     """ Kanna is waifu, cuz age is just a number. """
-    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
+    console.log = print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.say('YEA!')
 
 @client.command(pass_context=True)
@@ -238,8 +239,8 @@ async def info(ctx):
         await client.say('Mention = {}'.format(ctx.message.author.mention) +
                          '\nID = ' + ctx.message.author.id)
         await client.say(ctx.message.channel, embed=embed)
-    elif mcont == c.prefix + 'hug <@' + client.user.id + '>':
-        # INFO ABOUT BOT
+    elif mcont == c.prefix + 'info <@' + client.user.id + '>':
+        print('suh')
     elif c.prefix + 'info <@' in mcont:
         await client.say('Mention = ' + mcont.replace(c.prefix + 'info', '') + '\nID = ' + userid)
 
