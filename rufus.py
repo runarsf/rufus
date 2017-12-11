@@ -183,7 +183,7 @@ async def kys(ctx):
 @client.command(pass_context=True)
 async def chuchu(ctx):
     """ Kanna is waifu, cuz age is just a number. """
-    console.log = print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
+    print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
     await client.say('YEA!')
 
 @client.command(pass_context=True)
