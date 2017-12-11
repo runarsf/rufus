@@ -10,7 +10,12 @@ from discord.ext import commands
 BTC_URL = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
 DATA = requests.get(BTC_URL).json()
 BTC_USD = DATA['bpi']['USD']['rate']
-CON_LOG = 'ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content'
+
+class MyClass():
+    def log(ctx):
+        print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
+
+CON = MyClass()
 
 BOT = discord.Client()
 client = commands.Bot(description=c.description, command_prefix=c.prefix)
@@ -27,7 +32,7 @@ async def on_ready():
 @client.command(pass_context=True)
 async def test(ctx):
     """ You probably shouldn't use this... """
-    print(CON_LOG)
+    CON.log
     await client.say(client.user.id)
 
 @client.command(pass_context=True)
