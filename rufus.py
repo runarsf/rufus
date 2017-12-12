@@ -2,39 +2,36 @@
 """ . """
 import random
 import time
-import commands as cmd
 import requests
 import config as c
+
 import discord
 from discord.ext import commands
 
 BTC_URL = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
 DATA = requests.get(BTC_URL).json()
 BTC_USD = DATA['bpi']['USD']['rate']
-"""
-class MyClass():
-    def log(ctx):
-        print(ctx.message.author.name + ' ' + ctx.message.author.id + ' ' + ctx.message.content)
 
-CON = MyClass()
-"""
 BOT = discord.Client()
 client = commands.Bot(description=c.description, command_prefix=c.prefix)
 
 @client.event
 async def on_ready():
     """ Returns true if bot is ready """
-    print('Logged in as')
-    print('Name :: {}'.format(client.user.name))
-    print('ID :: {}'.format(client.user.id))
-    print(discord.__version__)
+    print('Logged in as' +
+          '\nName :: {}'.format(client.user.name) +
+          '\nID :: {}'.format(client.user.id) +
+          '\n' + discord.__version__)
     await client.change_presence(game=discord.Game(name=c.game))
+    await client.send_message(discord.Object(id=c.ann_id), c.start_msg)
 
 @client.command(pass_context=True)
 async def test(ctx):
-    """ You probably shouldn't use this... """
-    CON.log
-    await client.say(client.user.id)
+    """ You probably shouldn't use this... well.. you most likely can't """
+    if ctx.message.author.id == c.owner_id:
+        await client.say(client.user.id)
+    else:
+        await client.say('*Insufficient privileges*')
 
 @client.command(pass_context=True)
 async def ping(ctx):

@@ -1,5 +1,8 @@
 # bot.py config
-token = 'AbC1b2c3'
-prefix = '>'
-description = 'prefix = \'>\''
-game = 'asd'
+token = 'BOT_TOKEN'
+prefix = 'PREFIX'
+description = 'DESCRIPTION'
+game = 'PLAYING'
+start_msg = 'LAUNCH_MESSAGE'
+ann_id = 'ANNOUNCEMENTS_CHANNEL_ID'
+owner_id = 'SERVER_OWNER_ID'
