@@ -6,3 +6,4 @@ game = 'PLAYING'
 start_msg = 'LAUNCH_MESSAGE'
 ann_id = 'ANNOUNCEMENTS_CHANNEL_ID'
 owner_id = 'SERVER_OWNER_ID'
+dev_id = ['DEVELOPER_ID', 'DEVELOPER_ID']

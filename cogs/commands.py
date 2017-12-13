@@ -1,6 +1,6 @@
 """ commands -- rufus.py """
 import random
-import time
+import asyncio
 import math
 # import subprocess
 # import sys
@@ -182,10 +182,10 @@ class Commands:
         """ Why the fuq did I implement this? """
         await self.bot.send_file(ctx.message.channel, 'img/pooser.png')
         await self.bot.say('OwO wat dis?')
-        time.sleep(4)
+        asyncio.sleep(4)
         await self.bot.send_file(ctx.message.channel, 'img/poosna.png')
         await self.bot.say('It are his lips you porv.')
-        time.sleep(4)
+        asyncio.sleep(4)
         await self.bot.send_file(ctx.message.channel, 'img/ramboozled.png')
         await self.bot.say('jk it am the handees of the Re:0*GB* Ram')
 
