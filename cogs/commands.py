@@ -130,27 +130,6 @@ class Commands:
         await self.bot.delete_message(ctx.message)
 
     @commands.command(pass_context=True)
-    async def tocch(self, ctx):
-        """ DOON NOTT TOUCH SPAGOOT """
-        await self.bot.add_reaction(ctx.message, '🍝')
-        await self.bot.send_file(ctx.message.channel, 'img/tocch.png')
-
-    @commands.command(pass_context=True)
-    async def balls(self, ctx):
-        """ ... """
-        await self.bot.send_file(ctx.message.channel, 'img/balls.png')
-
-    @commands.command(pass_context=True)
-    async def drincc(self, ctx):
-        """ i am DEHYDRATION """
-        await self.bot.send_file(ctx.message.channel, 'img/drincc.jpg')
-
-    @commands.command(pass_context=True)
-    async def tangerine(self, ctx):
-        """ tAnGeRiNe eS mIsSin atOM? """
-        await self.bot.send_file(ctx.message.channel, 'img/tangerine.png')
-
-    @commands.command(pass_context=True)
     async def kms(self, ctx):
         """ hey bows do the kys pleas """
         await self.bot.send_file(ctx.message.channel, 'img/anoose.jpg')

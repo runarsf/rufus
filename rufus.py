@@ -5,7 +5,8 @@ from discord.ext import commands
 import config as c
 
 STARTUP_EXTENSIONS = ["cogs.commands",
-                      "cogs.admin"
+                      "cogs.admin",
+                      "cogs.memes"
                      ]
 
 bot = commands.Bot(command_prefix=c.prefix, description=c.description)
