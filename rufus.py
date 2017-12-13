@@ -4,7 +4,9 @@ import discord
 from discord.ext import commands
 import config as c
 
-STARTUP_EXTENSIONS = ["commands"]
+STARTUP_EXTENSIONS = ["cogs.commands",
+                      "cogs.admin"
+                     ]
 
 bot = commands.Bot(command_prefix=c.prefix, description=c.description)
 
@@ -13,13 +15,12 @@ async def on_ready():
     """ Returns true if bot is ready """
     clear = lambda: os.system('cls')
     clear()
-    print('------------------')
+    print('-' * len(bot.user.id))
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
-    LON = len(bot.user.id)
-    if LON == 18:
-        print('------------------')
+    print('-' * len(bot.user.id))
+    print(' ')
     await bot.change_presence(game=discord.Game(name=c.game))
 
 @bot.command()

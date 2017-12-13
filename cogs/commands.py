@@ -2,8 +2,8 @@
 import random
 import time
 import math
-import subprocess
-import sys
+# import subprocess
+# import sys
 import config as c
 import requests
 
@@ -190,28 +190,6 @@ class Commands:
         await self.bot.say('jk it am the handees of the Re:0*GB* Ram')
 
     @commands.command(pass_context=True)
-    async def purge(self, ctx):
-        """ Deletes the messages of the specified user. """
-        mcont = ctx.message.content
-        if mcont == str(c.prefix + 'purge'):
-            await self.bot.delete_message(ctx.message)
-            print('command.purge :: no argument')
-        elif mcont == c.prefix + 'purge all':
-            await self.bot.send_message(ctx.message.channel, 'Clearing messages...')
-            time.sleep(2)
-            async for msg in self.bot.logs_from(ctx.message.channel):
-                await self.bot.delete_message(msg)
-        else:
-            print('purge error.else')
-
-    @commands.command()
-    async def spam(self, times: int, content='repeating...'):
-        """Repeats a message multiple times."""
-        for i in range(times):
-            await self.bot.say(content)
-            print(i)
-
-    @commands.command(pass_context=True)
     async def info(self, ctx):
         """ Shows information about the specified user. """
         mcont = ctx.message.content
@@ -234,14 +212,6 @@ class Commands:
     async def sqrt(self, bold: float):
         """ Sends the square root of the stated number. """
         await self.bot.say(math.sqrt(bold))
-
-    @commands.command()
-    async def restart(self):
-        """ Restarts the bot """
-        await self.bot.say('*restarting...*')
-        time.sleep(2)
-        await self.bot.logout()
-        subprocess.call([sys.executable, 'rufus.py'])
 
 
 def setup(bot):
