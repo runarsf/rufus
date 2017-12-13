@@ -1,10 +1,13 @@
-import config as c
+""" commands -- rufus.py """
 import random
 import time
 import math
+import subprocess
+import sys
+import config as c
 import requests
 
-import discord
+# unused import discord
 from discord.ext import commands
 
 BTC_URL = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
@@ -12,6 +15,7 @@ DATA = requests.get(BTC_URL).json()
 BTC_USD = DATA['bpi']['USD']['rate']
 
 class Commands:
+    """ commands """
 
     def __init__(self, bot):
         self.bot = bot
@@ -22,33 +26,33 @@ class Commands:
         await self.bot.say('pong 🏓')
 
     @commands.command()
-    async def add(self, left : int, right : int):
+    async def add(self, left: int, right: int):
         """ Adds two numbers together. """
         await self.bot.say(left + right)
 
     @commands.command()
-    async def div(self, left : int, right : int):
+    async def div(self, left: int, right: int):
         """ Divides two numbers together. """
         try:
             await self.bot.say(left / right)
         except ZeroDivisionError:
             await self.bot.say('GRRR..')
 
-    @commands.command(pass_context=True) 
+    @commands.command(pass_context=True)
     async def roll(self, ctx):
         """ Rolls a random number (0-100) """
         droll = random.randint(0, 100)
         if droll <= 0:
             await self.bot.say('```' + ctx.message.author.name +
-                             ' rolls ' + str(droll) + ' point(s)' + '```')
+                               ' rolls ' + str(droll) + ' point(s)' + '```')
             await self.bot.say('You need to git gud, rolling isn\'t a joke -.-')
         elif droll == 100:
             await self.bot.say('```' + ctx.message.author.name +
-                             ' rolls ' + str(droll) + ' point(s)' + '```')
+                               ' rolls ' + str(droll) + ' point(s)' + '```')
             await self.bot.say('GG!')
         else:
             await self.bot.say('```' + ctx.message.author.name +
-                             ' rolls ' + str(droll) + ' point(s)' + '```')
+                               ' rolls ' + str(droll) + ' point(s)' + '```')
 
     @commands.command(pass_context=True)
     async def flip(self, ctx):
@@ -72,12 +76,12 @@ class Commands:
         """ OwO wat dis"""
         await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-')
         await self.bot.say('A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo' +
-                         '\nEEEEO-A-AAA-AAAA')
+                           '\nEEEEO-A-AAA-AAAA')
         await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-' +
-                         '\nA-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-' +
-                         '\nJO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA')
+                           '\nA-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-' +
+                           '\nJO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA')
         await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-' +
-                         '\nA-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-')
+                           '\nA-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-')
         await self.bot.say('JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA-O----------')
 
     @commands.command()
@@ -105,10 +109,11 @@ class Commands:
             await self.bot.say('https://www.youtube.com/watch?v=CCVdQ8xXBfk')
             await self.bot.say('*AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*')
         elif mcont == c.prefix + 'hug <@' + self.bot.user.id + '>':
-            await self.bot.say(' OwO wat dis? Am I being hugger? Hmmmm... always be a mystery it will')
+            await self.bot.say(' OwO wat dis? Am I being hugger?' +
+                               'Hmmmm... always be a mystery it will')
         else:
             await self.bot.say(ctx.message.author.name + ' hugged'
-                             + mcont.replace(c.prefix + 'hug', '') + ' :hearts:')
+                               + mcont.replace(c.prefix + 'hug', '') + ' :hearts:')
             await self.bot.delete_message(ctx.message)
 
     @commands.command(pass_context=True)
@@ -149,7 +154,8 @@ class Commands:
     async def kms(self, ctx):
         """ hey bows do the kys pleas """
         await self.bot.send_file(ctx.message.channel, 'img/anoose.jpg')
-        await self.bot.say('Come ' + ctx.message.author.mention + '. *~~She~~* He\'s waiting for you!')
+        await self.bot.say('Come ' + ctx.message.author.mention +
+                           '. *~~She~~* He\'s waiting for you!')
 
     @commands.command(pass_context=True)
     async def kys(self, ctx):
@@ -159,10 +165,11 @@ class Commands:
             await self.bot.delete_message(ctx.message)
             print('command.kys :: no argument')
         else:
-            await self.bot.say('Hey' + mcont.replace(c.prefix + 'kys', '') + '. ' +
-                             ctx.message.author.name + ' Is implying *he/she/it/social construct* ' +
-                             'wants you to cease existing, however, for their argument to apply, ' +
-                             'the death needs to be inflicted by yourself and yourself alone.')
+            await self.bot.say('Hey' + mcont.replace(c.prefix + 'kys', '') +
+                               '. ' + ctx.message.author.name + ' Is implying *he/she/it/social' +
+                               'construct* wants you to cease existing, however,' +
+                               'for their argument to apply, ' +
+                               'the death needs to be inflicted by yourself and yourself alone.')
             await self.bot.delete_message(ctx.message)
 
     @commands.command(pass_context=True)
@@ -198,10 +205,11 @@ class Commands:
             print('purge error.else')
 
     @commands.command()
-    async def spam(self, times : int, content='repeating...'):
+    async def spam(self, times: int, content='repeating...'):
         """Repeats a message multiple times."""
         for i in range(times):
             await self.bot.say(content)
+            print(i)
 
     @commands.command(pass_context=True)
     async def info(self, ctx):
@@ -212,20 +220,30 @@ class Commands:
         print(userid)
         if mcont == str(c.prefix + 'info'):
             await self.bot.say('Mention = {}'.format(ctx.message.author.mention) +
-                            '\nID = ' + ctx.message.author.id)
+                               '\nID = ' + ctx.message.author.id)
         elif mcont == c.prefix + 'info <@' + self.bot.user.id + '>':
             print('suh')
         elif c.prefix + 'info <@' in mcont:
-            await self.bot.say('Mention = ' + mcont.replace(c.prefix + 'info', '') + '\nID = ' + userid)
+            await self.bot.say('Mention = ' + mcont.replace(c.prefix + 'info', '')
+                               + '\nID = ' + userid)
 
         else:
             await self.bot.say('It would help if... you know.. the mention was. VALID...')
 
     @commands.command()
-    async def sqrt(self, bold : float):
+    async def sqrt(self, bold: float):
         """ Sends the square root of the stated number. """
         await self.bot.say(math.sqrt(bold))
-        
+
+    @commands.command()
+    async def restart(self):
+        """ Restarts the bot """
+        await self.bot.say('*restarting...*')
+        time.sleep(2)
+        await self.bot.logout()
+        subprocess.call([sys.executable, 'rufus.py'])
+
 
 def setup(bot):
+    """ defines setup """
     bot.add_cog(Commands(bot))
