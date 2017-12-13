@@ -16,11 +16,6 @@ async def on_ready():
     await bot.change_presence(game=discord.Game(name=c.game))
 
 @bot.command()
-async def add(left : int, right : int):
-    """Adds two numbers together."""
-    await bot.say(left + right)
-
-@bot.command()
 async def load(extension_name : str):
     """Loads an extension."""
     try:
@@ -47,12 +42,6 @@ async def reload(extension_name : str):
         await bot.say("```py\n{}: {}\n```".format(type(e).__name__, str(e)))
         return
     await bot.say("{} loaded.".format(extension_name))
-
-@bot.command()
-async def repeat(times : int, content='repeating...'):
-    """Repeats a message multiple times."""
-    for i in range(times):
-        await bot.say(content)
 
 if __name__ == "__main__":
     for extension in startup_extensions:

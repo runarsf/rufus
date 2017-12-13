@@ -8,3 +8,8 @@ embed.set_footer(text=footer_text)
 
 await self.bot.say(embed=embed)
 """
+"""
+embed = discord.Embed(title="Tile", description="Desc", color=0x3b4d7c)
+        embed.add_field(name="Fiel1", value="hi", inline=False)
+        embed.add_field(name="Field2", value="hi2", inline=False)
+"""
