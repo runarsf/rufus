@@ -37,7 +37,7 @@ async def test(ctx):
         await client.say('*Insufficient privileges*')
 
 @client.command(pass_context=True)
-async def ping(ctx):
+async def ping():
     """ Pings the bot host """
     await client.say('pong 🏓')
 
