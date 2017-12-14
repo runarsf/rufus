@@ -1,0 +1,2 @@
+# rufus.py config 
+token = ''

@@ -1,5 +1,6 @@
 """ Rufus """
 import os
+import atexit
 import discord
 from discord.ext import commands
 import config as c
@@ -17,11 +18,21 @@ async def on_ready():
     clear = lambda: os.system('cls')
     clear()
     print('-' * len(bot.user.id))
-    print('Logged in as')
+    print('Logged in as:')
     print(bot.user.name)
     print(bot.user.id)
     print('-' * len(bot.user.id))
     print(' ')
+
+    file = open('configs.py', 'r')
+    cont = file.read()
+    if 'token' not in cont:
+        file = open('configs.py', 'w')
+        file.write('# rufus.py config \ntoken = \'\'')
+    else:
+        file.close()
+    
+
     await bot.change_presence(game=discord.Game(name=c.game))
 
 @bot.command()
@@ -60,3 +71,9 @@ if __name__ == "__main__":
             print('Failed to load extension {}\n{}'.format(extension, exc))
 
     bot.run(c.token)
+
+def exit_handler():
+    print(' ')
+    print('exiting...')
+
+atexit.register(exit_handler)

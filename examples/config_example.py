@@ -1,9 +1,9 @@
-# bot.py config
+# bot.py config example
 token = 'BOT_TOKEN'
 prefix = 'PREFIX'
-description = 'DESCRIPTION'
 game = 'PLAYING'
-start_msg = 'LAUNCH_MESSAGE'
 ann_id = 'ANNOUNCEMENTS_CHANNEL_ID'
 owner_id = 'SERVER_OWNER_ID'
+description = 'DESCRIPTION'
+start_msg = 'LAUNCH_MESSAGE'
 dev_id = ['DEVELOPER_ID', 'DEVELOPER_ID']
