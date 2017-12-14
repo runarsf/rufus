@@ -15,19 +15,26 @@ class Admin:
         self.bot = bot
 
     @commands.command(pass_context=True)
-    async def purge(self, ctx, amount: int):
-        """ Deletes the messages of the specified user. """
-        mcont = ctx.message.content
-        if mcont == str(c.prefix + 'purge'):
-            await self.bot.delete_message(ctx.message)
-            print('command.purge :: no argument')
-        elif mcont == c.prefix + 'purge all':
-            await self.bot.send_message(ctx.message.channel, 'Clearing messages...')
-            asyncio.sleep(2)
+    async def purge(self, ctx, amount: str):
+        """ Deletes messages. """
+        if amount == str('all'):
+            deleted = await self.bot.purge_from(ctx.message.channel, limit=500)
+            await self.bot.say("Bulk purged **{}** Messages".format(len(deleted)))
             async for msg in self.bot.logs_from(ctx.message.channel):
                 await self.bot.delete_message(msg)
+        elif int(amount) > 0:
+            counter = 0
+            while counter <= int(amount):
+                await self.bot.say(counter)
+                counter += 1
         else:
             print('purge error on else')
+
+    @commands.command(pass_context=True)
+    async def bulk(self, ctx, amount: int):
+        """ Clears messages """
+        deleted = await self.bot.purge_from(ctx.message.channel, limit=amount)
+        await self.bot.say("Cleared **{}** Messages".format(len(deleted)))
 
     @commands.command(pass_context=True)
     async def spam(self, ctx, times: int, content='repeating...'):
