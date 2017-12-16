@@ -168,8 +168,13 @@ class Commands:
         await self.bot.send_file(ctx.message.channel, 'img/ramboozled.png')
         await self.bot.say('jk it am the handees of the Re:0*GB* Ram')
 
+    @commands.command()
+    async def sqrt(self, bold: float):
+        """ Sends the square root of the stated number. """
+        await self.bot.say(math.sqrt(bold))
+
     @commands.command(pass_context=True)
-    async def info(self, ctx):
+    async def infuh(self, ctx):
         """ Shows information about the specified user. """
         mcont = ctx.message.content
         userid = str(mcont.replace(c.prefix + 'info <@', '').replace('>', ''))
@@ -187,10 +192,12 @@ class Commands:
         else:
             await self.bot.say('It would help if... you know.. the mention was. VALID...')
 
-    @commands.command()
-    async def sqrt(self, bold: float):
-        """ Sends the square root of the stated number. """
-        await self.bot.say(math.sqrt(bold))
+    @commands.command(pass_context=True)
+    async def info(self, ctx, infm: str):
+        """ Shows information about the specified user. """
+        userid = infm.replace('<@', '').replace('>', '')
+        raise Exception('*Not enough arguments*')
+
 
 
 def setup(bot):

@@ -21,6 +21,10 @@ async def on_ready():
     print('Logged in as:')
     print(bot.user.name)
     print(bot.user.id)
+    print(' ')
+    print('Bot currently running on {} servers:'.format(len(bot.servers)))
+    for s in bot.servers:
+        print(' - ' + s.name)
     print('-' * len(bot.user.id))
     print(' ')
 
@@ -31,7 +35,7 @@ async def on_ready():
         file.write('# rufus.py config \ntoken = \'\'')
     else:
         file.close()
-    
+
 
     await bot.change_presence(game=discord.Game(name=c.game))
 

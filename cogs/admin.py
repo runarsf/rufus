@@ -1,5 +1,6 @@
 """ commands -- rufus.py """
 import asyncio
+import threading
 # unused import subprocess
 # unused import sys
 # unused import os
@@ -9,7 +10,7 @@ import config as c
 from discord.ext import commands
 
 class Admin:
-    """ commands """
+    """ Admin restriced commands """
 
     def __init__(self, bot):
         self.bot = bot
@@ -17,24 +18,44 @@ class Admin:
     @commands.command(pass_context=True)
     async def purge(self, ctx, amount: str):
         """ Deletes messages. """
-        if amount == str('all'):
-            deleted = await self.bot.purge_from(ctx.message.channel, limit=500)
-            await self.bot.say("Bulk purged **{}** Messages".format(len(deleted)))
-            async for msg in self.bot.logs_from(ctx.message.channel):
-                await self.bot.delete_message(msg)
-        elif int(amount) > 0:
-            counter = 0
-            while counter <= int(amount):
-                await self.bot.say(counter)
-                counter += 1
+        userid = ctx.message.author.id
+        usid = int(amount.replace('<@', '').replace('>', ''))
+        if userid == c.owner_id or userid in str(c.dev_id):
+            await self.bot.delete_message(ctx.message)
+            if '<@' in amount and '>' in amount:
+                async for amount in self.bot.logs_from(ctx.message.channel):
+                    if amount not in self.bot.logs_from(ctx.message.channel):
+                        return
+                    else:
+                        await self.bot.delete_message(ctx.message.id == usid)
+            elif amount == str('all'):
+                deleted = await self.bot.purge_from(ctx.message.channel, limit=750)
+                await self.bot.say("Bulk purged **{}** Messages".format(len(deleted)))
+                async for msg in self.bot.logs_from(ctx.message.channel):
+                    await self.bot.delete_message(msg)
+            elif int(amount) > 0:
+                counter = 0
+                for counter in range(int(amount)):
+                    async for msg in self.bot.logs_from(ctx.message.channel):
+                        if int(counter) >= int(amount):
+                            return
+                        else:
+                            await self.bot.delete_message(msg)
+                        counter += 1
+            else:
+                print('purge error on else')
         else:
-            print('purge error on else')
+            await self.bot.say('*Insufficient privileges*')
 
     @commands.command(pass_context=True)
     async def bulk(self, ctx, amount: int):
         """ Clears messages """
-        deleted = await self.bot.purge_from(ctx.message.channel, limit=amount)
-        await self.bot.say("Cleared **{}** Messages".format(len(deleted)))
+        userid = ctx.message.author.id
+        if userid == c.owner_id or userid in str(c.dev_id):
+            deleted = await self.bot.purge_from(ctx.message.channel, limit=amount)
+            await self.bot.say("Cleared **{}** Messages".format(len(deleted)))
+        else:
+            await self.bot.say('*Insufficient privileges*')
 
     @commands.command(pass_context=True)
     async def spam(self, ctx, times: int, content='repeating...'):

@@ -17,7 +17,7 @@ class Memes:
     @commands.command(pass_context=True)
     async def meme(self, ctx, meem: str):
         """
-        '>help memes' for meme list
+        '>help meme' for meme list
 
         ::tocch
         ::balls
