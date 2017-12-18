@@ -3,7 +3,7 @@ os
 asyncio
 pip
 pylint 
-aiohhtp
+aiohttp
 lxml
 random
 requests
