@@ -26,12 +26,12 @@ class Commands:
         await self.bot.say('pong 🏓')
 
     @commands.command()
-    async def add(self, left: int, right: int):
+    async def add(self, left: float, right: float):
         """ Adds two numbers together. """
         await self.bot.say(left + right)
 
     @commands.command()
-    async def div(self, left: int, right: int):
+    async def div(self, left: float, right: float):
         """ Divides two numbers together. """
         try:
             await self.bot.say(left / right)
