@@ -23,7 +23,7 @@ class Commands:
     @commands.command(pass_context=True)
     async def ping(self, ctx):
         """ Pings the bot host. """
-        print(ctx.message.author.name + ' ' + ctx.message.contents + ' ' + ctx.message.author.mention)
+        print(ctx.message.author.name + ' ' + ctx.message.author.mention + ' :: ' + ctx.message.content)
         await self.bot.say('pong 🏓')
 
     @commands.command()

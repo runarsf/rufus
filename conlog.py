@@ -1,0 +1,1 @@
+print(ctx.message.author.name + ' ' + ctx.message.author.mention + ' :: ' + ctx.message.content)
