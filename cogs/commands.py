@@ -27,6 +27,13 @@ class Commands:
         await self.bot.say('pong 🏓')
 
     @commands.command()
+    async def len(self, ctx):
+        """ Finds length of string. """
+        mcont = ctx.message.content
+        delta = mcont.replace(c.prefix + 'len ', '')
+        await self.bot.say(delta)
+
+    @commands.command()
     async def add(self, left: float, right: float):
         """ Adds two numbers together. """
         await self.bot.say(left + right)
@@ -198,8 +205,6 @@ class Commands:
         """ Shows information about the specified user. """
         userid = infm.replace('<@', '').replace('>', '')
         raise Exception('*Not enough arguments*')
-
-
 
 def setup(bot):
     """ defines setup """
