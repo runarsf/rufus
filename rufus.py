@@ -28,6 +28,8 @@ async def on_ready():
     print('-' * len(bot.user.id))
     print(' ')
 
+    await bot.change_presence(game=discord.Game(name=c.game))
+
     file = open('configs.py', 'r')
     cont = file.read()
     if 'token' not in cont:
@@ -35,9 +37,6 @@ async def on_ready():
         file.write('# rufus.py config \ntoken = \'\'')
     else:
         file.close()
-
-
-    await bot.change_presence(game=discord.Game(name=c.game))
 
 @bot.command()
 async def load(extension_name: str):

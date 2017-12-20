@@ -201,7 +201,7 @@ class Commands:
             await self.bot.say('It would help if... you know.. the mention was. VALID...')
 
     @commands.command(pass_context=True)
-    async def info(self, ctx, infm: str):
+    async def info(self, infm: str):
         """ Shows information about the specified user. """
         userid = infm.replace('<@', '').replace('>', '')
         raise Exception('*Not enough arguments*')
