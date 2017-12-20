@@ -66,6 +66,13 @@ async def reload(extension_name: str):
         return
     await bot.say("{} reloaded.".format(extension_name))
 
+@bot.event
+async def on_message(message):
+    """ DO NOT SWEAR ON MY CHRISTIAN SERVER. """
+    if any(word in message.content for word in c.swears):
+        await bot.send_file(message.channel, 'img/christ.jpg')
+    await bot.process_commands(message)
+
 if __name__ == "__main__":
     for extension in STARTUP_EXTENSIONS:
         try:
@@ -77,6 +84,7 @@ if __name__ == "__main__":
     bot.run(c.token)
 
 def exit_handler():
+    """ What to do on exit. """
     print(' ')
     print('exiting...')
 
