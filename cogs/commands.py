@@ -14,6 +14,7 @@ BTC_URL = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
 DATA = requests.get(BTC_URL).json()
 BTC_USD = DATA['bpi']['USD']['rate']
 
+
 class Commands:
     """ commands """
 
@@ -22,33 +23,25 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def ping(self, ctx):
-        """ Pings the bot host. """
-        print(ctx.message.author.name + ' ' + ctx.message.author.mention + ' :: ' + ctx.message.content)
+        """ Pings the bot host.
+            >ping
+        """
         await self.bot.say('pong 🏓')
 
-    @commands.command()
+    @commands.command(pass_context=True)
     async def len(self, ctx):
-        """ Finds length of string. """
+        """ Finds length of string.
+            >len <string>
+        """
         mcont = ctx.message.content
         delta = mcont.replace(c.prefix + 'len ', '')
-        await self.bot.say(delta)
-
-    @commands.command()
-    async def add(self, left: float, right: float):
-        """ Adds two numbers together. """
-        await self.bot.say(left + right)
-
-    @commands.command()
-    async def div(self, left: float, right: float):
-        """ Divides two numbers together. """
-        try:
-            await self.bot.say(left / right)
-        except ZeroDivisionError:
-            await self.bot.say('GRRR..')
+        await self.bot.say('``' + str(len(delta)) + '``')
 
     @commands.command(pass_context=True)
     async def roll(self, ctx):
-        """ Rolls a random number (0-100) """
+        """ Rolls a random number. (0-100)
+            >roll
+        """
         droll = random.randint(0, 100)
         if droll <= 0:
             await self.bot.say('```' + ctx.message.author.name +
@@ -64,7 +57,9 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def flip(self, ctx):
-        """ Flips a coin """
+        """ Flips a coin.
+            >flip
+        """
         cflip = random.choice(['Heads', 'Tails'])
         if cflip == 'Heads':
             await self.bot.add_reaction(ctx.message, '🇭')
@@ -80,26 +75,17 @@ class Commands:
             await self.bot.add_reaction(ctx.message, '🇸')
 
     @commands.command()
-    async def brainpower(self):
-        """ OwO wat dis"""
-        await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-')
-        await self.bot.say('A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo' +
-                           '\nEEEEO-A-AAA-AAAA')
-        await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-' +
-                           '\nA-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-' +
-                           '\nJO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA')
-        await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-' +
-                           '\nA-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-')
-        await self.bot.say('JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA-O----------')
-
-    @commands.command()
     async def btc(self):
-        """ Shows BitCoin price in USD """
+        """ Shows BitCoin price in USD.
+            >btc
+        """
         await self.bot.say('```' + 'BTC price is currently at $' + BTC_USD + ' USD' + '```')
 
     @commands.command(pass_context=True)
     async def poke(self, ctx):
-        """ >:c """
+        """ >:c
+            >poke <@user>
+        """
         mcont = ctx.message.content
         if mcont == c.prefix + 'poke':
             await self.bot.say('GRRR..')
@@ -110,7 +96,9 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def hug(self, ctx):
-        """ <3 """
+        """ <3
+            >hug <@user>
+        """
         mcont = ctx.message.content
         if mcont <= c.prefix + 'hug':
             await self.bot.say('*' + ctx.message.author.name + ' tries to hug the air*')
@@ -125,65 +113,27 @@ class Commands:
             await self.bot.delete_message(ctx.message)
 
     @commands.command(pass_context=True)
-    async def send(self, ctx):
-        """ Sends the message specified by the user. """
+    async def send(self, ctx: object) -> object:
+        """ Sends the message specified by the user.
+            >send <message_string>
+        """
         mcont = ctx.message.content
         await self.bot.say(mcont.replace(c.prefix + 'send', ''))
         await self.bot.delete_message(ctx.message)
 
     @commands.command(pass_context=True)
     async def lenny(self, ctx):
-        """ ( ͡° ͜ʖ ͡°) """
+        """ Sends lennyface to the current channel.
+            >lenny
+        """
         await self.bot.say('( ͡° ͜ʖ ͡°)')
         await self.bot.delete_message(ctx.message)
 
     @commands.command(pass_context=True)
-    async def kms(self, ctx):
-        """ hey bows do the kys pleas """
-        await self.bot.send_file(ctx.message.channel, 'img/anoose.jpg')
-        await self.bot.say('Come ' + ctx.message.author.mention +
-                           '. *~~She~~* He\'s waiting for you!')
-
-    @commands.command(pass_context=True)
-    async def kys(self, ctx):
-        """ yes pelase """
-        mcont = ctx.message.content
-        if mcont == str(c.prefix + 'kys'):
-            await self.bot.delete_message(ctx.message)
-            print('command.kys :: no argument')
-        else:
-            await self.bot.say('Hey' + mcont.replace(c.prefix + 'kys', '') +
-                               '. ' + ctx.message.author.name + ' Is implying *he/she/it/social' +
-                               'construct* wants you to cease existing, however,' +
-                               'for their argument to apply, ' +
-                               'the death needs to be inflicted by yourself and yourself alone.')
-            await self.bot.delete_message(ctx.message)
-
-    @commands.command(pass_context=True)
-    async def chuchu(self):
-        """ Kanna is waifu, cuz age is just a number. """
-        await self.bot.say('*YEA!*')
-
-    @commands.command(pass_context=True)
-    async def pooser(self, ctx):
-        """ Why the fuq did I implement this? """
-        await self.bot.send_file(ctx.message.channel, 'img/pooser.png')
-        await self.bot.say('OwO wat dis?')
-        asyncio.sleep(4)
-        await self.bot.send_file(ctx.message.channel, 'img/poosna.png')
-        await self.bot.say('It are his lips you porv.')
-        asyncio.sleep(4)
-        await self.bot.send_file(ctx.message.channel, 'img/ramboozled.png')
-        await self.bot.say('jk it am the handees of the Re:0*GB* Ram')
-
-    @commands.command()
-    async def sqrt(self, bold: float):
-        """ Sends the square root of the stated number. """
-        await self.bot.say(math.sqrt(bold))
-
-    @commands.command(pass_context=True)
     async def infuh(self, ctx):
-        """ Shows information about the specified user. """
+        """ Shows information about the specified user.
+            >info <@user>
+        """
         mcont = ctx.message.content
         userid = str(mcont.replace(c.prefix + 'info <@', '').replace('>', ''))
 
@@ -202,9 +152,12 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def info(self, infm: str):
-        """ Shows information about the specified user. """
+        """ Shows information about the specified user.
+            >info <@user>
+        """
         userid = infm.replace('<@', '').replace('>', '')
         raise Exception('*Not enough arguments*')
+
 
 def setup(bot):
     """ defines setup """

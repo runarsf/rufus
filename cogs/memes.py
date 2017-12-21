@@ -16,41 +16,9 @@ class Memes:
 
     @commands.command(pass_context=True)
     async def meme(self, ctx, meem: str):
+        """*>help meme* for meme list
+            >meme <meme>
         """
-        '>help meme' for meme list
-
-        ::tocch
-        ::balls
-        ::drincc
-        ::tangerine
-        ::obliterate
-        ::swivel
-        ::nick
-        ::improvise
-        ::sipp
-        ::shockening
-        ::cucc
-        ::dipp
-        ::disgois
-        ::encontlepedie
-        ::frot
-        ::frotiverse
-        ::knowlage
-        ::meet
-        ::onion
-        ::rubix
-        ::shanpe
-        ::sitt
-        ::sooc
-        ::vegetables
-        ::vegetal
-        ::ballad
-        ::sippu
-        ::babsooc
-        ::angery
-        ::coak
-        """
-        reacts = []
         try:
             if meem == 'tocch':
                 await self.bot.add_reaction(ctx.message, '🍝')
@@ -117,6 +85,69 @@ class Memes:
                 await self.bot.say('GRRR.. ' + meem + ' IS NOT A MEEM')
         except:
             self.bot.say('wondering wHY yuou no typey Th MeEEm nam?')
+
+    @commands.command()
+    async def brainpower(self):
+        """ OwO wat dis?
+            >brainpower
+        """
+        await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-')
+        await self.bot.say('A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo' +
+                           '\nEEEEO-A-AAA-AAAA')
+        await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-' +
+                           '\nA-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-' +
+                           '\nJO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA')
+        await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-' +
+                           '\nA-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-')
+        await self.bot.say('JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA-O----------')
+
+    @commands.command(pass_context=True)
+    async def kms(self, ctx):
+        """ End it all.
+            >kms
+        """
+        await self.bot.send_file(ctx.message.channel, 'img/anoose.jpg')
+        await self.bot.say('Come ' + ctx.message.author.mention +
+                           '. *~~She~~* He\'s waiting for you!')
+
+    @commands.command(pass_context=True)
+    async def kys(self, ctx):
+        """ Please be cautious when using this command.
+            >kys <@user>
+        """
+        mcont = ctx.message.content
+        if mcont == str(c.prefix + 'kys'):
+            await self.bot.delete_message(ctx.message)
+            print('command.kys :: no argument')
+        else:
+            await self.bot.say('Hey' + mcont.replace(c.prefix + 'kys', '') +
+                               '. ' + ctx.message.author.name + ' Is implying *he/she/it/social ' +
+                               'construct* wants you to cease existing, however, ' +
+                               'for their argument to apply, ' +
+                               'the death needs to be inflicted by yourself and yourself alone.')
+            await self.bot.delete_message(ctx.message)
+
+    @commands.command(pass_context=True)
+    async def chuchu(self):
+        """ Kanna is waifu, cuz age is just a number.
+            >chuchu
+        """
+        await self.bot.say('*YEA!*')
+
+    @commands.command(pass_context=True)
+    async def pooser(self, ctx):
+        """ Why the fuq did I implement this?
+            >pooser
+        """
+        await self.bot.send_file(ctx.message.channel, 'img/pooser.png')
+        await self.bot.say('OwO wat dis?')
+        asyncio.sleep(4)
+        await self.bot.send_file(ctx.message.channel, 'img/poosna.png')
+        await self.bot.say('It are his lips you porv.')
+        asyncio.sleep(4)
+        await self.bot.send_file(ctx.message.channel, 'img/ramboozled.png')
+        await self.bot.say('jk it am the handees of the Re:0*GB* Ram')
+
 
 def setup(bot):
     """ defines setup """

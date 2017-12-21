@@ -5,16 +5,20 @@ import discord
 from discord.ext import commands
 import config as c
 
-STARTUP_EXTENSIONS = ["cogs.commands",
-                      "cogs.admin",
-                      "cogs.memes"
-                     ]
+STARTUP_EXTENSIONS = ['cogs.commands',
+                      'cogs.admin',
+                      'cogs.memes',
+                      'cogs.uptime',
+                      'cogs.math'
+                      ]
 
 bot = commands.Bot(command_prefix=c.prefix, description=c.description)
 
+
 @bot.event
 async def on_ready():
-    """ Returns true if bot is ready """
+    """ Returns true if bot is ready.
+    """
     clear = lambda: os.system('cls')
     clear()
     print('-' * len(bot.user.id))
@@ -38,41 +42,53 @@ async def on_ready():
     else:
         file.close()
 
+
 @bot.command()
 async def load(extension_name: str):
-    """Loads an extension."""
+    """ Loads an extension.
+        >load <extension_name>
+    """
     try:
         bot.load_extension(extension_name)
     except (AttributeError, ImportError) as exopt:
-        await bot.say("```py\n{}: {}\n```".format(type(exopt).__name__, str(exopt)))
+        await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
         return
-    await bot.say("{} loaded.".format(extension_name))
+    await bot.say('{} loaded.'.format(extension_name))
+
 
 @bot.command()
 async def unload(extension_name: str):
-    """Unloads an extension."""
+    """ Unloads an extension.
+        >unload <extension_name>
+    """
     bot.unload_extension(extension_name)
-    await bot.say("{} unloaded.".format(extension_name))
+    await bot.say('{} unloaded.'.format(extension_name))
+
 
 @bot.command()
 async def reload(extension_name: str):
-    """Loads an extension."""
+    """ Loads an extension.
+        >reload <extension_name>
+    """
     try:
         bot.unload_extension(extension_name)
         bot.load_extension(extension_name)
     except (AttributeError, ImportError) as exopt:
-        await bot.say("```py\n{}: {}\n```".format(type(exopt).__name__, str(exopt)))
+        await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
         return
-    await bot.say("{} reloaded.".format(extension_name))
+    await bot.say('{} reloaded.'.format(extension_name))
+
 
 @bot.event
 async def on_message(message):
-    """ DO NOT SWEAR ON MY CHRISTIAN SERVER. """
+    """ No swear words please.
+    """
     if any(word in message.content for word in c.swears):
         await bot.send_file(message.channel, 'img/christ.jpg')
     await bot.process_commands(message)
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     for extension in STARTUP_EXTENSIONS:
         try:
             bot.load_extension(extension)
@@ -82,9 +98,12 @@ if __name__ == "__main__":
 
     bot.run(c.token)
 
+
 def exit_handler():
-    """ What to do on exit. """
+    """ What to do on exit.
+    """
     print(' ')
     print('exiting...')
+
 
 atexit.register(exit_handler)

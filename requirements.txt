@@ -5,6 +5,9 @@ pip
 pylint 
 aiohttp
 lxml
+discord
+cogs
+discord.ext
 random
 requests
 pickle
