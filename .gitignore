@@ -4,4 +4,5 @@ configs.py
 __pycache__
 .vscode
 .vs
+.idea
 old
