@@ -1,13 +1,8 @@
 discord.py[voice]
 os
 asyncio
-pip
-pylint 
-aiohttp
-lxml
-discord
-cogs
-discord.ext
+atexit
 random
+math
 requests
-pickle
+cogs

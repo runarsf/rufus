@@ -1,10 +1,12 @@
-# bot.py config example
+""" rufus.py config example """
 token = 'BOT_TOKEN'
-prefix = 'PREFIX'
-game = 'PLAYING'
-ann_id = 'ANNOUNCEMENTS_CHANNEL_ID'
-owner_id = 'SERVER_OWNER_ID'
-description = 'DESCRIPTION'
-swear = ['SWEAR', 'WORDS']
+prefix = 'BOT_PREFIX'
+game = 'CURRENTLY_PLAYING'
+description = 'BOT_DESCRIPTION'
 start_msg = 'LAUNCH_MESSAGE'
-dev_id = ['DEVELOPER_ID', 'DEVELOPER_ID']
+
+ann_id = 'ANNOUNCEMENTS_CHANNEL_ID'
+owner_id = 'OWNER_USER_ID'
+dev_id = ['DEVELOPER_USER_ID', 'DEV_ID_TWO']
+swears = ['SWEAR', 'WORDS']
+mention = ['MENTION_STRING', 'MENTION_TWO']

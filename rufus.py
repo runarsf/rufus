@@ -28,7 +28,7 @@ async def on_ready():
     print(' ')
     print('Bot currently running on {} servers:'.format(len(bot.servers)))
     for s in bot.servers:
-        print(' - ' + s.name)
+        print(' - ' + s.name + ' :: ' + s.id)
     print('-' * len(bot.user.id))
     print(' ')
 
@@ -85,6 +85,8 @@ async def on_message(message):
     """
     if any(word in message.content for word in c.swears):
         await bot.send_file(message.channel, 'img/christ.jpg')
+    if any(word in message.content for word in c.mention):
+        print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     await bot.process_commands(message)
 
 

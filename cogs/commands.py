@@ -2,8 +2,6 @@
 import random
 import asyncio
 import math
-# import subprocess
-# import sys
 import config as c
 import requests
 
@@ -113,15 +111,6 @@ class Commands:
             await self.bot.delete_message(ctx.message)
 
     @commands.command(pass_context=True)
-    async def send(self, ctx: object) -> object:
-        """ Sends the message specified by the user.
-            >send <message_string>
-        """
-        mcont = ctx.message.content
-        await self.bot.say(mcont.replace(c.prefix + 'send', ''))
-        await self.bot.delete_message(ctx.message)
-
-    @commands.command(pass_context=True)
     async def lenny(self, ctx):
         """ Sends lennyface to the current channel.
             >lenny
@@ -146,7 +135,6 @@ class Commands:
         elif c.prefix + 'info <@' in mcont:
             await self.bot.say('Mention = ' + mcont.replace(c.prefix + 'info', '')
                                + '\nID = ' + userid)
-
         else:
             await self.bot.say('It would help if... you know.. the mention was. VALID...')
 
