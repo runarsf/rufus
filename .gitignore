@@ -5,5 +5,4 @@ __pycache__
 .vscode
 .vs
 .idea
-old
-.idea/workspace.xml
+workspace.xml
