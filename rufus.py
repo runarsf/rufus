@@ -83,10 +83,14 @@ async def reload(extension_name: str):
 async def on_message(message):
     """ No swear words please.
     """
-    if any(word in message.content for word in c.swears):
-        await bot.send_file(message.channel, 'img/christ.jpg')
-    if any(word in message.content for word in c.mention):
-        print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
+    try:
+        if any(word in message.content for word in c.swears):
+            await bot.send_file(message.channel, 'img/christ.jpg')
+        if any(word in message.content for word in c.mention):
+            print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
+    finally:
+        if '>' in message.content:
+            print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     await bot.process_commands(message)
 
 
