@@ -54,7 +54,7 @@ class Math:
 
     @commands.command()
     async def friends(self):
-        """" The amount of friends you have.
+        """ The amount of friends you have. Your mom doesn't count.
             >friends
         """
         await self.bot.say('0')
