@@ -89,7 +89,7 @@ async def on_message(message):
         if any(word in message.content for word in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     finally:
-        if '>' in message.content:
+        if message.content.starts_with('>'):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     await bot.process_commands(message)
 
