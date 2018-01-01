@@ -148,6 +148,12 @@ class Memes:
         await self.bot.send_file(ctx.message.channel, 'img/ramboozled.png')
         await self.bot.say('jk it am the handees of the Re:0*GB* Ram')
 
+    @commands.command()
+    async def tocch(self):
+        """ DOON NOTT TOCCH S P A G O O T
+        """
+        await self.bot.say('https://www.youtube.com/watch?v=cE1FrqheQNI DOON NOTT')
+
 
 def setup(bot):
     """ defines setup """
