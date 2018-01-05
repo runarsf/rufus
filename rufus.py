@@ -86,12 +86,12 @@ async def on_message(message):
     try:
         if message.author == bot.user:
             return
-        if any(word in message.content for word in c.swears):
+        elif any(word in message.content for word in c.swears):
             await bot.send_file(message.channel, 'img/christ.jpg')
-        if any(word in message.content for word in c.mention):
+		elif 'meme review' in message.content:
+            await bot.say(':clap: :clap:')
+        elif any(word in message.content for word in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
-        if str('meme review') in message.content:
-            await bot.say(message.channel, ':clap: :clap:')
     except:
         print('excopt')
     finally:
