@@ -6,3 +6,4 @@ __pycache__
 .vs
 .idea
 workspace.xml
+logs
