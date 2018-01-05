@@ -91,7 +91,7 @@ async def on_message(message):
         if any(word in message.content for word in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
         if str('meme review') in message.content:
-            await bot.say(':clap: :clap:')
+            await bot.say(message.channel, ':clap: :clap:')
     except:
         print('excopt')
     finally:
