@@ -3,6 +3,7 @@ import asyncio
 # unused import subprocess
 # unused import sys
 # unused import os
+import random
 import config as c
 
 # unused import discord
@@ -154,6 +155,12 @@ class Memes:
         """
         await self.bot.say('https://www.youtube.com/watch?v=cE1FrqheQNI DOON NOTT')
 
+    @commands.command()
+    async def knuckles(self):
+        """ DO YOU KNO DE WAE?
+        """
+        knuckles = ["ALL HEIL DE QUEEN BRUDDERS", "*spit*", "WE MUST PROTECC DE QUEEN", "ONLY DE BLU CAN TALC TO DE QUEEN. SEPARATED BASED ON COLOOR", "DO YOU KNO DE WAE?", "WE MUST RETURN TO UGANDA", "YOU MUST BOW DOWN TO THE QUEEN", "I DON'T KNOW DE WAE", "MY BRUDDERS THE QUEEN WILL MAKE A SPEECH", "SPIT ON HIM", "DO NOT DISRESPEC DE QUEEN"]
+        await self.bot.say(random(knuckles))
 
 def setup(bot):
     """ defines setup """
