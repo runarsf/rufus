@@ -82,11 +82,15 @@ class Commands:
     @commands.command(pass_context=True)
     async def poke(self, ctx):
         """ >:c
-            >poke <@user>
+            >poke <@user> :message
         """
         mcont = ctx.message.content
         if mcont == c.prefix + 'poke':
             await self.bot.say('GRRR..')
+        elif c.prefix + 'poke :' in mcont:
+            await self.bot.say('*' + ctx.message.author.name +
+                               ' poked' + mcont.replace(c.prefix + 'poke', '*').replace(':', ''))
+            await self.bot.delete_message(ctx.message)
         else:
             await self.bot.say('*' + ctx.message.author.name +
                                ' poked' + mcont.replace(c.prefix + 'poke', '*'))

@@ -93,7 +93,7 @@ async def on_message(message):
         elif any(word in message.content for word in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     except:
-        print('excopt')
+        pass
     finally:
         if c.prefix in message.content[:1]:
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
