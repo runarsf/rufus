@@ -159,7 +159,18 @@ class Memes:
     async def knuckles(self):
         """ DO YOU KNO DE WAE?
         """
-        knuckles = ["ALL HEIL DE QUEEN BRUDDERS", "*spit*", "WE MUST PROTECC DE QUEEN", "ONLY DE BLU CAN TALC TO DE QUEEN. SEPARATED BASED ON COLOOR", "DO YOU KNO DE WAE?", "WE MUST RETURN TO UGANDA", "YOU MUST BOW DOWN TO THE QUEEN", "I DON'T KNOW DE WAE", "MY BRUDDERS THE QUEEN WILL MAKE A SPEECH", "SPIT ON HIM", "DO NOT DISRESPEC DE QUEEN"]
+        knuckles = ["ALL HEIL DE QUEEN BRUDDERS",
+                    "*spit*",
+                    "WE MUST PROTECC DE QUEEN",
+                    "DO YOU KNO DE WAE?",
+                    "WE MUST RETURN TO UGANDA",
+                    "YOU MUST BOW DOWN TO DE QUEEN",
+                    "I DON'T KNOW DE WAE",
+                    "MY BRUDDERS THE QUEEN WILL MAKE A SPEECH",
+                    "SPIT ON HIM",
+                    "DO NOT DISRESPEC DE QUEEN",
+                    "WHY AR U RUNNIN?"
+					]
         await self.bot.say(random.choice(knuckles))
 
 def setup(bot):
