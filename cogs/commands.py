@@ -149,12 +149,6 @@ class Commands:
         """
         userid = infm.replace('<@', '').replace('>', '')
         raise Exception('*Not enough arguments*')
-
-    @commands.command()
-    async def genius(self, *, this):
-        """ Search Genius for lyrics
-        """
-        await self.bot.say ('https://genius.com/search?q=' + this.replace(' ', '%20'))
 		
 
 def setup(bot):
