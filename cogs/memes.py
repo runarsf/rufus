@@ -19,6 +19,7 @@ class Memes:
     async def meme(self, ctx, meem: str):
         """*>help meme* for meme list
             >meme <meme>
+			tocch, balls, drincc, tangerine, obliterate, swivel, nick, improvise, sipp, shockening, cucc, dipp, disgois, encontlepedie, frot, frotiverse, knowlage, meet, onion, rubix, shanpe, sitt, sooc, vegetables, vegetal, ballad, sippu, babsooc, angery, coak 
         """
         try:
             if meem == 'tocch':
