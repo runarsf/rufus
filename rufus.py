@@ -7,7 +7,6 @@ import config as c
 
 STARTUP_EXTENSIONS = ['cogs.commands',
                       'cogs.admin',
-                      'cogs.memes',
                       'cogs.uptime',
                       'cogs.math',
                       'cogs.osu!',
