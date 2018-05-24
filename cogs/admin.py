@@ -2,6 +2,7 @@
 # unused import subprocess
 # unused import sys
 import os
+import ctypes
 import config as c
 
 # unused import discord
@@ -73,14 +74,29 @@ class Admin:
         else:
             await self.bot.say('*Insufficient privileges*')
 
-    @commands.command()
-    async def clear(self):
+    @commands.command(pass_context=True)
+    async def clear(self, ctx):
         """ Clears the console.
             >clear
         """
-        clear = lambda: os.system('cls')
-        clear()
-        print('still going strong...')
+        userid = ctx.message.author.id
+        if userid == c.owner_id or userid in str(c.dev_id):
+            clear = lambda: os.system('cls')
+            clear()
+            print('still going strong...')
+        else:
+            await self.bot.say('*Insufficient privileges*')
+
+    @commands.command(pass_context=True)
+    async def call(self, ctx):
+        """ Host popup.
+            >call
+        """
+        userid = ctx.message.author.id
+        if userid == c.owner_id or userid in str(c.dev_id):
+            ctypes.windll.user32.MessageBoxW(0, "Your text", "Your title", 1)
+        else:
+            await self.bot.say('*Insufficient privileges*')
 
 
 def setup(bot):
