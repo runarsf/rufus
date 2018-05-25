@@ -113,21 +113,16 @@ class Memes:
                            '. *~~She~~* He\'s waiting for you!')
 
     @commands.command(pass_context=True)
-    async def kys(self, ctx):
+    async def kys(self, ctx, *, user: str):
         """ Please be cautious when using this command.
             >kys <@user>
         """
-        mcont = ctx.message.content
-        if mcont == str(c.prefix + 'kys'):
-            await self.bot.delete_message(ctx.message)
-            print('command.kys :: no argument')
-        else:
-            await self.bot.say('Hey' + mcont.replace(c.prefix + 'kys', '') +
-                               '. ' + ctx.message.author.name + ' Is implying *he/she/it/social ' +
-                               'construct* wants you to cease existing, however, ' +
-                               'for their argument to apply, ' +
-                               'the death needs to be inflicted by yourself and yourself alone.')
-            await self.bot.delete_message(ctx.message)
+        await self.bot.say('Hey ' + user + '. ' +
+                           ctx.message.author.name + ' Is implying *he/she/it/social ' +
+                           'construct* wants you to cease existing, however, ' +
+                           'for their will to be fulfilled, ' +
+                           'the death needs to be inflicted by yourself and yourself alone.')
+        await self.bot.delete_message(ctx.message)
 
     @commands.command(pass_context=True)
     async def chuchu(self):

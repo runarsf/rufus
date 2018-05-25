@@ -30,6 +30,12 @@ class engine:
         """
         await self.bot.say('http://www.imdb.com/find?ref_=nv_sr_fn&q=' + this.replace(' ', '+') + '&s=all')
 
+    @commands.command()
+    async def ddg(self, *, this):
+        """ Search DuckDuckGo.
+        """
+        await self.bot.say('https://duckduckgo.com/?q=' + this.replace(' ', '+'))
+
 def setup(bot):
     """ defines setup """
     bot.add_cog(engine(bot))

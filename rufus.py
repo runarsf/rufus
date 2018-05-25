@@ -10,6 +10,7 @@ import config as c
 STARTUP_EXTENSIONS = ['cogs.commands',
                       'cogs.admin',
                       'cogs.uptime',
+                      'cogs.memes',
                       'cogs.math',
                       'cogs.osu!',
                       'cogs.engine'
@@ -91,8 +92,8 @@ async def on_message(message):
             return
         if any(word in message.content for word in c.swears):
             await bot.send_file(message.channel, 'img/christ.jpg')
-        memrev = ["meme review"]
-        if any(word in message.content for word in memrev):
+        wordsls = ['meme review']
+        if any(word in message.content for word in wordsls):
             await bot.say(':clap: :clap:')
         if any(word in message.content for word in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)

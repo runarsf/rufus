@@ -26,14 +26,19 @@ class Commands:
         """
         await self.bot.say('pong 🏓')
 
-    @commands.command(pass_context=True)
-    async def len(self, ctx):
+    @commands.command()
+    async def len(self, *, msg: str):
         """ Finds length of string.
             >len <string>
         """
-        mcont = ctx.message.content
-        delta = mcont.replace(c.prefix + 'len ', '')
-        await self.bot.say('``' + str(len(delta)) + '``')
+        await self.bot.say('``' + str(len(str(msg))) + '``')
+
+    @commands.command()
+    async def chars(self, *, msg: str):
+        """ Finds amount of characters in a string.
+            >chars <string>
+        """
+        await self.bot.say('``' + str(len(str(msg).replace(' ', '').replace('　', ''))) + '``')
 
     @commands.command(pass_context=True)
     async def roll(self, ctx):
@@ -122,26 +127,18 @@ class Commands:
         await self.bot.say('( ͡° ͜ʖ ͡°)')
         await self.bot.delete_message(ctx.message)
 
-    @commands.command(pass_context=True)
-    async def info(self, ctx):
+    @commands.command()
+    async def info(self, *, user: str):
         """ Shows information about the specified user.
             >info <@user>
         """
-        mcont = ctx.message.content
-        userid = str(mcont.replace(c.prefix + 'info <@', '').replace('>', ''))
+        userid = str(user.replace('<@', '').replace('>', ''))
 
-        print(userid)
-        if mcont == str(c.prefix + 'info'):
-            await self.bot.say('Mention = {}'.format(ctx.message.author.mention) +
-                               '\nID = ' + ctx.message.author.id)
-        elif mcont == c.prefix + 'info <@' + self.bot.user.id + '>':
-            print('suh')
-        elif c.prefix + 'info <@' in mcont:
-            await self.bot.say('Mention = ' + mcont.replace(c.prefix + 'info', '')
-                               + '\nID = ' + userid)
-        else:
+        try:
+            await self.bot.say('Mention = ' + user + '\nID = ' + userid)
+        except:
             await self.bot.say('It would help if... you know.. the mention was. VALID...')
-		
+
 
 def setup(bot):
     """ defines setup """
