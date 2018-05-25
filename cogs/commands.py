@@ -123,7 +123,7 @@ class Commands:
         await self.bot.delete_message(ctx.message)
 
     @commands.command(pass_context=True)
-    async def infuh(self, ctx):
+    async def info(self, ctx):
         """ Shows information about the specified user.
             >info <@user>
         """
@@ -141,14 +141,6 @@ class Commands:
                                + '\nID = ' + userid)
         else:
             await self.bot.say('It would help if... you know.. the mention was. VALID...')
-
-    @commands.command(pass_context=True)
-    async def info(self, infm: str):
-        """ Shows information about the specified user.
-            >info <@user>
-        """
-        userid = infm.replace('<@', '').replace('>', '')
-        raise Exception('*Not enough arguments*')
 		
 
 def setup(bot):
