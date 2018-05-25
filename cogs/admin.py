@@ -88,13 +88,14 @@ class Admin:
             await self.bot.say('*Insufficient privileges*')
 
     @commands.command(pass_context=True)
-    async def call(self, ctx):
+    async def call(self, ctx, msg: str):
         """ Host popup.
             >call
         """
         userid = ctx.message.author.id
+        username = ctx.message.author.name
         if userid == c.owner_id or userid in str(c.dev_id):
-            ctypes.windll.user32.MessageBoxW(0, "Your text", "Your title", 1)
+            ctypes.windll.user32.MessageBoxW(0, str(msg), str(username) + ' ' + str(userid), 1)
         else:
             await self.bot.say('*Insufficient privileges*')
 

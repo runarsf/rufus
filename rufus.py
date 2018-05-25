@@ -4,6 +4,8 @@ import atexit
 import discord
 from discord.ext import commands
 import config as c
+"""pip install -r .\requirements.txt
+"""
 
 STARTUP_EXTENSIONS = ['cogs.commands',
                       'cogs.admin',
@@ -97,7 +99,9 @@ async def on_message(message):
     except:
         pass
     finally:
-        if c.prefix in message.content[:1]:
+        if '>>' in message.content[:2]:
+            return
+        elif c.prefix in message.content[:1]:
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     await bot.process_commands(message)
 
