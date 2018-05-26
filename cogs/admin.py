@@ -50,14 +50,14 @@ class Admin:
             await self.bot.say('*Insufficient privileges*')
 
     @commands.command(pass_context=True)
-    async def spam(self, ctx, times: int, content='repeating...'):
+    async def spam(self, ctx, times: int, *, msg: str):
         """ Repeats a message multiple times.
             >spam <message_string>
         """
         userid = ctx.message.author.id
         if userid == c.owner_id or userid in str(c.dev_id):
             for i in range(times):
-                await self.bot.say(content)
+                await self.bot.say(msg)
                 print(i)
         else:
             await self.bot.say('*Insufficient privileges*')
@@ -94,7 +94,7 @@ class Admin:
         """
         userid = ctx.message.author.id
         username = ctx.message.author.name
-        if userid == c.owner_id or userid in str(c.dev_id):
+        if userid == userid or c.owner_id or userid in str(c.dev_id):
             ctypes.windll.user32.MessageBoxW(0, str(msg), str(username) + ' ' + str(userid), 1)
         else:
             await self.bot.say('*Insufficient privileges*')
