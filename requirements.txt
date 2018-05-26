@@ -1,6 +1,5 @@
 discord.py
 os
-ctypes
 asyncio
 atexit
 random
