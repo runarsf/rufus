@@ -38,13 +38,15 @@ async def on_ready():
 
     await bot.change_presence(game=discord.Game(name=c.game))
 
-    file = open('configs.py', 'r')
-    cont = file.read()
+    """ Check config
+    """
+    confile = open('configs.py', 'r')
+    cont = confile.read()
     if 'token' not in cont:
-        file = open('configs.py', 'w')
-        file.write('# rufus.py config \ntoken = \'\'')
+        confile = open('configs.py', 'w')
+        confile.write('# rufus.py config \ntoken = \'\'')
     else:
-        file.close()
+        confile.close()
 
 
 @bot.command()

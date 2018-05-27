@@ -1,4 +1,4 @@
-""" NOT RECOMMENDED, WILL CAUSE RAM (<@319005959022313483>) ISSUES
+""" NOT RECOMMENDED, WILL CAUSE RAM ISSUES
     @commands.command(pass_context=True)
     async def restart(self, ctx):
         \""" Restarts the bot

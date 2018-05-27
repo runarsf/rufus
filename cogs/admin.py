@@ -4,6 +4,7 @@
 import os
 import ctypes
 import config as c
+from easygui import *
 
 # unused import discord
 from discord.ext import commands
@@ -22,7 +23,7 @@ class Admin:
         """
         userid = ctx.message.author.id
         usid = int(amount.replace('<@', '').replace('>', ''))
-        if userid == c.owner_id or userid in str(c.dev_id):
+        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
             await self.bot.delete_message(ctx.message)
             if '<@' in amount and '>' in amount:
                 async for amount in self.bot.logs_from(ctx.message.channel):
@@ -32,7 +33,7 @@ class Admin:
                         await self.bot.delete_message(ctx.message.id == usid)
             elif amount == str('all'):
                 deleted = await self.bot.purge_from(ctx.message.channel, limit=750)
-                await self.bot.say('Bulk purged **{}** Messages'.format(len(deleted)))
+                await self.bot.say('Bulk-purged **{}** Messages'.format(len(deleted)))
                 async for msg in self.bot.logs_from(ctx.message.channel):
                     await self.bot.delete_message(msg)
             elif int(amount) > 0:
@@ -45,7 +46,7 @@ class Admin:
                             await self.bot.delete_message(msg)
                         counter += 1
             else:
-                print('purge error on else')
+                print('purge, error on else')
         else:
             await self.bot.say('*Insufficient privileges*')
 
@@ -55,7 +56,7 @@ class Admin:
             >spam <message_string>
         """
         userid = ctx.message.author.id
-        if userid == c.owner_id or userid in str(c.dev_id):
+        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
             for i in range(times):
                 await self.bot.say(msg)
                 print(i)
@@ -68,7 +69,7 @@ class Admin:
             >stop
         """
         userid = ctx.message.author.id
-        if userid == c.owner_id or userid in str(c.dev_id):
+        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
             await self.bot.say('*Goodbye.*')
             await self.bot.logout()
         else:
@@ -80,10 +81,20 @@ class Admin:
             >clear
         """
         userid = ctx.message.author.id
-        if userid == c.owner_id or userid in str(c.dev_id):
+        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
             clear = lambda: os.system('cls')
             clear()
-            print('still going strong...')
+            print('console cleared by {}'.format(ctx.message.author.name))
+
+            amount = 1
+            counter = 0
+            for counter in range(int(amount)):
+                async for msg in self.bot.logs_from(ctx.message.channel):
+                    if int(counter) >= int(amount):
+                        return
+                    else:
+                        await self.bot.delete_message(msg)
+                    counter += 1
         else:
             await self.bot.say('*Insufficient privileges*')
 
@@ -94,11 +105,43 @@ class Admin:
         """
         userid = ctx.message.author.id
         username = ctx.message.author.name
-        if userid == userid or c.owner_id or userid in str(c.dev_id):
+        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
             ctypes.windll.user32.MessageBoxW(0, str(msg), str(username) + ' ' + str(userid), 1)
         else:
             await self.bot.say('*Insufficient privileges*')
 
+    @commands.command(pass_context=True)
+    async def admin(self, ctx, *, msg: str):
+        """ Host popup.
+            >call
+        """
+        userid = ctx.message.author.id
+        username = ctx.message.author.name
+        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
+            msgbox("Hello, world!")
+
+            msg = "What is your favorite flavor?"
+            title = "Ice Cream Survey"
+            choices = ["Vanilla", "Chocolate", "Strawberry", "Rocky Road"]
+            choice = choicebox(msg, title, choices)
+
+            # note that we convert choice to string, in case
+            # the user cancelled the choice, and we got None.
+            msgbox("You chose: " + str(choice), "Survey Result")
+
+            msg = "Do you want to continue?"
+            title = "Please Confirm"
+            if ccbox(msg, title):  # show a Continue/Cancel dialog
+                pass  # user chose Continue
+        else:
+            await self.bot.say('*Insufficient privileges*')
+
+    @commands.command(pass_context=True)
+    async def pm(self, ctx, *, msg: str):
+        """ Sends a private message to yourself.
+            >pm {message}
+        """
+        await self.bot.send_message(ctx.message.author, msg)
 
 def setup(bot):
     """ defines setup """
