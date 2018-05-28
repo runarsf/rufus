@@ -1,8 +1,5 @@
 discord.py
-os
 asyncio
-atexit
-random
-math
 requests
 cogs
+easygui

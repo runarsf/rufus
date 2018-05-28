@@ -85,16 +85,7 @@ class Admin:
             clear = lambda: os.system('cls')
             clear()
             print('console cleared by {}'.format(ctx.message.author.name))
-
-            amount = 1
-            counter = 0
-            for counter in range(int(amount)):
-                async for msg in self.bot.logs_from(ctx.message.channel):
-                    if int(counter) >= int(amount):
-                        return
-                    else:
-                        await self.bot.delete_message(msg)
-                    counter += 1
+            await self.bot.delete_message(ctx.message)
         else:
             await self.bot.say('*Insufficient privileges*')
 

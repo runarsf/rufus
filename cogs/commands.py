@@ -111,9 +111,11 @@ class Commands:
             await self.bot.say('*' + ctx.message.author.name + ' tries to hug the air*')
             await self.bot.say('https://www.youtube.com/watch?v=CCVdQ8xXBfk')
             await self.bot.say('*AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*')
+        elif mcont == c.prefix + 'hug <@' + ctx.message.author.id + '>':
+            await self.bot.say('Aaaaaaall by myseeeeeeeelf.')
         elif mcont == c.prefix + 'hug <@' + self.bot.user.id + '>':
             await self.bot.say(' OwO wat dis? Am I being hugger?' +
-                               'Hmmmm... always be a mystery it will')
+                               ' Hmmmm... always be a mystery it will')
         else:
             await self.bot.say(ctx.message.author.name + ' hugged'
                                + mcont.replace(c.prefix + 'hug', '') + ' :hearts:')
