@@ -97,6 +97,11 @@ class Admin:
         userid = ctx.message.author.id
         username = ctx.message.author.name
         if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
+            await self.bot.send_message(ctx.message.author,
+                                        'You message has been sent to <@{}>. You should receive a reply shortly. '
+                                        'Please be patient.'
+                                        .format(c.owner_id))
+            await self.bot.send_message(ctx.message.author, '```Message: {}```'.format(msg))
             ctypes.windll.user32.MessageBoxW(0, str(msg), str(username) + ' ' + str(userid), 1)
         else:
             await self.bot.say('*Insufficient privileges*')
@@ -127,12 +132,6 @@ class Admin:
         else:
             await self.bot.say('*Insufficient privileges*')
 
-    @commands.command(pass_context=True)
-    async def pm(self, ctx, *, msg: str):
-        """ Sends a private message to yourself.
-            >pm {message}
-        """
-        await self.bot.send_message(ctx.message.author, msg)
 
 def setup(bot):
     """ defines setup """

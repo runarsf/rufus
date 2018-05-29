@@ -141,6 +141,13 @@ class Commands:
         except:
             await self.bot.say('It would help if... you know.. the mention was. VALID...')
 
+    @commands.command(pass_context=True)
+    async def pm(self, ctx, *, msg: str):
+        """ Sends a private message to yourself.
+            >pm {message}
+        """
+        await self.bot.send_message(ctx.message.author, msg)
+
 
 def setup(bot):
     """ defines setup """
