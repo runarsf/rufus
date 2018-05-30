@@ -148,6 +148,13 @@ class Commands:
         """
         await self.bot.send_message(ctx.message.author, msg)
 
+    @commands.command()
+    async def bug(self):
+        """ Submit a bug.
+            >bug
+        """
+        await self.bot.say('Submit a bug: https://github.com/runarsf/rufus/issues/new')
+
 
 def setup(bot):
     """ defines setup """

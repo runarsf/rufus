@@ -50,20 +50,16 @@ async def on_ready():
 
 
 @bot.command()
-async def load(message, extension_name: str):
+async def load(extension_name: str):
     """ Loads an extension.
         >load <extension_name>
     """
-    userid = message.author.id
-    if userid in str(c.owner_id) or str(c.dev_id):
-        try:
-            bot.load_extension(extension_name)
-        except (AttributeError, ImportError) as exopt:
-            await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
-            return
-        await bot.say('{} loaded.'.format(extension_name))
-    else:
-        await bot.say('*Insufficient privileges*')
+    try:
+        bot.load_extension(extension_name)
+    except (AttributeError, ImportError) as exopt:
+        await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
+        return
+    await bot.say('{} loaded.'.format(extension_name))
 
 
 @bot.command()
