@@ -4,8 +4,8 @@ import atexit
 import discord
 from discord.ext import commands
 import config as c
-"""pip install -r .\requirements.txt
-"""
+# pip install -r .\requirements.txt
+
 
 STARTUP_EXTENSIONS = ['cogs.commands',
                       'cogs.admin',
@@ -38,8 +38,7 @@ async def on_ready():
 
     await bot.change_presence(game=discord.Game(name=c.game))
 
-    """ Check config
-    """
+    # check config
     confile = open('configs.py', 'r')
     cont = confile.read()
     if 'token' not in cont:
@@ -59,7 +58,7 @@ async def load(extension_name: str):
     except (AttributeError, ImportError) as exopt:
         await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
         return
-    await bot.say('{} loaded.'.format(extension_name))
+    await bot.say('Successfully loaded {}.'.format(extension_name))
 
 
 @bot.command()
@@ -67,8 +66,12 @@ async def unload(extension_name: str):
     """ Unloads an extension.
         >unload <extension_name>
     """
-    bot.unload_extension(extension_name)
-    await bot.say('{} unloaded.'.format(extension_name))
+    try:
+        bot.unload_extension(extension_name)
+    except (AttributeError, ImportError) as exopt:
+        await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
+        return
+    await bot.say('Successfully unloaded {}.'.format(extension_name))
 
 
 @bot.command()
@@ -77,12 +80,23 @@ async def reload(extension_name: str):
         >reload <extension_name>
     """
     try:
+        reunload = 0
+        reload = 0
         bot.unload_extension(extension_name)
+        reunload = 1
         bot.load_extension(extension_name)
+        reload = 1
     except (AttributeError, ImportError) as exopt:
         await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
         return
-    await bot.say('{} reloaded.'.format(extension_name))
+    if reunload == 1 and reload == 1:
+        await bot.say('Successfully reloaded {}.'.format(extension_name))
+    elif reunload == 1 and reload == 0:
+        await bot.say('Could not load {}.'.format(extension_name))
+    elif reunload == 0 and reload == 1:
+        await bot.say('Could not unload {}.'.format(extension_name))
+    else:
+        await bot.say('Could not reload {}'.format(extension_name))
 
 
 @bot.event
