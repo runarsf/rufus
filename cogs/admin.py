@@ -1,12 +1,9 @@
 """ admin -- rufus.py """
-# unused import subprocess
-# unused import sys
 import os
 import ctypes
 import config as c
 from easygui import *
 
-# unused import discord
 from discord.ext import commands
 
 
@@ -132,6 +129,16 @@ class Admin:
         else:
             await self.bot.say('*Insufficient privileges*')
 
+    @commands.command(pass_context=True)
+    async def pm(self, ctx, *, msg: str):
+        """ Sends a private message to yourself.
+            >pm {message}
+        """
+        userid = ctx.message.author.id
+        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
+            await self.bot.send_message(ctx.message.author, msg)
+        else:
+            await self.bot.say('*Insufficient privileges*')
 
 def setup(bot):
     """ defines setup """

@@ -1,8 +1,5 @@
 """ admin -- rufus.py """
-import os
-import config as c
 
-# unused import discord
 from discord.ext import commands
 
 

@@ -1,11 +1,8 @@
 """ commands -- rufus.py """
 import random
-import asyncio
-import math
 import config as c
 import requests
 
-# unused import discord
 from discord.ext import commands
 
 BTC_URL = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
@@ -19,8 +16,8 @@ class Commands:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(pass_context=True)
-    async def ping(self, ctx):
+    @commands.command()
+    async def ping(self):
         """ Pings the bot host.
             >ping
         """
@@ -35,7 +32,7 @@ class Commands:
 
     @commands.command()
     async def chars(self, *, msg: str):
-        """ Finds amount of characters in a string.
+        """ Finds amount of characters in a string. Excludes spaces.
             >chars <string>
         """
         await self.bot.say('``' + str(len(str(msg).replace(' ', '').replace('　', ''))) + '``')
@@ -65,17 +62,19 @@ class Commands:
         """
         cflip = random.choice(['Heads', 'Tails'])
         if cflip == 'Heads':
+            await self.bot.add_reaction(ctx.message, '⚪')
             await self.bot.add_reaction(ctx.message, '🇭')
-            await self.bot.add_reaction(ctx.message, '🇪')
-            await self.bot.add_reaction(ctx.message, '🇦')
-            await self.bot.add_reaction(ctx.message, '🇩')
-            await self.bot.add_reaction(ctx.message, '🇸')
+            # await self.bot.add_reaction(ctx.message, '🇪')
+            # await self.bot.add_reaction(ctx.message, '🇦')
+            # await self.bot.add_reaction(ctx.message, '🇩')
+            # await self.bot.add_reaction(ctx.message, '🇸')
         elif cflip == 'Tails':
+            await self.bot.add_reaction(ctx.message, '⚫')
             await self.bot.add_reaction(ctx.message, '🇹')
-            await self.bot.add_reaction(ctx.message, '🇦')
-            await self.bot.add_reaction(ctx.message, '🇮')
-            await self.bot.add_reaction(ctx.message, '🇱')
-            await self.bot.add_reaction(ctx.message, '🇸')
+            # await self.bot.add_reaction(ctx.message, '🇦')
+            # await self.bot.add_reaction(ctx.message, '🇮')
+            # await self.bot.add_reaction(ctx.message, '🇱')
+            # await self.bot.add_reaction(ctx.message, '🇸')
 
     @commands.command()
     async def btc(self):
@@ -122,31 +121,17 @@ class Commands:
             await self.bot.delete_message(ctx.message)
 
     @commands.command(pass_context=True)
-    async def lenny(self, ctx):
-        """ Sends lennyface to the current channel.
-            >lenny
-        """
-        await self.bot.say('( ͡° ͜ʖ ͡°)')
-        await self.bot.delete_message(ctx.message)
-
-    @commands.command()
-    async def info(self, *, user: str):
+    async def info(self, ctx, *, user: str):
         """ Shows information about the specified user.
             >info <@user>
         """
         userid = str(user.replace('<@', '').replace('>', ''))
 
         try:
+            await self.bot.say(ctx.message.author)
             await self.bot.say('Mention = ' + user + '\nID = ' + userid)
         except:
             await self.bot.say('It would help if... you know.. the mention was. VALID...')
-
-    @commands.command(pass_context=True)
-    async def pm(self, ctx, *, msg: str):
-        """ Sends a private message to yourself.
-            >pm {message}
-        """
-        await self.bot.send_message(ctx.message.author, msg)
 
     @commands.command()
     async def bug(self):

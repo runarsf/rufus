@@ -1,12 +1,8 @@
 """ math -- rufus.py """
 import math
-from contextlib import redirect_stdout
 
-import config as c
 
-# unused import discord
 from discord.ext import commands
-import io
 
 class Math:
     """ Math commands. """
