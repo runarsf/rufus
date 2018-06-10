@@ -120,25 +120,28 @@ class Commands:
                                + mcont.replace(c.prefix + 'hug', '') + ' :hearts:')
             await self.bot.delete_message(ctx.message)
 
-    @commands.command(pass_context=True)
-    async def info(self, ctx, *, user: str):
-        """ Shows information about the specified user.
-            >info <@user>
-        """
-        userid = str(user.replace('<@', '').replace('>', ''))
-
-        try:
-            await self.bot.say(ctx.message.author)
-            await self.bot.say('Mention = ' + user + '\nID = ' + userid)
-        except:
-            await self.bot.say('It would help if... you know.. the mention was. VALID...')
-
     @commands.command()
     async def bug(self):
         """ Submit a bug.
             >bug
         """
         await self.bot.say('Submit a bug: https://github.com/runarsf/rufus/issues/new')
+
+    @commands.command(pass_context=True)
+    async def invite(self):
+        await self.bot.say('https://discord.me/shindeiru/')
+
+    @commands.command(pass_context=True)
+    async def info(self, ctx, *, userMentioned: str):
+        """ Shows information about the specified user.
+            >info <Username#XXXX>
+        """
+        mend = ctx.message.server.get_member_named(userMentioned)
+
+        try:
+            await self.bot.say(ctx.message.Object.created_at(userMentioned))
+        except:
+            await self.bot.say('It would help if... you know.. the mention was. VALID...')
 
 
 def setup(bot):

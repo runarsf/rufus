@@ -61,6 +61,16 @@ class Admin:
             await self.bot.say('*Insufficient privileges*')
 
     @commands.command(pass_context=True)
+    async def invbot(self, ctx, *, userToInvite: str):
+        invite = 'https://discordapp.com/oauth2/authorize?client_id=387390496038977536&scope=bot&permissions=2146958591'
+        userid = ctx.message.author.id
+        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
+            await self.bot.send_message(ctx.message.server.get_member_named(userToInvite), invite)
+            await self.bot.say('Invite link sent to **{}**.'.format(ctx.message.server.get_member_named(userToInvite)))
+        else:
+            await self.bot.say('*Insufficient privileges*')
+
+    @commands.command(pass_context=True)
     async def stop(self, ctx):
         """ Stops the bot.
             >stop
@@ -69,6 +79,19 @@ class Admin:
         if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
             await self.bot.say('*Goodbye.*')
             await self.bot.logout()
+        else:
+            await self.bot.say('*Insufficient privileges*')
+
+    @commands.command(pass_context=True)
+    async def restart(self, ctx):
+        """ Restarts the bot. Inconvenient if running outside of default shell.
+            >restart
+        """
+        userid = ctx.message.author.id
+        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
+            await self.bot.say('*Restarting bot. Please hold.*')
+            await self.bot.logout()
+            exec(open('rufusPy.py').read())
         else:
             await self.bot.say('*Insufficient privileges*')
 

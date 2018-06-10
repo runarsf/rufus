@@ -73,6 +73,26 @@ async def unload(extension_name: str):
         return
     await bot.say('Successfully unloaded {}.'.format(extension_name))
 
+@bot.command()
+async def r():
+    """ Reloads all extensions, set by the owner.
+        >r
+    """
+    bot.unload_extension('cogs.admin')
+    bot.unload_extension('cogs.commands')
+    bot.unload_extension('cogs.engine')
+    bot.unload_extension('cogs.math')
+    bot.unload_extension('cogs.memes')
+    bot.unload_extension('cogs.osu!')
+
+    bot.load_extension('cogs.admin')
+    bot.load_extension('cogs.commands')
+    bot.load_extension('cogs.engine')
+    bot.load_extension('cogs.math')
+    bot.load_extension('cogs.memes')
+    bot.load_extension('cogs.osu!')
+
+    await bot.say('All cogs reloaded.')
 
 @bot.command()
 async def reload(extension_name: str):
