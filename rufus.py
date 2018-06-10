@@ -1,6 +1,5 @@
 """ Rufus """
 import os
-import os.path
 import atexit
 import discord
 from discord.ext import commands
@@ -41,12 +40,11 @@ async def on_ready():
 
     # check config
     confile = open('configs.py', 'r')
-    conexmp = open('examples/config_example.py', 'r')
     cont = confile.read()
-    if os.path.exists('configs.py'):
+    if 'token' not in cont:
         confile = open('configs.py', 'w')
         confile.write('# rufus.py config \ntoken = \'\'')
-    elif os.path.exists('configs.py') == False:
+    else:
         confile.close()
 
 
