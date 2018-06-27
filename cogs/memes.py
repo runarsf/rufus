@@ -11,19 +11,6 @@ class Memes:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(pass_context=True)
-    async def meme(self, ctx, *, meme: str):
-        """*>help meme* for meme list
-            >meme <meme>
-        """
-        try:
-            if os.path.exists('img/memes/' + meme + '.jpg'):
-                await self.bot.send_file(ctx.message.channel, 'img/memes/' + meme + '.jpg')
-            elif os.path.exists('img/memes/' + meme + '.png'):
-                await self.bot.send_file(ctx.message.channel, 'img/memes/' + meme + '.png')
-        except:
-            await self.bot.say('HmmMMMm {} doesn\'t seem to be a maymay.'.format(meme))
-
     @commands.command()
     async def brainpower(self):
         """ OwO wat dis?

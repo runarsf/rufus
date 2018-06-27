@@ -2,6 +2,7 @@
 import random
 import config as c
 import requests
+import os.path
 
 from discord.ext import commands
 
@@ -130,6 +131,19 @@ class Commands:
     @commands.command(pass_context=True)
     async def invite(self):
         await self.bot.say('https://discord.me/shindeiru/')
+
+    @commands.command(pass_context=True)
+    async def img(self, ctx, *, img: str):
+        """ Send an image to a channel
+            >img <root_path_to_img>
+        """
+        try:
+            if os.path.exists('img/' + img + '.jpg'):
+                await self.bot.send_file(ctx.message.channel, 'img/' + img + '.jpg')
+            elif os.path.exists('img/' + img + '.png'):
+                await self.bot.send_file(ctx.message.channel, 'img/' + img + '.png')
+        except:
+            await self.bot.say('No image named {}.'.format(img))
 
     @commands.command(pass_context=True)
     async def info(self, ctx, *, userMentioned: str):
