@@ -44,17 +44,21 @@ class Commands:
             >roll
         """
         droll = random.randint(0, 100)
+        if droll == 1:
+            suffix = ''
+        else:
+            suffix = 's'
         if droll <= 0:
             await self.bot.say('```' + ctx.message.author.name +
-                               ' rolls ' + str(droll) + ' point(s)' + '```')
+                               ' rolls ' + str(droll) + ' point' + str(suffix) + '```')
             await self.bot.say('You need to git gud, rolling isn\'t a joke -.-')
         elif droll == 100:
             await self.bot.say('```' + ctx.message.author.name +
-                               ' rolls ' + str(droll) + ' point(s)' + '```')
+                               ' rolls ' + str(droll) + ' point' + str(suffix) + '```')
             await self.bot.say('GG!')
         else:
             await self.bot.say('```' + ctx.message.author.name +
-                               ' rolls ' + str(droll) + ' point(s)' + '```')
+                               ' rolls ' + str(droll) + ' point' + str(suffix) + '```')
 
     @commands.command(pass_context=True)
     async def flip(self, ctx):
