@@ -3,6 +3,7 @@ import random
 import config as c
 import requests
 import os.path
+import time
 
 from discord.ext import commands
 
@@ -160,6 +161,21 @@ class Commands:
             await self.bot.say(ctx.message.Object.created_at(userMentioned))
         except:
             await self.bot.say('It would help if... you know.. the mention was. VALID...')
+
+    @commands.command()
+    async def timer(self, *, s: int):
+        """ Starts a countdown timer.
+            >timer <seconds>
+        """
+        os = s
+        msg = await self.bot.say('`` {} ``'.format(s))
+        while s > 0:
+            time.sleep(1)
+            s -= 1
+            await self.bot.edit_message(msg, '`` {} ``'.format(s))
+        await self.bot.edit_message(msg, '`` Timer expired. ``')
+        await self.bot.say('Time is up! {} seconds have passed.'.format(os))
+
 
 
 def setup(bot):
