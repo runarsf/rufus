@@ -127,32 +127,6 @@ class Admin:
             await self.bot.say('*Insufficient privileges*')
 
     @commands.command(pass_context=True)
-    async def admin(self, ctx, *, msg: str):
-        """ Host popup.
-            >call
-        """
-        userid = ctx.message.author.id
-        username = ctx.message.author.name
-        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
-            msgbox("Hello, world!")
-
-            msg = "What is your favorite flavor?"
-            title = "Ice Cream Survey"
-            choices = ["Vanilla", "Chocolate", "Strawberry", "Rocky Road"]
-            choice = choicebox(msg, title, choices)
-
-            # note that we convert choice to string, in case
-            # the user cancelled the choice, and we got None.
-            msgbox("You chose: " + str(choice), "Survey Result")
-
-            msg = "Do you want to continue?"
-            title = "Please Confirm"
-            if ccbox(msg, title):  # show a Continue/Cancel dialog
-                pass  # user chose Continue
-        else:
-            await self.bot.say('*Insufficient privileges*')
-
-    @commands.command(pass_context=True)
     async def pm(self, ctx, *, msg: str):
         """ Sends a private message to yourself.
             >pm {message}
