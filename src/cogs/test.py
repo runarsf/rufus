@@ -1,5 +1,5 @@
 """ commands -- rufus.py """
-import asyncio
+"""import asyncio"""
 import threading
 # unused import subprocess
 # unused import sys

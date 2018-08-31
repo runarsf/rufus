@@ -1,5 +1,5 @@
 """ memes -- rufus.py """
-import asyncio
+"""import asyncio"""
 import random
 import os.path
 
