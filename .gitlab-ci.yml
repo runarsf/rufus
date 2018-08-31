@@ -1,0 +1,14 @@
+services:
+        - docker:dind
+
+stages:
+        - deploy
+
+deploy:
+        stage: deploy
+        image: ubuntu
+        tags:
+                - bot
+        script:
+                - stage1
+                - stg2
