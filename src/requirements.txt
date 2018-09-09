@@ -2,4 +2,3 @@ discord.py
 asyncio
 requests
 cogs
-easygui
