@@ -1,4 +1,3 @@
-# https://www.wintellect.com/containerize-python-app-5-minutes/
 # docker build --tag rufus-py .
 FROM python:alpine3.6
 COPY ./src ./app
