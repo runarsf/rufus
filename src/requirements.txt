@@ -2,3 +2,4 @@ discord.py
 asyncio
 requests
 cogs
+puush.py

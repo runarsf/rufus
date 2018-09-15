@@ -6,6 +6,7 @@ if not os.path.isfile('config.py'):
     confile = open('config.py', 'w+')
 
     confile.write('token = \'\'\n')
+    confile.write('puush = \'\'\n')
     confile.write('prefix = \'>\'\n')
     confile.write('game = \'in his container\'\n')
     confile.write('games = [\'1\',\'2\']\n')

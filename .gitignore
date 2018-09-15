@@ -8,3 +8,4 @@ __pycache__
 workspace.xml
 logs
 venv
+*.zip
