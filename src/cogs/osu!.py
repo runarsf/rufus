@@ -45,6 +45,10 @@ class osu:
             await self.bot.edit_message(msg, "__{}__ uploaded!".format(skin))
         except:
             await self.bot.edit_message(msg, "Yikes! The skin file was too large to send, sorry about that.")
+        finally:
+            filelist = [ f for f in os.listdir(path+"\\temp") if f.endswith(".zip") ]
+            for f in filelist:
+                os.remove(os.path.join(path+"\\temp", f))
 
 def setup(bot):
     """ defines setup """
