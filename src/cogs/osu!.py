@@ -36,15 +36,15 @@ class osu:
         # account = puush.Account(c.puush)
         # ufile = str(account.upload("C:\\Users\\rufus\\Desktop\\as.jpg"))
         # fid = str(ufile.split(":", 1)[0].split('File ', 1)[-1])
-        msg = await self.bot.say("zipping __{}__...".format(skin))
+        msg = await self.bot.say("``zipping {}...``".format(skin))
         path = (os.path.dirname(os.path.realpath(__file__)))
         shutil.make_archive(path+"\\temp\\"+skin, 'zip', osu+"\\Skins\\"+skin)
-        await self.bot.edit_message(msg, "__{}__ zipped and getting ready for upload!".format(skin))
+        await self.bot.edit_message(msg, "``{} zipped, getting ready for upload!``".format(skin))
         try:
             await self.bot.send_file(ctx.message.channel, path+"\\temp\\"+skin+".zip")
-            await self.bot.edit_message(msg, "__{}__ uploaded!".format(skin))
+            await self.bot.edit_message(msg, "``{} uploaded!``".format(skin))
         except:
-            await self.bot.edit_message(msg, "Yikes! The skin file was too large to send, sorry about that.")
+            await self.bot.edit_message(msg, "``Yikes! The skin file was too large to send, sorry about that.``")
         finally:
             filelist = [ f for f in os.listdir(path+"\\temp") if f.endswith(".zip") ]
             for f in filelist:
