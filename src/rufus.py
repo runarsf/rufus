@@ -12,7 +12,8 @@ STARTUP_EXTENSIONS = ['cogs.commands',
                       'cogs.memes',
                       'cogs.math',
                       'cogs.osu!',
-                      'cogs.engine'
+                      'cogs.engine',
+                      'cogs.dev'
                       ]
 
 bot = commands.Bot(command_prefix=c.prefix, description=c.description)
@@ -73,13 +74,14 @@ async def r():
     bot.unload_extension('cogs.math')
     bot.unload_extension('cogs.memes')
     bot.unload_extension('cogs.osu!')
+    bot.unload_extension('cogs.dev')
 
     bot.load_extension('cogs.admin')
     bot.load_extension('cogs.commands')
     bot.load_extension('cogs.engine')
     bot.load_extension('cogs.math')
     bot.load_extension('cogs.memes')
-    bot.load_extension('cogs.osu!')
+    bot.load_extension('cogs.dev')
 
     await bot.say('All cogs reloaded.')
 

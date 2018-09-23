@@ -91,21 +91,7 @@ class Admin:
         if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
             await self.bot.say('*Restarting bot. Please hold.*')
             await self.bot.logout()
-            exec(open('rufusPy.py').read())
-        else:
-            await self.bot.say('*Insufficient privileges*')
-
-    @commands.command(pass_context=True)
-    async def clear(self, ctx):
-        """ Clears the console.
-            >clear
-        """
-        userid = ctx.message.author.id
-        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
-            clear = lambda: os.system('cls')
-            clear()
-            print('console cleared by {}'.format(ctx.message.author.name))
-            await self.bot.delete_message(ctx.message)
+            os.system('python rufus.py')
         else:
             await self.bot.say('*Insufficient privileges*')
 

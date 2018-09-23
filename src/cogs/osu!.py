@@ -1,7 +1,6 @@
 """ admin -- rufus.py """
 from discord.ext import commands
 import getpass
-# import puush
 import config as c
 import shutil
 import os
@@ -32,10 +31,6 @@ class osu:
             line=line.replace("\\", "\\\\")
             if "skin.ini" in line:
                 skin=line.split("\\\\skin.ini", 1)[0].split('Skins\\', 1)[-1]
-        ### outdated api, sending file directly instead
-        # account = puush.Account(c.puush)
-        # ufile = str(account.upload("C:\\Users\\rufus\\Desktop\\as.jpg"))
-        # fid = str(ufile.split(":", 1)[0].split('File ', 1)[-1])
         msg = await self.bot.say("``zipping {}...``".format(skin))
         path = (os.path.dirname(os.path.realpath(__file__)))
         shutil.make_archive(path+"\\temp\\"+skin, 'zip', osu+"\\Skins\\"+skin)

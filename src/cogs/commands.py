@@ -19,13 +19,6 @@ class Commands:
         self.bot = bot
 
     @commands.command()
-    async def ping(self):
-        """ Pings the bot host.
-            >ping
-        """
-        await self.bot.say('pong 🏓')
-
-    @commands.command()
     async def len(self, *, msg: str):
         """ Finds length of string.
             >len <string>
@@ -126,13 +119,6 @@ class Commands:
                                + mcont.replace(c.prefix + 'hug', '') + ' :hearts:')
             await self.bot.delete_message(ctx.message)
 
-    @commands.command()
-    async def bug(self):
-        """ Submit a bug.
-            >bug
-        """
-        await self.bot.say('Submit a bug: https://github.com/runarsf/rufus/issues/new')
-
     @commands.command(pass_context=True)
     async def invite(self):
         await self.bot.say('https://discord.me/shindeiru/')
@@ -156,9 +142,10 @@ class Commands:
             >info <Username#XXXX>
         """
         mend = ctx.message.server.get_member_named(userMentioned)
-
         try:
+            mend = ctx.message.server.get_member_named(userMentioned)
             await self.bot.say(ctx.message.Object.created_at(userMentioned))
+            await self.bot.say(str(userMentioned))
         except:
             await self.bot.say('It would help if... you know.. the mention was. VALID...')
 
