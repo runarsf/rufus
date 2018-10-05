@@ -1,6 +1,6 @@
 # docker build --tag rufus-py .
 FROM python:alpine3.6
-COPY ./src ./app
+COPY ./src /app
 WORKDIR /app
 RUN pip install -r ./requirements.txt
 EXPOSE 8080
