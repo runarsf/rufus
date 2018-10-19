@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  rufus:
+    container_name: rufus
+    hostname: rufus
+    restart: unless-stopped
+    image: rufus
+    build:
+      context: .
+    ports:
+      - 8080:8080
