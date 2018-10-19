@@ -1,0 +1,9 @@
+language: python
+python:
+  - "3.6"
+cache: pip
+install:
+  - pip install docker
+script:
+  - sudo systemctl start docker
+  - docker build -t=rufus-py:latest . && docker run -d -p 8080:8080 --rm --name rufus-py --hostname rufus-py rufus-py:latest
