@@ -3,3 +3,4 @@ asyncio
 requests
 cogs
 puush.py
+easygui
