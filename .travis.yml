@@ -6,4 +6,4 @@ install:
   - pip install docker
   - pip install docker-compose
 script:
-  - docker build -t=rufus-py:latest . && docker run -d -p 8080:8080 --rm --name rufus-py --hostname rufus-py rufus-py:latest
+  - docker-compose up
