@@ -1,9 +1,16 @@
+sudo: required
 language: python
+cache: pip
+
+services:
+  - docker
+
 python:
   - "3.6"
-cache: pip
+
 install:
   - pip install docker
   - pip install docker-compose
+
 script:
   - docker-compose up
