@@ -2,7 +2,6 @@
 import os
 import ctypes
 import config as c
-from easygui import *
 
 from discord.ext import commands
 
