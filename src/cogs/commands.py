@@ -163,6 +163,18 @@ class Commands:
         await self.bot.edit_message(msg, '`` Timer expired. ``')
         await self.bot.say('Time is up! {} seconds have passed.'.format(os))
 
+    @commands.command()
+    async def cur(self, *, inp: str):
+        """ Converts one currency to another.
+            >cur <amount><currency> to <amount><currency>
+        """
+        r = requests.get('https://runarsf.github.io/startpage/')
+        await self.bot.say(r.status_code)
+        await self.bot.say(r.text)
+        await self.bot.say(r.json())
+
+        
+
 
 
 def setup(bot):
