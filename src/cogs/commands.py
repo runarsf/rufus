@@ -166,14 +166,14 @@ class Commands:
     @commands.command()
     async def cur(self, *, inp: str):
         """ Converts one currency to another.
-            >cur <amount><currency> to <amount><currency>
+            >cur <amount><currency> to <currency>
         """
         r = requests.get('https://google.com/#q=' + inp.replace(" ", "+"))
         await self.bot.say(r.status_code)
         await self.bot.say(r.text)
         await self.bot.say(r.json())
 
-        
+
 
 
 
