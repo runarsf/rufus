@@ -33,11 +33,13 @@ class Commands:
         await self.bot.say('``' + str(len(str(msg).replace(' ', '').replace('　', ''))) + '``')
 
     @commands.command(pass_context=True)
-    async def roll(self, ctx):
+    async def roll(self, *, max: int):
         """ Rolls a random number. (0-100)
             >roll
         """
-        droll = random.randint(0, 100)
+        if max <= 0:
+            max = 100;
+        droll = random.randint(0, max)
         if droll == 1:
             suffix = ''
         else:
