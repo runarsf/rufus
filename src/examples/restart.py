@@ -1,4 +1,4 @@
-""" NOT RECOMMENDED, WILL CAUSE RAM ISSUES
+""" NOT RECOMMENDED, RISK OF MEMORY ISSUES
     @commands.command(pass_context=True)
     async def restart(self, ctx):
         \""" Restarts the bot
