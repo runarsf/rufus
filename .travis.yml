@@ -22,4 +22,4 @@ before_script:
   - chmod 400 ~/.ssh/id_rsa
   
 script:
-  - ssh -p22 $STAGING_SERVER_USER@$STAGING_SERVER "wall ASD"
+  - ssh -p22 -oStrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER "wall ASD"
