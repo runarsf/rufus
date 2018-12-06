@@ -9,6 +9,6 @@ services:
     build:
       context: .
     environment:
-        - BOT_TOKEN=${BOT_TOKEN}
+        - BOT_TOKEN=$BOT_TOKEN
     ports:
       - 8080:8080
