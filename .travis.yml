@@ -8,9 +8,21 @@ services:
 python:
   - "3.6"
 
+notifications:
+  email: false
+
+branches:
+  only:
+    - master
+
 install:
   - pip install docker
   - pip install docker-compose
 
+before_script:
+  - cd
+  - mkdir .ssh
+  - echo $TRAVIS_ID_RSA > .ssh/id_rsa
+  
 script:
-  - docker-compose up
+  - ssh -p22 $STAGING_SERVER_USER@$STAGING_SERVER "wall ASD"
