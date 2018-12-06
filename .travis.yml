@@ -17,7 +17,8 @@ install:
 
 before_script:
   - cd
-  - echo $TRAVIS_ID_RSA > .ssh/id_rsa
+  - echo "-----BEGIN RSA PRIVATE KEY-----"$TRAVIS_ID_RSA"-----END RSA PRIVATE KEY-----" > ~/.ssh/id_rsa
+  - ssh-keyscan -H $STAGING_SERVER >> ~/.ssh/known_hosts
   
 script:
   - ssh -p22 $STAGING_SERVER_USER@$STAGING_SERVER "wall ASD"
