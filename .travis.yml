@@ -17,7 +17,6 @@ install:
 
 before_script:
   - cd
-  - mkdir .ssh
   - echo $TRAVIS_ID_RSA > .ssh/id_rsa
   
 script:
