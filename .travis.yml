@@ -11,10 +11,6 @@ python:
 notifications:
   email: false
 
-branches:
-  only:
-    - master
-
 install:
   - pip install docker
   - pip install docker-compose
