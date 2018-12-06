@@ -19,6 +19,7 @@ before_script:
   - cd
   - ssh-keyscan -H $STAGING_SERVER >> ~/.ssh/known_hosts
   - echo "-----BEGIN RSA PRIVATE KEY-----"$TRAVIS_ID_RSA"-----END RSA PRIVATE KEY-----" > ~/.ssh/id_rsa
+  - chmod 400 ~/.ssh/id_rsa
   
 script:
   - ssh -p22 $STAGING_SERVER_USER@$STAGING_SERVER "wall ASD"
