@@ -16,12 +16,12 @@ install:
   - pip install docker-compose
 
 before_script:
-  - cd
   - ssh-keyscan -H $STAGING_SERVER >> ~/.ssh/known_hosts
   - echo "-----BEGIN RSA PRIVATE KEY-----" > ~/.ssh/id_rsa
   - echo $TRAVIS_ID_RSA >> ~/.ssh/id_rsa
   - echo "-----END RSA PRIVATE KEY-----" >> ~/.ssh/id_rsa
   - chmod 600 ~/.ssh/id_rsa
+  - cat ~/.ssh/id_rsa
 
 script:
   - ssh -p22 -oStrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER "wall ASD"
