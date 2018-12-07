@@ -16,11 +16,8 @@ install:
 - pip install docker-compose
 
 before_script:
-- echo "$SSH_PUBLIC_KEY" > ~/.ssh/authorized_keys
 - ssh-keyscan -H $STAGING_SERVER >> ~/.ssh/known_hosts
-- echo "-----BEGIN OPENSSH PRIVATE KEY-----" > ~/.ssh/id_ed25519
-- echo "$TRAVIS_SSH_PRIVATE" | >> ~/.ssh/id_ed25519
-- echo "-----END OPENSSH PRIVATE KEY-----" >> ~/.ssh/id_ed25519
+- echo "$TRAVIS_SSH_PRIVATE" | > ~/.ssh/id_ed25519
 - chmod 600 ~/.ssh/id_ed25519
 
 script:
