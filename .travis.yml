@@ -16,6 +16,7 @@ install:
 - pip install docker-compose
 
 before_script:
+- echo "$TRAVIS_SSH_PRIVATE" | tr -d '\r' | ssh-add - > /dev/null
 - ssh-keyscan -H $STAGING_SERVER >> ~/.ssh/known_hosts
 - echo "$TRAVIS_SSH_PRIVATE" > ~/.ssh/id_ed25519
 - chmod 600 ~/.ssh/id_ed25519
