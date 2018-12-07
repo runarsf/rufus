@@ -28,4 +28,4 @@ script:
 
 env:
   global:
-    secure: "oBaPbGRKaC+c+9wjHZpu6HcPl3aMpLAiRCD2z6dBjV2+Ol3Zt+WespwaboqPecvEK02kHzfpRD7fN9Ezxlw/z//p9XftC+0ZHZqw1gdl3EYJ1D2HTJK1tMDr++SncQoqS5cEYb333ky55usj5t/JQGCc9tqp+l8V7tYuo+GoS/udjpRRr8Ik0YSUh/0E3URWMzSlf7o5+s6sUgzhk/vBQDzpwlJQve0d9Fs7o+mXmDIbFkEW1Yx1j8Z7rYloVISLY9I0MGueUfH2PvFSv2EPct2Dt1PZ9PT/6k7oBiLQ+zHPYvGOESDKdEttJFI4mdZkp6KlCrJYAtX7bxJahJDg7X2184FJBqeduZ4d+l1cRpDqXxMyUuQ1gvw/knN5Kb7FuqNvX2wghKffHS9hXTnqD+aynIDLDKGkic5Ubi40uYxhW5LsKjtMRvpJZ8m0fHgBGv0qWT7lzN5y6//3BkaI/AA6TKvQP6hEEkdtr2EC/YgPvi3VITRxoqLINeieUnIgL/uRANIDqWMPxr1tHeeb0UpAmDT9r0qsehOtzZ/d81Zpe1jsHFjM24TiSLaBJ1KjMeCYZngGatXWVy+p3msIB+oGqgp1IHI36NrUVivzqjscnTQeDKBvm4hi98dI0QpXIv36dI8HSYh9n1b0wkUbCMQuN++KzQ4K9ZGL3xSdgT0="
+    secure: gem install travis, travis encrypt TRAVIS_SSH_PRIVATE=~/.ssh/trav_rsa
