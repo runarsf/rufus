@@ -19,11 +19,11 @@ before_script:
 - which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
 - eval $(ssh-agent -s)
 - ssh-keyscan -H $STAGING_SERVER >> ~/.ssh/known_hosts
-- echo "$TRAVIS_SSH_PRIVATE" > ~/.ssh/id_ed25519
-- chmod 600 ~/.ssh/id_ed25519
+- echo "$TRAVIS_SSH_PRIVATE" > ~/.ssh/TRAVIS_KEY
+- chmod 600 ~/.ssh/TRAVIS_KEY
 
 script:
-- ssh -p22 -oStrictHostKeyChecking=no -i ~/.ssh/id_ed25519 $STAGING_SERVER_USER@$STAGING_SERVER
+- ssh -p22 -o StrictHostKeyChecking=no -i ~/.ssh/TRAVIS_KEY $STAGING_SERVER_USER@$STAGING_SERVER
   "wall ASD"
 
 env:
