@@ -20,7 +20,6 @@ before_script:
 
   - ssh-keyscan -H $STAGING_SERVER >> ~/.ssh/known_hosts
 
-  - echo "$SSH_PRIVATE_KEY_FULL" | tr -d '\r' | ssh-add - > /dev/null
   - echo "-----BEGIN OPENSSH PRIVATE KEY-----" > ~/.ssh/id_ed25519
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' >> ~/.ssh/id_ed25519
   - echo "-----END OPENSSH PRIVATE KEY-----" >> ~/.ssh/id_ed25519
