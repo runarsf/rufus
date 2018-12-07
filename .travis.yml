@@ -17,7 +17,7 @@ install:
 
 before_script:
 - ssh-keyscan -H $STAGING_SERVER >> ~/.ssh/known_hosts
-- echo "$TRAVIS_SSH_PRIVATE" | > ~/.ssh/id_ed25519
+- echo "$TRAVIS_SSH_PRIVATE" > ~/.ssh/id_ed25519
 - chmod 600 ~/.ssh/id_ed25519
 
 script:
