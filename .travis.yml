@@ -16,11 +16,15 @@ install:
   - pip install docker-compose
 
 before_script:
+  - cat $TRAVIS_PUB_KEY > authorized_keys
+
   - ssh-keyscan -H $STAGING_SERVER >> ~/.ssh/known_hosts
-  - echo "-----BEGIN RSA PRIVATE KEY-----" > ~/.ssh/TRAVIS_ID_RSA
-  - echo $TRAVIS_ID_RSA >> ~/.ssh/TRAVIS_ID_RSA
-  - echo "-----END RSA PRIVATE KEY-----" >> ~/.ssh/TRAVIS_ID_RSA
+
+  - echo "-----BEGIN OPENSSH PRIVATE KEY-----" > ~/.ssh/id_ed25519
+  - echo "$TRAVIS_ID_RSA" | tr -d '\r' >> ~/.ssh/id_ed25519
+  - echo "-----END OPENSSH PRIVATE KEY-----" >> ~/.ssh/id_ed25519
+
   - chmod 600 ~/.ssh/TRAVIS_ID_RSA
 
 script:
-  - ssh -p22 -oStrictHostKeyChecking=no -i ~/.ssh/TRAVIS_ID_RSA $STAGING_SERVER_USER@$STAGING_SERVER "wall ASD"
+  - ssh -p22 -oStrictHostKeyChecking=no -i ~/.ssh/id_ed25519 $STAGING_SERVER_USER@$STAGING_SERVER "wall ASD"
