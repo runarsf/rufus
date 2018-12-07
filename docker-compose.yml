@@ -10,6 +10,6 @@ services:
       context: .
     environment:
         - BOT_TOKEN=$BOT_TOKEN
-        - TRAVIS_ID_RSA=$TRAVIS_ID_RSA
+        - TRAVIS_ID_RSA=$SSH_PRIVATE_KEY
     ports:
       - 8080:8080
