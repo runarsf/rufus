@@ -1,30 +1,25 @@
 sudo: required
 language: python
 cache: pip
-
 services:
-  - docker
-
+- docker
 python:
-  - "3.6"
-
+- '3.6'
 notifications:
   email: false
-
 install:
-  - pip install docker
-  - pip install docker-compose
-
+- pip install docker
+- pip install docker-compose
 before_script:
-  - echo "$SSH_PUBLIC_KEY" > ~/.ssh/authorized_keys
-
-  - ssh-keyscan -H $STAGING_SERVER >> ~/.ssh/known_hosts
-
-  - echo "-----BEGIN OPENSSH PRIVATE KEY-----" > ~/.ssh/id_ed25519
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' >> ~/.ssh/id_ed25519
-  - echo "-----END OPENSSH PRIVATE KEY-----" >> ~/.ssh/id_ed25519
-
-  - chmod 600 ~/.ssh/id_ed25519
-
+- echo "$SSH_PUBLIC_KEY" > ~/.ssh/authorized_keys
+- ssh-keyscan -H $STAGING_SERVER >> ~/.ssh/known_hosts
+- echo "-----BEGIN OPENSSH PRIVATE KEY-----" > ~/.ssh/id_ed25519
+- echo "$SSH_PRIVATE_KEY" | tr -d '\r' >> ~/.ssh/id_ed25519
+- echo "-----END OPENSSH PRIVATE KEY-----" >> ~/.ssh/id_ed25519
+- chmod 600 ~/.ssh/id_ed25519
 script:
-  - ssh -p22 -oStrictHostKeyChecking=no -i ~/.ssh/id_ed25519 $STAGING_SERVER_USER@$STAGING_SERVER "wall ASD"
+- ssh -p22 -oStrictHostKeyChecking=no -i ~/.ssh/id_ed25519 $STAGING_SERVER_USER@$STAGING_SERVER
+  "wall ASD"
+env:
+  global:
+    secure: W9QmI0j5Tmyha8ysD+3kz1e8SmeaduiL5OuSTH/d14JU7xpLtEAF/qQJogil3vo1saSe6TVjS5f8t6Btncd9QraXbw5fFt5u1RJtD0aXN8d0ftOvXwZM3b9EQKyIs5BaSgMqh76SoUtrHUDZM5iCfGP6C3WVFiAnE1Kh4DgiNiUT+3CTMWZWi6FbfgF6ZtXqkEOYg404ynXxdgVwor2b3m31uYHR81rp9o6qo0+5e6alroMXYukq70bQBEDTRUuj14iyv0VtbSDMhbdzbbIizm5OyDKN/aIkH9EJy6PF01dS43mQqjPLlRgjjQd4rMABwKYbty4+1gJRhZO4fR6nrm+XWkb/5VcpERHIYD4xeWkd6XyjwuLwKhpkFr9SB9GKBYuLWq7sAMB4qOB+18yQ+XT/X+HxKEskyI0ANqfaJhk1cCvVc6CeaLeZA4/V1YDHHcS8oG1dVV1zHW01GPg5V26FcfDyh+pXzLq1J+Xswb0gkm/NjcbtnHhV5yV3/qYpPG1RsZ2SbBLJJ+1gmXG2ZjPIhfIKW9hXlfI1XCv9yU1SYdSdGkgk+HqrEE+VyMCAYpno0w7Wf/iKceY9LHwKlZjqZSHTqH35haJenJn3WnBPJ6rJBb0W2FByFkF/3hA1P7n9j7vwIUKT5bbpjokBtZOCvgoOtlN1N85SO92gzU4=
