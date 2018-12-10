@@ -13,7 +13,7 @@
 ## Set up
 - **Recommended**: [Add the bot](https://discordapp.com/oauth2/authorize?client_id=387390496038977536&scope=bot&permissions=2146958591) to your own server!
 - Not recommended: Run your own instance
-    - git clone [https://github.com/runarsf/last.sh](https://github.com/runarsf/last.sh)
+    - git clone https://github.com/runarsf/rufus
     - [Download](https://github.com/runarsf/rufus/archive/master.zip) zip
 
 ## Usage
