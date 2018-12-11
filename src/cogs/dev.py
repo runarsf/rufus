@@ -18,6 +18,13 @@ class dev:
         """
         await self.bot.say('pong 🏓')
 
+    @commands.command()
+    async def test(self):
+        """ Test command.
+            >test
+        """
+        await self.bot.say('Your travis build was successful!')
+
     @commands.command(pass_context=True)
     async def pwd(self, ctx):
         """ current osu! skin
