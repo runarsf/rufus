@@ -16,4 +16,4 @@ before_install:
 - ssh-add ./deploy_rsa
 
 script:
-- ssh -i ./deploy_rsa $STAGING_SERVER_USER@$STAGING_SERVER "cd ~/git/rufus; docker-compose down"
+- ssh -i ./deploy_rsa $STAGING_SERVER_USER@$STAGING_SERVER "cd ~/git/rufus; docker-compose down; git pull; docker-compose up -d"
