@@ -49,9 +49,8 @@ class Admin:
     @commands.command(pass_context=True)
     async def spam(self, ctx, times: int, *, msg: str):
         """ Repeats a message multiple times.
-            >spam <message_string>
         """
-        if "admin" in [y.name.lower() for y in author.roles]:
+        if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
             for i in range(times):
                 await self.bot.say(msg)
                 print(i)
