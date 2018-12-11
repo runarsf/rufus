@@ -17,3 +17,12 @@ before_install:
 
 script:
 - ssh -i ./deploy_rsa $STAGING_SERVER_USER@$STAGING_SERVER "cd ~/git/rufus; docker-compose down; git pull; export BOT_TOKEN=$BOT_TOKEN; docker-compose build; docker-compose up -d"
+
+after_success:
+- wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+- chmod +x send.sh
+- ./send.sh success $WEBHOOK_URL
+after_failure:
+- wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+- chmod +x send.sh
+- ./send.sh failure $WEBHOOK_URL
