@@ -6,6 +6,7 @@ class Utils:
     def __init__(self, bot):
         self.bot = bot
         self.startTime = int(time.time())
+
     @commands.command(pass_context=True)
     async def uptime(self):
         """ Shows the uptime of the bot.

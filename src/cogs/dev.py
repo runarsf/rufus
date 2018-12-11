@@ -57,14 +57,6 @@ class dev:
         """
         await self.bot.say('Submit a bug: https://github.com/runarsf/rufus/issues/new')
 
-    @commands.command(pass_context=True)
-    async def uptime(self):
-        """ Shows the uptime of the bot.
-        """
-        current_time = int(time.time())
-        uptime = ReadableTime(self.startTime, current_time)
-        await self.bot.say('I\'ve been up for *{}*.'.format(uptime))
-
 def setup(bot):
     """ defines setup """
     bot.add_cog(dev(bot))
