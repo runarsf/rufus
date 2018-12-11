@@ -8,7 +8,6 @@ import config as c
 STARTUP_EXTENSIONS = ['cogs.manager',
                       'cogs.commands',
                       'cogs.admin',
-                      'cogs.uptime',
                       'cogs.memes',
                       'cogs.math',
                       'cogs.engine',
@@ -40,7 +39,6 @@ async def on_ready():
 @bot.command()
 async def load(extension_name: str):
     """ Loads an extension.
-        >load <extension_name>
     """
     try:
         bot.load_extension(extension_name)
@@ -53,7 +51,6 @@ async def load(extension_name: str):
 @bot.command()
 async def unload(extension_name: str):
     """ Unloads an extension.
-        >unload <extension_name>
     """
     try:
         bot.unload_extension(extension_name)
@@ -65,7 +62,6 @@ async def unload(extension_name: str):
 @bot.command()
 async def reload(extension_name: str):
     """ Loads an extension.
-        >reload <extension_name>
     """
     try:
         reunload = 0
@@ -96,8 +92,8 @@ async def on_message(message):
             return
         if any(word in message.content for word in c.swears):
             await bot.send_file(message.channel, 'img/christ.jpg')
-        if any(word in message.content for word in pewds):
-            await bot.say(message.channel, ':clap: :clap:')
+        if any(word in message.content for word in pewds.lower()):
+            await bot.say(':clap: :clap:')
         if any(word in message.content for word in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     except:
