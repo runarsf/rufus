@@ -14,4 +14,6 @@ before_install:
 - chmod 600 ./deploy_rsa
 - echo -e "Host $STAGING_SERVER\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - ssh-add ./deploy_rsa
-- ssh -i ./deploy_rsa $STAGING_SERVER_USER@$STAGING_SERVER "cd ~/home/$STAGING_SERVER_USER/git/rufus; docker-compose down"
+
+script:
+- ssh -i ./deploy_rsa $STAGING_SERVER_USER@$STAGING_SERVER "cd ~/git/rufus; docker-compose down"
