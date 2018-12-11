@@ -112,18 +112,6 @@ class Commands:
         """
         await self.bot.say('https://discord.me/shindeiru/')
 
-    @commands.command(pass_context=True)
-    async def info(self, ctx, *, userMentioned: str):
-        """ Shows information about the specified user.
-        """
-        mend = ctx.message.server.get_member_named(userMentioned)
-        try:
-            mend = ctx.message.server.get_member_named(userMentioned)
-            await self.bot.say(ctx.message.Object.created_at(userMentioned))
-            await self.bot.say(str(userMentioned))
-        except:
-            await self.bot.say('It would help if... you know.. the mention was. VALID...')
-
     @commands.command()
     async def timer(self, *, seconds: int):
         """ Starts a countdown timer.
@@ -154,6 +142,18 @@ class Commands:
         invite = 'https://discordapp.com/oauth2/authorize?client_id=387390496038977536&scope=bot&permissions=2146958591'
         await self.bot.send_message(ctx.message.server.get_member_named(userToInvite), invite)
         await self.bot.say('Invite link sent to **{}**.'.format(ctx.message.server.get_member_named(userToInvite)))
+
+        @commands.command(pass_context=True)
+        async def info(self, ctx, *, userMentioned: str):
+            """ Shows information about the specified user.
+            """
+            mend = ctx.message.server.get_member_named(userMentioned)
+            try:
+                mend = ctx.message.server.get_member_named(userMentioned)
+                await self.bot.say(ctx.message.Object.created_at(userMentioned))
+                await self.bot.say(str(userMentioned))
+            except:
+                await self.bot.say('It would help if, you know, the mention was.. VALID...')
 
 
 def setup(bot):
