@@ -3,7 +3,7 @@
 from discord.ext import commands
 
 
-class engine:
+class Engine:
     """ Different search engines. """
 
     def __init__(self, bot):
@@ -35,4 +35,4 @@ class engine:
 
 def setup(bot):
     """ defines setup """
-    bot.add_cog(engine(bot))
+    bot.add_cog(Engine(bot))

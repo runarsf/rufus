@@ -5,7 +5,7 @@ import config as c
 import os
 
 
-class dev:
+class Dev:
     """ dev stuff """
 
     def __init__(self, bot):
@@ -59,4 +59,4 @@ class dev:
 
 def setup(bot):
     """ defines setup """
-    bot.add_cog(dev(bot))
+    bot.add_cog(Dev(bot))
