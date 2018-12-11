@@ -10,21 +10,22 @@ python:
 notifications:
   email: false
 
+addons:
+  ssh_known_hosts: $STAGING_SERVER_USER@$STAGING_SERVER
+
 install:
-  - pip install docker
-  - pip install docker-compose
+- pip install docker
+- pip install docker-compose
 
-before_script:
-  - eval $(ssh-agent -s)
-  - ssh-add <(echo "$TRAVIS_SSH_PRIVATE")
-  - ssh-keyscan -H $STAGING_SERVER >> ~/.ssh/known_hosts
-  - echo "$TRAVIS_SSH_PRIVATE" > ~/.ssh/TRAVIS_KEY
-  - chmod 600 ~/.ssh/TRAVIS_KEY
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_<...>_key -iv $encrypted_<...>_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/deploy_rsa
+- ssh-add /tmp/deploy_rsa
 
-script:
-  - ssh -p22 -o StrictHostKeyChecking=no -i ~/.ssh/TRAVIS_KEY $STAGING_SERVER_USER@$STAGING_SERVER
-    "wall ASD"
-
-env:
-  global:
-    secure: gem install travis, travis encrypt TRAVIS_SSH_PRIVATE=~/.ssh/trav_rsa
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: - ssh -p22 -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER "I'm in!"
+  on:
+    branch: master
