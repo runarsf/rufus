@@ -4,7 +4,6 @@ import atexit
 import discord
 from discord.ext import commands
 import config as c
-# pip install -r .\requirements.txt
 
 STARTUP_EXTENSIONS = ['cogs.commands',
                       'cogs.admin',
@@ -114,14 +113,14 @@ async def reload(extension_name: str):
 async def on_message(message):
     """ No swear words please.
     """
+    pewds = ['meme review']
     try:
         if message.author == bot.user:
             return
         if any(word in message.content for word in c.swears):
             await bot.send_file(message.channel, 'img/christ.jpg')
-        wordsls = ['meme review']
-        if any(word in message.content for word in wordsls):
-            await bot.say(':clap: :clap:')
+        if any(word in message.content for word in pewds):
+            await bot.say(message.channel, ':clap: :clap:')
         if any(word in message.content for word in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     except:

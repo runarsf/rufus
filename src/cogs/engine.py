@@ -10,28 +10,28 @@ class engine:
         self.bot = bot
 
     @commands.command()
-    async def genius(self, *, this):
+    async def genius(self, *, content):
         """ Search Genius for lyrics
         """
-        await self.bot.say('https://genius.com/search?q=' + this.replace(' ', '%20'))
+        await self.bot.say('https://genius.com/search?q=' + content.replace(' ', '%20'))
 
     @commands.command()
-    async def fandom(self, *, this):
+    async def fandom(self, *, content):
         """ Search Fandom for shit
         """
-        await self.bot.say('http://fandom.wikia.com/?s=' + this.replace(' ', '+'))
+        await self.bot.say('http://fandom.wikia.com/?s=' + content.replace(' ', '+'))
 
     @commands.command()
-    async def imdb(self, *, this):
+    async def imdb(self, *, content):
         """ Search IMDB for movies and series
         """
-        await self.bot.say('http://www.imdb.com/find?ref_=nv_sr_fn&q=' + this.replace(' ', '+') + '&s=all')
+        await self.bot.say('http://www.imdb.com/find?ref_=nv_sr_fn&q=' + content.replace(' ', '+') + '&s=all')
 
     @commands.command()
-    async def ddg(self, *, this):
-        """ Search DuckDuckGo.
+    async def lmgtfy(self, *, content):
+        """ Let Me Google That For You.
         """
-        await self.bot.say('https://duckduckgo.com/?q=' + this.replace(' ', '+'))
+        await self.bot.say('http://lmgtfy.com/?q=' + content.replace(' ', '+'))
 
 def setup(bot):
     """ defines setup """

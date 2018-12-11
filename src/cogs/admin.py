@@ -15,7 +15,7 @@ class Admin:
     @commands.command(pass_context=True)
     async def purge(self, ctx, amount: str):
         """ Deletes messages from current channel.
-            >purge <@user | amount_integer | 'all'>
+            >purge <@user | amount: int | 'all'>
         """
         userid = ctx.message.author.id
         usid = int(amount.replace('<@', '').replace('>', ''))
@@ -51,8 +51,7 @@ class Admin:
         """ Repeats a message multiple times.
             >spam <message_string>
         """
-        userid = ctx.message.author.id
-        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
+        if "admin" in [y.name.lower() for y in author.roles]:
             for i in range(times):
                 await self.bot.say(msg)
                 print(i)
@@ -107,17 +106,6 @@ class Admin:
                                         'Please be patient.'.format(c.owner_id))
             await self.bot.send_message(ctx.message.author, '```Message: {}```'.format(msg))
             await self.bot.send_message(c.owner_id, '```New message from: {}\nContent: {}```'.format(ctx.message.author, msg))
-        else:
-            await self.bot.say('*Insufficient privileges*')
-
-    @commands.command(pass_context=True)
-    async def pm(self, ctx, *, msg: str):
-        """ Sends a private message to yourself.
-            >pm {message}
-        """
-        userid = ctx.message.author.id
-        if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
-            await self.bot.send_message(ctx.message.author, msg)
         else:
             await self.bot.say('*Insufficient privileges*')
 
