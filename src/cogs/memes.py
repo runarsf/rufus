@@ -13,8 +13,7 @@ class Memes:
 
     @commands.command()
     async def brainpower(self):
-        """ OwO wat dis?
-            >brainpower
+        """ Spam time.
         """
         await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-')
         await self.bot.say('A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo' +
@@ -29,7 +28,6 @@ class Memes:
     @commands.command(pass_context=True)
     async def kms(self, ctx):
         """ End it all.
-            >kms
         """
         await self.bot.send_file(ctx.message.channel, 'img/anoose.jpg')
         await self.bot.say('Come ' + ctx.message.author.mention +
@@ -37,8 +35,7 @@ class Memes:
 
     @commands.command(pass_context=True)
     async def lenny(self, ctx):
-        """ Sends lennyface to the current channel.
-            >lenny
+        """ Replaces user message with lennyface.
         """
         await self.bot.say('( ͡° ͜ʖ ͡°)')
         await self.bot.delete_message(ctx.message)
@@ -46,7 +43,6 @@ class Memes:
     @commands.command(pass_context=True)
     async def kys(self, ctx, *, user: str):
         """ Please be cautious when using this command.
-            >kys <@user>
         """
         await self.bot.say('Hey ' + user + '. ' +
                            ctx.message.author.name + ' Is implying *he/she/it/social ' +
@@ -57,8 +53,7 @@ class Memes:
 
     @commands.command(pass_context=True)
     async def pooser(self, ctx):
-        """ Why the fuq did I implement this?
-            >pooser
+        """ Why the actual f did I implement this?
         """
         await self.bot.send_file(ctx.message.channel, 'img/pooser.png')
         await self.bot.say('OwO wat dis?')

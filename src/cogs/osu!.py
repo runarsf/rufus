@@ -14,7 +14,10 @@ class osu:
 
     @commands.command()
     async def osu(self, cmd, *, msg):
-        """ osu! command collection
+        """ osu! command collection.
+                Argslist:
+                    map
+                    user
         """
         if cmd == 'map':
             await self.bot.say('https://osu.ppy.sh/p/beatmaplist?q=' + msg.replace(' ', '%20'))
@@ -23,7 +26,8 @@ class osu:
 
     @commands.command(pass_context=True)
     async def skin(self, ctx):
-        """ current osu! skin
+        """ current osu! skin.
+            Deprecated because docker.
         """
         osu=str("C:\\Users\\{}\\AppData\\Local\\osu!".format(getpass.getuser()))
         f=open(osu+"\\Logs\\runtime.log", "r")

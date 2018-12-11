@@ -11,7 +11,6 @@ class Utils:
     @commands.command(pass_context=True)
     async def uptime(self):
         """ Shows the uptime of the bot.
-            >uptime
         """
         current_time = int(time.time())
         uptime = utils.ReadableTime(self.startTime, current_time)

@@ -11,61 +11,47 @@ class Math:
         self.bot = bot
 
     @commands.command()
-    async def add(self, left: float, right: float):
+    async def add(self, float1: float, float2: float):
         """ Adds two numbers together.
-            >add <float1> <float2>
         """
-        await self.bot.say(left + right)
+        await self.bot.say(float1 + float2)
 
     @commands.command()
-    async def sub(self, left: float, right: float):
+    async def sub(self, float1: float, float2: float):
         """ Subtracts two numbers.
-            >sub <float1> <float2>
         """
-        await self.bot.say(left - right)
+        await self.bot.say(float1 - float2)
 
     @commands.command()
-    async def mult(self, left: float, right: float):
+    async def mult(self, float1: float, float2: float):
         """ Multiplies two numbers.
-            >mult <float1> <float2>
         """
-        await self.bot.say(left * right)
+        await self.bot.say(float1 * float2)
 
     @commands.command()
-    async def div(self, left: float, right: float):
+    async def div(self, float1: float, float2: float):
         """ Divides two numbers.
-            >div <float1> <float2>
         """
         try:
-            await self.bot.say(left / right)
+            await self.bot.say(float1 / float2)
         except ZeroDivisionError:
             await self.bot.say('GRRR..')
 
     @commands.command()
-    async def sqrt(self, bold: float):
+    async def sqrt(self, float: float):
         """ Sends the square root of the stated number.
-            >sqrt <float>
         """
-        await self.bot.say(math.sqrt(bold))
+        await self.bot.say(math.sqrt(float))
 
     @commands.command()
-    async def friends(self):
-        """ The amount of friends you have. Your mom doesn't count.
-            >friends
-        """
-        await self.bot.say('0')
-
-    @commands.command()
-    async def exp(self, left: float, right: float):
+    async def exp(self, float1: float, float2: float):
         """ Expenponderlates a number with another.
-            >mult <float1> <float2>
         """
-        await self.bot.say(left ** right)
+        await self.bot.say(float1 ** float2)
 
     @commands.command()
     async def pi(self):
         """ Sends pi.
-            >pi
         """
         await self.bot.say(math.pi)
 

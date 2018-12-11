@@ -17,13 +17,13 @@ class engine:
 
     @commands.command()
     async def fandom(self, *, content):
-        """ Search Fandom for shit
+        """ Search Fandom for stuff.
         """
         await self.bot.say('http://fandom.wikia.com/?s=' + content.replace(' ', '+'))
 
     @commands.command()
     async def imdb(self, *, content):
-        """ Search IMDB for movies and series
+        """ Search IMDB for movies and series.
         """
         await self.bot.say('http://www.imdb.com/find?ref_=nv_sr_fn&q=' + content.replace(' ', '+') + '&s=all')
 

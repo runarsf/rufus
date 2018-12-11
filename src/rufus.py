@@ -5,12 +5,12 @@ import discord
 from discord.ext import commands
 import config as c
 
-STARTUP_EXTENSIONS = ['cogs.commands',
+STARTUP_EXTENSIONS = ['cogs.manager',
+                      'cogs.commands',
                       'cogs.admin',
                       'cogs.uptime',
                       'cogs.memes',
                       'cogs.math',
-                      'cogs.osu!',
                       'cogs.engine',
                       'cogs.dev'
                       ]
@@ -63,28 +63,6 @@ async def unload(extension_name: str):
     await bot.say('Successfully unloaded {}.'.format(extension_name))
 
 @bot.command()
-async def r():
-    """ Reloads all extensions, set by the owner.
-        >r
-    """
-    bot.unload_extension('cogs.admin')
-    bot.unload_extension('cogs.commands')
-    bot.unload_extension('cogs.engine')
-    bot.unload_extension('cogs.math')
-    bot.unload_extension('cogs.memes')
-    bot.unload_extension('cogs.osu!')
-    bot.unload_extension('cogs.dev')
-
-    bot.load_extension('cogs.admin')
-    bot.load_extension('cogs.commands')
-    bot.load_extension('cogs.engine')
-    bot.load_extension('cogs.math')
-    bot.load_extension('cogs.memes')
-    bot.load_extension('cogs.dev')
-
-    await bot.say('All cogs reloaded.')
-
-@bot.command()
 async def reload(extension_name: str):
     """ Loads an extension.
         >reload <extension_name>
@@ -107,7 +85,6 @@ async def reload(extension_name: str):
         await bot.say('Could not unload {}.'.format(extension_name))
     else:
         await bot.say('Could not reload {}'.format(extension_name))
-
 
 @bot.event
 async def on_message(message):
