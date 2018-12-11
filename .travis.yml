@@ -3,29 +3,18 @@ language: python
 cache: pip
 services:
 - docker
-
 python:
 - '3.6'
-
 notifications:
   email: false
-
-addons:
-  ssh_known_hosts: $STAGING_SERVER_USER@$STAGING_SERVER
-
+before_install:
+- openssl aes-256-cbc -K $encrypted_c464028ef8d3_key -iv $encrypted_c464028ef8d3_iv
+    -in deploy_rsa.enc -out ./deploy_rsa -d
+- eval "$(ssh-agent -s)"
+- chmod 600 ./deploy_rsa
+- echo -e "Host $STAGING_SERVER\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- ssh-add ./deploy_rsa
+- ssh -i ./deploy_rsa $STAGING_SERVER_USER@$STAGING_SERVER pwd
 install:
 - pip install docker
 - pip install docker-compose
-
-before_deploy:
-- openssl aes-256-cbc -K $encrypted_<...>_key -iv $encrypted_<...>_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
-- eval "$(ssh-agent -s)"
-- chmod 600 /tmp/deploy_rsa
-- ssh-add /tmp/deploy_rsa
-
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: ssh -p22 -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER "I'm in!"
-  on:
-    branch: master
