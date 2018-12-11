@@ -83,7 +83,7 @@ class Admin:
 
     @commands.command(pass_context=True)
     async def restart(self, ctx):
-        """ Restarts the bot. Inconvenient if running outside of default shell.
+        """ Restarts the bot. Does not apply file changes.
             >restart
         """
         userid = ctx.message.author.id
@@ -96,7 +96,7 @@ class Admin:
 
     @commands.command(pass_context=True)
     async def call(self, ctx, *, msg: str):
-        """ Host popup.
+        """ Send a message via the bot to the author.
             >call
         """
         userid = ctx.message.author.id
@@ -104,10 +104,9 @@ class Admin:
         if userid in str(c.owner_id) or str(c.dev_id) or str(c.admin_id):
             await self.bot.send_message(ctx.message.author,
                                         'You message has been sent to <@{}>. You should receive a reply shortly. '
-                                        'Please be patient.'
-                                        .format(c.owner_id))
+                                        'Please be patient.'.format(c.owner_id))
             await self.bot.send_message(ctx.message.author, '```Message: {}```'.format(msg))
-            ctypes.windll.user32.MessageBoxW(0, str(msg), str(username) + ' ' + str(userid), 1)
+            await self.bot.send_message(c.owner_id, '```New message from: {}\nContent: {}```'.format(ctx.message.author, msg))
         else:
             await self.bot.say('*Insufficient privileges*')
 
