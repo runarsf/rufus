@@ -44,6 +44,7 @@ class Dev:
     async def cogs(self, ctx):
         """ Lists out all existing cogs.
         """
+        cogger=''
         if ctx.message.author.id in str(c.owner_id) or str(c.dev_id):
             for file in os.listdir('./cogs/'):
                 if not file == 'uptime.py' and file.endswith('.py'):
