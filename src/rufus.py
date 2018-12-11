@@ -6,12 +6,13 @@ from discord.ext import commands
 import config as c
 
 STARTUP_EXTENSIONS = ['cogs.manager',
-                      'cogs.commands',
                       'cogs.admin',
+                      'cogs.commands',
                       'cogs.memes',
                       'cogs.math',
                       'cogs.engine',
-                      'cogs.dev'
+                      'cogs.dev',
+                      'cogs.uptime'
                       ]
 
 bot = commands.Bot(command_prefix=c.prefix, description=c.description)
