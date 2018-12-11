@@ -26,6 +26,6 @@ before_deploy:
 deploy:
   provider: script
   skip_cleanup: true
-  script: - ssh -p22 -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER "I'm in!"
+  script: ssh -p22 -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER "I'm in!"
   on:
     branch: master
