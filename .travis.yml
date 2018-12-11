@@ -15,6 +15,3 @@ before_install:
 - echo -e "Host $STAGING_SERVER\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - ssh-add ./deploy_rsa
 - ssh -i ./deploy_rsa $STAGING_SERVER_USER@$STAGING_SERVER pwd
-install:
-- pip install docker
-- pip install docker-compose
