@@ -21,7 +21,7 @@ class Dev:
     async def pwd(self, ctx):
         """ Print Working Directory.
         """
-        if ctx.message.author.id in str(c.owner_id) or str(c.dev_id):
+        if str(ctx.message.author.id) in str(c.owner_id) or str(c.dev_id):
             path = (os.path.dirname(os.path.realpath(__file__)))
             await self.bot.say(path)
         else:
@@ -32,7 +32,7 @@ class Dev:
         """ Clears the console.
             Windows only. Deprecated.
         """
-        if ctx.message.author.id in str(c.owner_id) or str(c.dev_id):
+        if str(ctx.message.author.id) in str(c.owner_id) or str(c.dev_id):
             clear = lambda: os.system('cls')
             clear()
             print('Console cleared by {}'.format(ctx.message.author.name))
@@ -45,8 +45,8 @@ class Dev:
         """ Lists out all existing cogs.
         """
         cogger=''
-        if ctx.message.author.id in str(c.owner_id) or str(c.dev_id):
-            for file in os.listdir('./'):
+        if str(ctx.message.author.id) in str(c.owner_id) or str(c.dev_id):
+            for file in os.listdir('/app/cogs'):
                 if not file == 'uptime.py' and file.endswith('.py'):
                     cogger += file+' '
             self.bot.say('```{}```'.format(cogger))
