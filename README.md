@@ -30,9 +30,9 @@
 ## Usage
 - Run `>help` in a channel in which the bot has access to.
 
-<div style="text-align: right"><sub>
+<div style="text-align: right">
 [![GitHub forks](https://img.shields.io/github/forks/runarsf/rufus.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/runarsf/rufus/network/)
 [![GitHub stars](https://img.shields.io/github/stars/runarsf/rufus.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/runarsf/rufus/stargazers/)
 [![GitHub watchers](https://img.shields.io/github/watchers/runarsf/rufus.svg?style=social&label=Watch&maxAge=2592000)](https://GitHub.com/runarsf/rufus/watchers/)
 [![GitHub followers](https://img.shields.io/github/followers/runarsf.svg?style=social&label=Follow&maxAge=2592000)](https://github.com/runarsf?tab=followers)
-</sub></div>
+</div>
