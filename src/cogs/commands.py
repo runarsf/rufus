@@ -131,11 +131,11 @@ class Commands:
         """
         userid = ctx.message.author.id
         username = ctx.message.author.name
-            await self.bot.send_message(ctx.message.author,
-                                        'You message has been sent to <@{}>. You should receive a reply shortly. '
-                                        'Please be patient.'.format(c.owner_id))
-            await self.bot.send_message(ctx.message.author, '```Message: {}```'.format(msg))
-            await self.bot.send_message(c.owner_id, '```New message from: {}\nContent: {}```'.format(ctx.message.author, msg))
+        await self.bot.send_message(ctx.message.author,
+                                    'You message has been sent to <@{}>. You should receive a reply shortly. '
+                                    'Please be patient.'.format(c.owner_id))
+        await self.bot.send_message(ctx.message.author, '```Message: {}```'.format(msg))
+        await self.bot.send_message(c.owner_id, '```New message from: {}\nContent: {}```'.format(ctx.message.author, msg))
 
     @commands.command(pass_context=True)
     async def invbot(self, ctx, *, userToInvite: str):
