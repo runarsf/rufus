@@ -46,7 +46,7 @@ class Dev:
         """
         cogger=''
         if ctx.message.author.id in str(c.owner_id) or str(c.dev_id):
-            for file in os.listdir('./cogs/'):
+            for file in os.listdir('./'):
                 if not file == 'uptime.py' and file.endswith('.py'):
                     cogger += file+' '
             self.bot.say('```{}```'.format(cogger))
