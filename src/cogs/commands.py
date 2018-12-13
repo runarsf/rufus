@@ -146,7 +146,7 @@ class Commands:
         """
         if not user:
             return
-        userDescription = """id: {}
+        userDescription = """　　　　　　　　id: {}
                              nick: {}
                              created at: {}
                              joined at: {}
