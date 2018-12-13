@@ -147,11 +147,8 @@ class Commands:
     async def info(self, ctx, *, userMentioned: str):
         """ Shows information about the specified user.
         """
-        mend = ctx.message.server.get_member_named(userMentioned)
         try:
-            mend = ctx.message.server.get_member_named(userMentioned)
-            await self.bot.say(ctx.message.Object.created_at(userMentioned))
-            await self.bot.say(str(userMentioned))
+            await self.bot.say("works")
         except:
             await self.bot.say('It would help if, you know, the mention was.. VALID...')
 
