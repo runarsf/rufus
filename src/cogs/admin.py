@@ -45,7 +45,7 @@ class Admin:
             await self.bot.say('*Insufficient privileges*')
 
     @commands.command(pass_context=True)
-    async def spam(self, ctx, times: int, *, msg: str):
+    async def spam(self, ctx, times: int = 1, *, msg: str = 'spam'):
         """ Repeat a message multiple times.
         """
         if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
@@ -56,7 +56,9 @@ class Admin:
             await self.bot.say('*Insufficient privileges*')
 
     @commands.command(pass_context=True)
-    async def kick(self, ctx, user : discord.User, *, reason: str = '')
+    async def kick(self, ctx, user: discord.User, *, reason: str = ''):
+        """ Kick a user.
+        """
         await bot.kick(user)
 
 
