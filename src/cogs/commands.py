@@ -4,6 +4,7 @@ import config as c
 import requests
 import os.path
 import time
+from time import gmtime, strftime
 
 import discord
 from discord.ext import commands
@@ -146,7 +147,7 @@ class Commands:
         """
         if not user:
             return
-        userDescription = """　　　　　　　　id: {}
+        userDescription = """id: {}
                              nick: {}
                              created at: {}
                              joined at: {}
@@ -156,7 +157,7 @@ class Commands:
                              avatar: {}""".format(user.id, user.nick, user.created_at, user.joined_at, user.game, user.top_role, user.bot, user.avatar_url)
         embed=discord.Embed(title='{}#{}'.format(user.name, user.discriminator), description=userDescription, color=0x114455)
         embed.set_thumbnail(url=(user.avatar_url))
-        embed.set_footer(text="asd")
+        embed.set_footer(text=strftime("%Y-%m-%d %H:%M:%S", gmtime()))
         await self.bot.say(ctx.message.channel, embed=embed)
 
 
