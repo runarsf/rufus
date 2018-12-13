@@ -11,20 +11,6 @@ class Memes:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    async def brainpower(self):
-        """ Spam time.
-        """
-        await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-')
-        await self.bot.say('A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo' +
-                           '\nEEEEO-A-AAA-AAAA')
-        await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-' +
-                           '\nA-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-' +
-                           '\nJO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA')
-        await self.bot.say('O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-' +
-                           '\nA-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-')
-        await self.bot.say('JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA-O----------')
-
     @commands.command(pass_context=True)
     async def kms(self, ctx):
         """ End it all.
