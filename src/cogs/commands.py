@@ -146,7 +146,7 @@ class Commands:
         """
         if not user:
             return
-        userDescription = """\U+00A0\U+00A0\U+00A0id: {}
+        userDescription = """\ \ \ id: {}
                              nick: {}
                              created at: {}
                              joined at: {}
