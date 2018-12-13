@@ -98,6 +98,15 @@ class Admin:
         else:
             await self.bot.say('*Insufficient privileges*')
 
+    @commands.command(pass_context=True)
+    async def nick(self, ctx, user: discord.User = '', *, new_nick: str = ''):
+        """ Change user nick.
+        """
+        if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
+            self.bot.change_nickname(user, new_nick)
+        else:
+            await self.bot.say('*Insufficient privileges*')
+
 
 def setup(bot):
     """ defines setup """

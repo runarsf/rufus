@@ -134,23 +134,30 @@ class Commands:
         await self.bot.say('Time is up! {} seconds have passed.'.format(os))
 
     @commands.command(pass_context=True)
+    async def echo(self, ctx, *, text: str):
+        """ Make the bot say something.
+        """
+        await self.bot.delete_message(ctx.message)
+        await self.bot.say(text)
+
+    @commands.command(pass_context=True)
     async def info(self, ctx, user: discord.User = ''):
         """ User info.
         """
         if not user:
             return
-        userDescription = """ID: {}
-                             Creation date: {}
-                             Discriminator: {}
-                             Avatar: {}
-                             Bot: {}
-                             Avatar URL: {}
-                             Default Avatar: {}
-                             Default Avatar URL: {}
-                             Mention: {}
-                             Display Name: {}""".format(user.id, user.created_at, user.discriminator, user.avatar, user.bot, user.avatar_url, user.default_avatar, user.default_avatar_url, user.mention, user.display_name)
-        embed=discord.Embed(title=user.name, description=userDescription, color=0x114455)
-        embed.set_image(url=(user.avatar_url))
+        userDescription = """                id: {}
+                                           nick: {}
+                                    creation at: {}
+                                      joined at: {}
+                                           game: {}
+                                       top role: {}
+                                          roles: {}
+                                         avatar: {}
+                                            bot? {}""".format(user.id, user.nick, user.created_at, user.joined_at, user.game, user.top_role, user.roles, user.avatar_url, user.bot)
+        embed=discord.Embed(title='{}#{}'.format(user.name, user.discriminator), description=userDescription, color=0x114455)
+        embed.set_thumbnail(url=(user.avatar_url))
+        embed.set_footer(text="asd")
         await self.bot.say(ctx.message.channel, embed=embed)
 
 
