@@ -141,19 +141,19 @@ class Commands:
         await self.bot.say(text)
 
     @commands.command(pass_context=True)
-    async def info(self, ctx, user: discord.User = '', *, message: str):
+    async def info(self, ctx, user: discord.User = ''):
         """ User info.
         """
         if not user:
             return
         userDescription = """id: {}
-                             {} nick: {}
+                             nick: {}
                              created at: {}
                              joined at: {}
                              game: {}
                              top role: {}
                              bot? {}
-                             avatar: {}""".format(user.id, message, user.nick, user.created_at, user.joined_at, user.game, user.top_role, user.bot, user.avatar_url)
+                             avatar: {}""".format(user.id, user.nick, user.created_at, user.joined_at, user.game, user.top_role, user.bot, user.avatar_url)
         embed=discord.Embed(title='{}#{}'.format(user.name, user.discriminator), description=userDescription, color=0x114455)
         embed.set_thumbnail(url=(user.avatar_url))
         embed.set_footer(text="asd")
