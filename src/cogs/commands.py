@@ -80,7 +80,7 @@ class Commands:
         await self.bot.say('```' + 'BTC price is currently at $' + BTC_USD + ' USD' + '```')
 
     @commands.command(pass_context=True)
-    async def poke(self, ctx, user: discord.User, *, message: str = ''):
+    async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
         """ Poke user.
         """
         if user == '':
@@ -91,6 +91,19 @@ class Commands:
                 await self.bot.say('*{} poked {}*'.format(ctx.message.author.name, user))
             else:
                 await self.bot.say('*{} poked {}; ``{}``*'.format(ctx.message.author.name, user, message))
+
+    @commands.command(pass_context=True)
+    async def pat(self, ctx, user: discord.User = '', *, message: str = ''):
+        """ Pat user uwu.
+        """
+        if user == '':
+            await self.bot.say('uwu')
+        else:
+            await self.bot.delete_message(ctx.message)
+            if message == '':
+                await self.bot.say('*{} patted {} and is probably a disgusting weeb!*'.format(ctx.message.author.name, user))
+            else:
+                await self.bot.say('*{} patted {} {}*'.format(ctx.message.author.name, user, message))
 
     @commands.command(pass_context=True)
     async def hug(self, ctx, *, user: str):
