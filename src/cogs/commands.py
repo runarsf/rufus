@@ -135,11 +135,8 @@ class Commands:
     async def invbot(self, ctx, *, userToInvite: str = message.author):
         """ Invite user to server.
         """
-        invite = 'discord.gg/uaECMPQ'
-        await self.bot.send_message(userToInvite, invite)
-        await self.bot.say('Invite link sent to ``{}``.'.format(userToInvite)
-
-    
+        await self.bot.send_message(userToInvite, 'discord.gg/uaECMPQ')
+        await self.bot.say('Invite link sent to ``{}``.'.format(userToInvite))
 
 
 def setup(bot):
