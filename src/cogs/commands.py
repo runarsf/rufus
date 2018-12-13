@@ -144,11 +144,11 @@ class Commands:
         await self.bot.say('Invite link sent to **{}**.'.format(ctx.message.server.get_member_named(userToInvite)))
 
     @commands.command(pass_context=True)
-    async def info(self, ctx, *, userMentioned: str):
+    async def info(self, ctx, *, userMentioned: str = "default param"):
         """ Shows information about the specified user.
         """
         try:
-            await self.bot.say("works")
+            await self.bot.say(userMentioned)
         except:
             await self.bot.say('It would help if, you know, the mention was.. VALID...')
 
