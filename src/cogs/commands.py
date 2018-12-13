@@ -106,12 +106,6 @@ class Commands:
         else:
             await self.bot.say('{} hugged {} :hearts:'.format(ctx.message.author.name, user))
 
-    @commands.command(pass_context=True)
-    async def invite(self):
-        """ Permanent server invite link.
-        """
-        await self.bot.say('https://discord.me/shindeiru/')
-
     @commands.command()
     async def timer(self, *, seconds: int):
         """ Starts a countdown timer.
@@ -126,25 +120,13 @@ class Commands:
         await self.bot.say('Time is up! {} seconds have passed.'.format(os))
 
     @commands.command(pass_context=True)
-    async def call(self, ctx, *, msg: str):
-        """ Send a message via the bot to the author.
-        """
-        userid = ctx.message.author.id
-        username = ctx.message.author.name
-        await self.bot.send_message(ctx.message.author,
-                                    'You message has been sent to <@{}>. You should receive a reply shortly. '
-                                    'Please be patient.'.format(c.owner_id))
-        await self.bot.send_message(ctx.message.author, '```Message: {}```'.format(msg))
-        await self.bot.send_message(c.owner_id, '```New message from: {}\nContent: {}```'.format(ctx.message.author, msg))
-
-    @commands.command(pass_context=True)
-    async def invbot(self, ctx, *, userToInvite: str):
+    async def invbot(self, ctx, *, userToInvite: str = ctx.message.author):
         invite = 'https://discordapp.com/oauth2/authorize?client_id=387390496038977536&scope=bot&permissions=2146958591'
         await self.bot.send_message(ctx.message.server.get_member_named(userToInvite), invite)
         await self.bot.say('Invite link sent to **{}**.'.format(ctx.message.server.get_member_named(userToInvite)))
 
     @commands.command(pass_context=True)
-    async def info(self, ctx, *, userMentioned: str = "default param"):
+    async def info(self, ctx, *, userMentioned: str = ''):
         """ Shows information about the specified user.
         """
         try:
