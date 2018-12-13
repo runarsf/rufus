@@ -146,14 +146,22 @@ class Commands:
         """
         if not user:
             return
-        userDescription = """\ \ \ id: {}
-                             &nbsp;&nbsp;&nbsp; nick: {}
-                             \&nbsp;\&nbsp;\&nbsp; created at: {}
-                                joined at: {}
-                             game: {}
-                             top role: {}
-                             avatar: {}
-                             bot? {}""".format(user.id, user.nick, user.created_at, user.joined_at, user.game, user.top_role, user.avatar_url, user.bot)
+        # userDescription = """id: {}
+        #                     nick: {}
+        #                     created at: {}
+        #                     joined at: {}
+        #                     game: {}
+        #                     top role: {}
+        #                     avatar: {}
+        #                     bot? {}""".format(user.id, user.nick, user.created_at, user.joined_at, user.game, user.top_role, user.avatar_url, user.bot)
+        userDescription = ('id:' + user.id +
+                           'nick:' + user.nick +
+                           'created at:' + user.created_at +
+                           'joined at:' + user.joined_at +
+                           'game:' + user.game +
+                           'top role:' + user.top_role +
+                           'avatar:' + user.avatar_url +
+                           'bot?' + user.bot)
         embed=discord.Embed(title='{}#{}'.format(user.name, user.discriminator), description=userDescription, color=0x114455)
         embed.set_thumbnail(url=(user.avatar_url))
         embed.set_footer(text="asd")
