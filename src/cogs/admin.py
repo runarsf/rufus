@@ -56,7 +56,7 @@ class Admin:
             await self.bot.say('*Insufficient privileges*')
 
     @commands.command(pass_context=True)
-    async def kick(self, ctx, user: self.discord.User, *, reason: str = ''):
+    async def kick(self, ctx, user: discord.User, *, reason: str = ''):
         """ Kick a user.
         """
         await bot.kick(user)

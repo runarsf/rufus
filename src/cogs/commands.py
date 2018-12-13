@@ -124,16 +124,16 @@ class Commands:
         invite = 'https://discordapp.com/oauth2/authorize?client_id=387390496038977536&scope=bot&permissions=2146958591'
         await self.bot.send_message(ctx.message.server.get_member_named(userToInvite), invite)
         await self.bot.say('Invite link sent to **{}**.'.format(ctx.message.server.get_member_named(userToInvite)))
-
+"""
     @commands.command(pass_context=True)
     async def info(self, ctx, *, userMentioned: str = ''):
-        """ Shows information about the specified user.
-        """
+        \""" Shows information about the specified user.
+        \"""
         try:
             await self.bot.say(userMentioned)
         except:
             await self.bot.say('It would help if, you know, the mention was.. VALID...')
-
+"""
 
 def setup(bot):
     """ defines setup """
