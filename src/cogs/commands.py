@@ -120,7 +120,7 @@ class Commands:
         await self.bot.say('Time is up! {} seconds have passed.'.format(os))
 
     @commands.command(pass_context=True)
-    async def invbot(self, ctx, *, userToInvite: str = ctx.message.author):
+    async def invbot(self, ctx, *, userToInvite: str = message.author):
         invite = 'https://discordapp.com/oauth2/authorize?client_id=387390496038977536&scope=bot&permissions=2146958591'
         await self.bot.send_message(ctx.message.server.get_member_named(userToInvite), invite)
         await self.bot.say('Invite link sent to **{}**.'.format(ctx.message.server.get_member_named(userToInvite)))
