@@ -70,6 +70,20 @@ class Admin:
         else:
             await self.bot.say('*Insufficient privileges*')
 
+    @commands.command(pass_context=True)
+    async def ban(self, ctx, user: discord.User, *, reason: str = 'no reason given.'):
+        """ Ban a user.
+                user formatting: user#1234
+        """
+        if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
+            try:
+                await self.bot.ban(user)
+                await self.bot.say('User {} has been banned with reason: ``{}``'.format(user, reason))
+            except Exception:
+                await self.bot.say('```An error occurred. User {} could not be banned.```'.format(user))
+        else:
+            await self.bot.say('*Insufficient privileges*')
+
 
 def setup(bot):
     """ defines setup """
