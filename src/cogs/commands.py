@@ -136,7 +136,7 @@ class Commands:
         """ Invite user to server.
         """
         inviteLink = 'discord.gg/uaECMPQ'
-        if userToInvite == '':
+        if str(userToInvite) == '':
             await self.bot.say(inviteLink)
         else:
             await self.bot.send_message(userToInvite, inviteLink)
