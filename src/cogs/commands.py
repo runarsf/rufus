@@ -132,11 +132,15 @@ class Commands:
         await self.bot.say('Time is up! {} seconds have passed.'.format(os))
 
     @commands.command(pass_context=True)
-    async def invbot(self, ctx, *, userToInvite: str = message.author):
+    async def invbot(self, ctx, *, userToInvite: str = ''):
         """ Invite user to server.
         """
-        await self.bot.send_message(userToInvite, 'discord.gg/uaECMPQ')
-        await self.bot.say('Invite link sent to ``{}``.'.format(userToInvite))
+        inviteLink = 'discord.gg/uaECMPQ'
+        if userToInvite == '':
+            await self.bot.say(inviteLink)
+        else:
+            await self.bot.send_message(userToInvite, inviteLink)
+            await self.bot.say('Invite link sent to ``{}``.'.format(userToInvite))
 
 
 def setup(bot):
