@@ -60,7 +60,8 @@ class Admin:
     async def kick(self, ctx, user: discord.User, *, reason: str = ''):
         """ Kick a user.
         """
-        await self.bot.kick(user, reason=reason)
+        await self.bot.kick(user)
+        await self.bot.say('User {} has been kicked with reason: ``{}``'.format(user, reason))
 
 
 def setup(bot):
