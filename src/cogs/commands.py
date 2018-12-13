@@ -147,9 +147,9 @@ class Commands:
         if not user:
             return
         userDescription = """\ \ \ id: {}
-                             nick: {}
-                             created at: {}
-                             joined at: {}
+                             &nbsp;&nbsp;&nbsp; nick: {}
+                             \&nbsp;\&nbsp;\&nbsp; created at: {}
+                                joined at: {}
                              game: {}
                              top role: {}
                              avatar: {}
