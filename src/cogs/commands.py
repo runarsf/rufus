@@ -132,7 +132,7 @@ class Commands:
         await self.bot.say('Time is up! {} seconds have passed.'.format(os))
 
     @commands.command(pass_context=True)
-    async def invbot(self, ctx, *, userToInvite: str = ''):
+    async def invite(self, ctx, *, userToInvite: discord.User = ''):
         """ Invite user to server.
         """
         inviteLink = 'discord.gg/uaECMPQ'
