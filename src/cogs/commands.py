@@ -118,13 +118,15 @@ class Commands:
             await self.bot.edit_message(msg, '`` {} ``'.format(seconds))
         await self.bot.edit_message(msg, '`` Timer expired. ``')
         await self.bot.say('Time is up! {} seconds have passed.'.format(os))
-
+"""
     @commands.command(pass_context=True)
     async def invbot(self, ctx, *, userToInvite: str = message.author):
+        \""" Invite user to server.
+        \"""
         invite = 'https://discordapp.com/oauth2/authorize?client_id=387390496038977536&scope=bot&permissions=2146958591'
         await self.bot.send_message(ctx.message.server.get_member_named(userToInvite), invite)
         await self.bot.say('Invite link sent to **{}**.'.format(ctx.message.server.get_member_named(userToInvite)))
-"""
+
     @commands.command(pass_context=True)
     async def info(self, ctx, *, userMentioned: str = ''):
         \""" Shows information about the specified user.
