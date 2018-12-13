@@ -109,7 +109,9 @@ class Commands:
         """
         mcont = ctx.message.content
         if user == '':
-            await self.bot.say('*' + ctx.message.author.name + ' tries to hug the air*')
+            await self.bot.say('*{} tries to hug the air*'.format(ctx.message.author.name))
+        elif user == 'me':
+            await self.bot.say('*I hugged {}*'.format(ctx.message.author.name))
         elif user == '<@{}>'.format(ctx.message.author.id):
             await self.bot.say('Aaaaaaall by myseeeeeeeelf.')
         elif user == '<@{}>'.format(self.bot.user.id):
@@ -132,15 +134,15 @@ class Commands:
         await self.bot.say('Time is up! {} seconds have passed.'.format(os))
 
     @commands.command(pass_context=True)
-    async def invite(self, ctx, *, userToInvite: discord.User = ''):
-        """ Invite user to server.
+    async def info(self, ctx, user: discord.User = '', *, message: str = ''):
+        """ User info.
         """
-        inviteLink = 'discord.gg/uaECMPQ'
-        if str(userToInvite) == '':
-            await self.bot.say(inviteLink)
-        else:
-            await self.bot.send_message(userToInvite, inviteLink)
-            await self.bot.say('Invite link sent to ``{}``.'.format(userToInvite))
+        if not user:
+            return # Can't find the user, then quit
+        pfp = user.avatar_url
+        embed=discord.Embed(title="test", description='{}, test'.format(user.mention) , color=0xecce8b)
+        embed.set_image(url=(pfp))
+        await self.bot.say(ctx.message.channel, embed=embed)
 
 
 def setup(bot):

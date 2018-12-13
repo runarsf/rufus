@@ -29,6 +29,7 @@
 
 ## Usage
 - Run `>help` in a channel in which the bot has access to.
+- This bot uses the server-side `admin` role to use commands like ban, kick, invite etc.
 
 <br><br>
 [![GitHub followers](https://img.shields.io/github/followers/runarsf.svg?style=social&label=Follow&maxAge=2592000)](https://github.com/runarsf?tab=followers)
