@@ -158,7 +158,7 @@ class Commands:
         embed=discord.Embed(title='{}#{}'.format(user.name, user.discriminator), description=userDescription, color=0x114455)
         embed.set_thumbnail(url=(user.avatar_url))
         embed.set_footer(text=strftime("%d-%m-%Y %H:%M:%S", gmtime()))
-        await self.bot.say(ctx.message.channel, embed=embed)
+        await self.bot.say(embed=embed)
 
 
 def setup(bot):
