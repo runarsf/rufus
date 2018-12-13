@@ -153,8 +153,7 @@ class Commands:
                              &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspgame: {}
                              &nbsp&nbsp&nbsptop role: {}
                              &nbsp&nbsp&nbsp&nbsp&nbspavatar: {}
-                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspbot? {}"""
-.format(user.id, user.nick, user.created_at, user.joined_at, user.game, user.top_role, user.avatar_url, user.bot)
+                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspbot? {}""".format(user.id, user.nick, user.created_at, user.joined_at, user.game, user.top_role, user.avatar_url, user.bot)
         embed=discord.Embed(title='{}#{}'.format(user.name, user.discriminator), description=userDescription, color=0x114455)
         embed.set_thumbnail(url=(user.avatar_url))
         embed.set_footer(text="asd")
