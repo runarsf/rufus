@@ -65,7 +65,7 @@ class Admin:
             try:
                 await self.bot.kick(user)
                 await self.bot.say('User {} has been kicked with reason: ``{}``'.format(user, reason))
-            except ValueError:
+            except Exception:
                 await self.bot.say('```An error occurred. User {} could not be kicked.```'.format(user))
         else:
             await self.bot.say('*Insufficient privileges*')
