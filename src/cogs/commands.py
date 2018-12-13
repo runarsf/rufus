@@ -134,12 +134,12 @@ class Commands:
         await self.bot.say('Time is up! {} seconds have passed.'.format(os))
 
     @commands.command(pass_context=True)
-    async def info(self, ctx, user: discord.User = '', *, message: str = ''):
+    async def info(self, ctx, user: discord.User = ''):
         """ User info.
         """
         if not user:
             return
-        embed=discord.Embed(title=user.name, description='{}.format(user.id), color=0x114455)
+        embed=discord.Embed(title=user.name, description='ID: {}\nCreation date: {}'.format(user.id, user.created_at), color=0x114455)
         embed.set_image(url=(user.avatar_url))
         await self.bot.say(ctx.message.channel, embed=embed)
 
