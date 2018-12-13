@@ -139,7 +139,9 @@ class Commands:
         """
         if not user:
             return
-        embed=discord.Embed(title=user.name, description='ID: {}\nCreation date: {}'.format(user.id, user.created_at), color=0x114455)
+        userDescription = 'ID: {}'.format(user.id)
+                        + 'Creation date: {}'.format(user.created_at)
+        embed=discord.Embed(title=user.name, description=userDescription, color=0x114455)
         embed.set_image(url=(user.avatar_url))
         await self.bot.say(ctx.message.channel, embed=embed)
 
