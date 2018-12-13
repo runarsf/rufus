@@ -139,8 +139,16 @@ class Commands:
         """
         if not user:
             return
-        userDescription = 'ID: {}'.format(user.id)
-                        + 'Creation date: {}'.format(user.created_at)
+        userDescription = """ID: {}
+                             Creation date: {}
+                             Discriminator: {}
+                             Avatar: {}
+                             Bot: {}
+                             Avatar URL: {}
+                             Default Avatar: {}
+                             Default Avatar URL: {}
+                             Mention: {}
+                             Display Name: {}""".format(user.id, user.created_at, user.discriminator, user.avatar, user.bot, user.avatar_url, user.default_avatar, user.default_avatar_url, user.mention, user.display_name)
         embed=discord.Embed(title=user.name, description=userDescription, color=0x114455)
         embed.set_image(url=(user.avatar_url))
         await self.bot.say(ctx.message.channel, embed=embed)
