@@ -138,10 +138,9 @@ class Commands:
         """ User info.
         """
         if not user:
-            return # Can't find the user, then quit
-        pfp = user.avatar_url
-        embed=discord.Embed(title="test", description='{}, test'.format(user.mention) , color=0xecce8b)
-        embed.set_image(url=(pfp))
+            return
+        embed=discord.Embed(title=user.name, description='{}.format(user.id), color=0x114455)
+        embed.set_image(url=(user.avatar_url))
         await self.bot.say(ctx.message.channel, embed=embed)
 
 
