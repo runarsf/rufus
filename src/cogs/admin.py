@@ -85,7 +85,7 @@ class Admin:
             await self.bot.say('*Insufficient privileges*')
 
     @commands.command(pass_context=True)
-    async def invite(self, ctx, *, userToInvite: discord.User = ''):
+    async def invite(self, ctx, userToInvite: discord.User = '', *, message: str = ''):
         """ Invite user to server.
         """
         inviteLink = 'discord.gg/uaECMPQ'
@@ -93,7 +93,10 @@ class Admin:
             if str(userToInvite) == '':
                 await self.bot.say(inviteLink)
             else:
-                await self.bot.send_message(userToInvite, inviteLink)
+                if message == '':
+                    await self.bot.send_message(userToInvite, inviteLink + '\nInvited by {}.'.format(ctx.message.author))
+                else:
+                    await self.bot.send_message(userToInvite, inviteLink + '\nInvited by {}.\n```{}```'.format(ctx.message.author, message))
                 await self.bot.say('Invite link sent to ``{}``.'.format(userToInvite))
         else:
             await self.bot.say('*Insufficient privileges*')
