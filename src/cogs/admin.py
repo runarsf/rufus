@@ -59,7 +59,6 @@ class Admin:
     @commands.command(pass_context=True)
     async def kick(self, ctx, user: discord.User, *, reason: str = 'no reason given.'):
         """ Kick a user.
-                user formatting: user#1234
         """
         if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
             try:
@@ -73,7 +72,6 @@ class Admin:
     @commands.command(pass_context=True)
     async def ban(self, ctx, user: discord.User, *, reason: str = 'no reason given.'):
         """ Ban a user.
-                user formatting: user#1234
         """
         if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
             try:
@@ -94,9 +92,9 @@ class Admin:
                 await self.bot.say(inviteLink)
             else:
                 if message == '':
-                    await self.bot.send_message(userToInvite, inviteLink + '\nInvited by {}.'.format(ctx.message.author))
+                    await self.bot.send_message(userToInvite, inviteLink + '\n``Invited by {}.``'.format(ctx.message.author))
                 else:
-                    await self.bot.send_message(userToInvite, inviteLink + '\nInvited by {}.\n```{}```'.format(ctx.message.author, message))
+                    await self.bot.send_message(userToInvite, inviteLink + '\n```Invited by {};\n{}```'.format(ctx.message.author, message))
                 await self.bot.say('Invite link sent to ``{}``.'.format(userToInvite))
         else:
             await self.bot.say('*Insufficient privileges*')
