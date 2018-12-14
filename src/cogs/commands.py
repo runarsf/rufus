@@ -148,18 +148,23 @@ class Commands:
         if not user:
             return
         userDescription = """
-[][][][][][][][]id: {}
-[][][][][][]nick: {}
+id: {}
+nick: {}
 created at: {}
-[]joined at: {}
-[][][][][][]game: {}
-[][]top role: {}
-[][][][][][][]bot? {}
-[][][][]avatar: {}
+joined at: {}
+game: {}
+top role: {}
+bot? {}
+avatar: {}
         """.format(user.id, user.nick, user.created_at, user.joined_at, user.game, user.top_role, user.bot, user.avatar_url)
         embed=discord.Embed(title='{}#{}'.format(user.name, user.discriminator), description=userDescription, color=0x114455)
         embed.set_thumbnail(url=(user.avatar_url))
         embed.set_footer(text=strftime("%d-%m-%Y %H:%M:%S", gmtime()))
+        embed.add_field(name="🤔", value="some of these properties have certain limits...")
+        embed.add_field(name="😱", value="try exceeding some of them!")
+        embed.add_field(name="🙄", value="an informative error should show up, and this view will remain as-is until all issues are fixed")
+        embed.add_field(name="<:thonkang:219069250692841473>", value="these last two", inline=True)
+        embed.add_field(name="<:thonkang:219069250692841473>", value="are inline fields", inline=True)
         await self.bot.say(embed=embed)
 
 
