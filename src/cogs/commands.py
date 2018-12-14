@@ -163,7 +163,7 @@ avatar: {}
         embed.add_field(name="id:", value=user.id, inline=True)
         embed.add_field(name="nick:", value=user.nick, inline=True)
         embed.add_field(name="created at:", value=user.created_at, inline=True)
-        embed.add_field(name="joined at:", value=joined_at, inline=True)
+        embed.add_field(name="joined at:", value=user.joined_at, inline=True)
         embed.add_field(name="game:", value=user.game, inline=True)
         embed.add_field(name="top role:", value=user.top_role, inline=True)
         embed.add_field(name="bot?", value=user.bot, inline=True)
