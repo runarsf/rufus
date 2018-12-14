@@ -167,7 +167,7 @@ avatar: {}
         embed.add_field(name="game:", value=user.game, inline=True)
         embed.add_field(name="top role:", value=user.top_role, inline=True)
         embed.add_field(name="bot?", value=user.bot, inline=True)
-        embed.add_field(name="avatar:", value=user.avatar_url, inline=True)
+        embed.add_field(name="avaar:", value=user.avatar_url, inline=True)
         await self.bot.say(embed=embed)
 
 
