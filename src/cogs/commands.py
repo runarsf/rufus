@@ -157,7 +157,7 @@ class Commands:
 #bot? {}
 #avatar: {}
         #""".format(user.id, user.nick, user.created_at, user.joined_at, user.game, user.top_role, user.bot, user.avatar_url)
-        embed=discord.Embed(title='{}#{}'.format(user.name, user.discriminator), description=userDescription, color=0x114455)
+        embed=discord.Embed(title='{}#{}'.format(user.name, user.discriminator), color=0x114455)
         embed.set_thumbnail(url=(user.avatar_url))
         embed.set_footer(text=strftime("%d-%m-%Y %H:%M:%S", gmtime()))
         embed.add_field(name="id:", value=user.id, inline=False)
