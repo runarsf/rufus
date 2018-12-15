@@ -2,6 +2,7 @@
 import os
 import atexit
 import discord
+import re
 from discord.ext import commands
 import config as c
 
@@ -87,13 +88,14 @@ async def reload(extension_name: str):
 async def on_message(message):
     """ No swear words please.
     """
-    pewds = ['meme review']
     try:
         if message.author == bot.user:
             return
-        if any(word in message.content for word in c.swears):
+        research = re.search(r'\s+(.+)\s+', message.content)
+        if any(word in message.content for word in c.swears) and research:
             await bot.send_file(message.channel, 'img/christ.jpg')
-        if any(word in message.content for word in pewds.lower()):
+        memer = re.search(r'.*?meme.*?review.*?', message.content)
+        if memer:
             await bot.say(':clap: :clap:')
         if any(word in message.content for word in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
