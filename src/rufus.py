@@ -91,8 +91,7 @@ async def on_message(message):
     try:
         if message.author == bot.user:
             return
-        research = re.search(r'\s+(.+)\s+', message.content)
-        if any(word in message.content for word in c.swears) and research:
+        if any(word in message.content for word in c.swears):
             await bot.send_file(message.channel, 'img/christ.jpg')
         memer = re.search(r'.*?meme.*?review.*?', message.content)
         if memer:
