@@ -82,10 +82,20 @@ class Admin:
         else:
             await self.bot.say('*Insufficient privileges*')
 
+
+    @commands.command(pass_context=True)
+    async def inviter(ctx):
+        invitelinknew = await self.bot.create_invite(destination = ctx.message.channel, xkcd = True, max_uses = 100)
+        embedMsg=discord.Embed(color=0xf41af4)
+        embedMsg.add_field(name="Discord Invite Link", value=invitelinknew)
+        embedMsg.set_footer(text="Discord server invited link.")
+        await self.bot.say(ctx.message.channel, embed=embedMsg)
+
     @commands.command(pass_context=True)
     async def invite(self, ctx, userToInvite: discord.User = '', *, message: str = ''):
         """ Invite user to server.
         """
+        discord.create_invite()
         inviteLink = 'discord.gg/uaECMPQ'
         if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
             if str(userToInvite) == '':
