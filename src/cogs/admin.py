@@ -85,6 +85,7 @@ class Admin:
 
     @commands.command(pass_context=True)
     async def inviter(self, ctx):
+        await client.send_message(discord.Object(id='12324234183172'), 'hello')
         invitelinknew = await self.bot.create_invite(destination = ctx.message.channel, xkcd = True, max_uses = 100)
         embedMsg=discord.Embed(color=0x114455)
         embedMsg.add_field(name="Discord Invite Link", value=invitelinknew)
