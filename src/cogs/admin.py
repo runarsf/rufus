@@ -75,7 +75,7 @@ class Admin:
         """
         if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
             try:
-                await self.bot.ban(user)
+                await self.bot.ban(ctx.message.server, user)
                 await self.bot.say('User {} has been banned with reason: ``{}``'.format(user, reason))
             except Exception:
                 await self.bot.say('```An error occurred. User {} could not be banned.```'.format(user))
@@ -83,17 +83,17 @@ class Admin:
             await self.bot.say('*Insufficient privileges*')
 
     @commands.command(pass_context=True)
-    async def sban(self, ctx, user: discord.User, *, reason: str = 'no reason given.'):
+    async def unban(self, ctx, user: discord.User):
         """ Ban a user.
         """
         if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
-            fake_member = discord.Object(id=user)
-            fake_member.server = discord.Object(id=ctx.message.server)
-            await self.bot.ban(fake_member)
-            await self.bot.say('User {} has been banned with reason: ``{}``'.format(user, reason))
+            try:
+                await self.bot.unban(ctx.message.server, user)
+                await self.bot.say('User {} has been unbanned.'.format(user))
+            except Exception:
+                await self.bot.say('```An error occurred. User {} could not be banned.```'.format(user))
         else:
             await self.bot.say('*Insufficient privileges*')
-
 
     @commands.command(pass_context=True)
     async def inviter(self, ctx):

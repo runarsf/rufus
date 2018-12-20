@@ -86,17 +86,6 @@ async def reload(extension_name: str):
     else:
         await bot.say('Could not reload {}'.format(extension_name))
 
-@bot.command()
-async def pull(extension_name: str):
-    """ Pull github origin and reload cog.
-    """
-    g = git.cmd.Git(.)
-    g.pull()
-    try:
-        self.reload(extension_name)
-    except Exception:
-        await bot.say('Could not run reload operation')
-
 @bot.event
 async def on_message(message):
     """ No swear words please.
