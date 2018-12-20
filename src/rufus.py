@@ -4,6 +4,7 @@ import atexit
 import discord
 import re
 from discord.ext import commands
+from subprocess import call
 import config as c
 
 STARTUP_EXTENSIONS = ['cogs.manager',
@@ -82,6 +83,16 @@ async def reload(extension_name: str):
         await bot.say('Could not unload {}.'.format(extension_name))
     else:
         await bot.say('Could not reload {}'.format(extension_name))
+
+@bot.command()
+async def pull(extension_name: str):
+    """ Pull github origin and reload cog.
+    """
+    call(["git", "pull"])
+    try:
+        self.reload(extension_name)
+    except Exception:
+        await bot.say('Could not run reload operation')
 
 @bot.event
 async def on_message(message):
