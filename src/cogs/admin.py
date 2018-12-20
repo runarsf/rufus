@@ -75,7 +75,7 @@ class Admin:
         """
         if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
             #try:
-            await self.bot.ban(ctx.message.guild, user)
+            await self.bot.ban(ctx.guild, user)
             await self.bot.say('User {} has been banned with reason: ``{}``'.format(user, reason))
             #except Exception:
             #    await self.bot.say('```An error occurred. User {} could not be banned.```'.format(user))
