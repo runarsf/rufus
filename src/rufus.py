@@ -6,6 +6,8 @@ import re
 from discord.ext import commands
 from subprocess import call
 import config as c
+import git
+
 
 STARTUP_EXTENSIONS = ['cogs.manager',
                       'cogs.admin',
@@ -88,7 +90,8 @@ async def reload(extension_name: str):
 async def pull(extension_name: str):
     """ Pull github origin and reload cog.
     """
-    call(["git", "pull"])
+    g = git.cmd.Git(.)
+    g.pull()
     try:
         self.reload(extension_name)
     except Exception:
