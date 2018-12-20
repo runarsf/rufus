@@ -10,7 +10,6 @@ STARTUP_EXTENSIONS = ['cogs.manager',
                       'cogs.admin',
                       'cogs.commands',
                       'cogs.memes',
-                      'cogs.math',
                       'cogs.engine',
                       'cogs.dev',
                       'cogs.uptime'

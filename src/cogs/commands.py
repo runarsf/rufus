@@ -146,7 +146,7 @@ class Commands:
         """ User info.
         """
         if not user:
-            return
+            user=ctx.message.author
         #userDescription = """
 #id: {}
 #nick: {}
