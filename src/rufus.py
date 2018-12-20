@@ -6,7 +6,6 @@ import re
 from discord.ext import commands
 from subprocess import call
 import config as c
-import git
 
 
 STARTUP_EXTENSIONS = ['cogs.manager',
