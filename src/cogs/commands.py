@@ -105,7 +105,7 @@ class Commands:
                 await self.bot.say('*{} patted {} {}*'.format(ctx.message.author.name, user, message))
 
     @commands.command(pass_context=True)
-    async def hug(self, ctx, *, user: str):
+    async def hug(self, ctx, *, user: str = ''):
         """ Hug user.
         """
         mcont = ctx.message.content
