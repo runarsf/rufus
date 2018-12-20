@@ -87,13 +87,10 @@ class Admin:
         """ Ban a user.
         """
         if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
-            try:
-                fake_member = discord.Object(id=user)
-                fake_member.server = discord.Object(id=ctx.message.server)
-                await self.bot.ban(fake_member)
-                await self.bot.say('User {} has been banned with reason: ``{}``'.format(user, reason))
-            except Exception:
-                await self.bot.say('```An error occurred. User {} could not be banned.```'.format(user))
+            fake_member = discord.Object(id=user)
+            fake_member.server = discord.Object(id=ctx.message.server)
+            await self.bot.ban(fake_member)
+            await self.bot.say('User {} has been banned with reason: ``{}``'.format(user, reason))
         else:
             await self.bot.say('*Insufficient privileges*')
 
