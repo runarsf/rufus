@@ -24,8 +24,6 @@ bot = commands.Bot(command_prefix=c.prefix, description=c.description)
 async def on_ready():
     """ Returns true if bot is ready.
     """
-    #clear = lambda: os.system('cls')
-    #clear()
     print('-' * len(bot.user.id))
     print('Logged in as:')
     print(bot.user.name)
@@ -63,35 +61,34 @@ async def unload(extension_name: str):
 
 @bot.command()
 async def reload(extension_name: str):
-    """ Loads an extension.
+    """ Reloads an extension.
     """
     try:
-        reunload = 0
-        reload = 0
         bot.unload_extension(extension_name)
-        reunload = 1
         bot.load_extension(extension_name)
-        reload = 1
     except (AttributeError, ImportError) as exopt:
         await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
         return
-    if reunload == 1 and reload == 1:
-        await bot.say('Successfully reloaded {}.'.format(extension_name))
-    elif reunload == 1 and reload == 0:
-        await bot.say('Could not load {}.'.format(extension_name))
-    elif reunload == 0 and reload == 1:
-        await bot.say('Could not unload {}.'.format(extension_name))
-    else:
-        await bot.say('Could not reload {}'.format(extension_name))
+    await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
 
 @bot.command()
 async def pull(extension_name: str = ''):
     """ Pull github origin.
     """
-    g = git.cmd.Git('./')
-    g.pull()
+    try:
+        g = git.cmd.Git('./')
+        g.pull()
+    except Exception as exopt:
+        await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
+        return
     if extension_name != '':
-        await reload(extension_name)
+        try:
+            bot.unload_extension(extension_name)
+            bot.load_extension(extension_name)
+        except (AttributeError, ImportError) as exopt:
+            await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
+            return
+        await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
 
 @bot.event
 async def on_message(message):
