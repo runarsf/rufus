@@ -91,7 +91,7 @@ async def pull(extension_name: str = ''):
     g = git.cmd.Git('./')
     g.pull()
     if extension_name != '':
-        self.reload(extension_name)
+        reload(extension_name)
 
 @bot.event
 async def on_message(message):
