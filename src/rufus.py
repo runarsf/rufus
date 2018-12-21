@@ -74,6 +74,8 @@ async def reload(extension_name: str):
 @bot.command()
 async def pull(extension_name: str = ''):
     """ Pull github origin.
+            If argument is passed, cog will be reloaded.
+            Does not support docker mode.
     """
     try:
         g = git.cmd.Git('./')

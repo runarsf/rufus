@@ -3,9 +3,9 @@ import random
 import config as c
 import requests
 import os.path
+import urllib, json, webbrowser
 import time
 from time import gmtime, strftime
-
 import discord
 from discord.ext import commands
 
@@ -79,6 +79,16 @@ class Commands:
         DATA = requests.get(BTC_URL).json()
         BTC_USD = DATA['bpi']['USD']['rate']
         await self.bot.say('```' + 'BTC price is currently at $' + BTC_USD + ' USD' + '```')
+
+    @commands.command()
+    async def trump(self, searchString: str = ''):
+        """ Search the extensive database of Tronald Dump for rich knowledge.
+        """
+        url = 'https://api.tronalddump.io/random/quote'
+        data = urllib.urlopen(url)
+        data = json.load(data)
+        await self.bot.say('Pooped on: ' + data['appeared_at'][:10])
+        await self.bot.say('"' + data[value] + '"')
 
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
