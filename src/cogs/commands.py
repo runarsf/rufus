@@ -127,12 +127,10 @@ class Commands:
             await self.bot.say('Missing information.')
         elif fromLanguage == 'auto':
             translatedList = translator.translate([text], dest=toLanguage)
-            for translated in translatedList:
-                await self.bot.say(translated.origin, '->', translated.text)
         else:
             translatedList = translator.translate([text], src=fromLanguage, dest=toLanguage)
-            for translated in translatedList:
-                await self.bot.say('``{}`` -> ``{}``'.format(translated.origin, translated.text))
+        for translated in translatedList:
+            await self.bot.say('``{}`` -> ``{}``'.format(translated.origin, translated.text))
 
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
