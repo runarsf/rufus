@@ -62,13 +62,6 @@ async def unload(extension_name: str):
     await bot.say('Successfully unloaded {}.'.format(extension_name))
 
 @bot.command()
-async def pull():
-    """ Pull github origin.
-    """
-    g = git.cmd.Git('./')
-    g.pull()
-
-@bot.command()
 async def reload(extension_name: str):
     """ Loads an extension.
     """
@@ -90,6 +83,15 @@ async def reload(extension_name: str):
         await bot.say('Could not unload {}.'.format(extension_name))
     else:
         await bot.say('Could not reload {}'.format(extension_name))
+
+        @bot.command()
+        async def pull(extension_name: str = ''):
+            """ Pull github origin.
+            """
+            g = git.cmd.Git('./')
+            g.pull()
+            if extension_name != '':
+                self.reload(extension_name)
 
 @bot.event
 async def on_message(message):
