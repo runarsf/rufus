@@ -103,12 +103,14 @@ class Commands:
 
     @commands.command()
     async def wolfram(self, *, query: str = ''):
-        app_id = c.wolfram_api_key
-        client = wolframalpha.Client(app_id)
-        my_input = query
-        res = client.query(my_input)
-        answer = next(res.results).text
-        await self.bot.say(answer)
+        try:
+            client = wolframalpha.Client(c.wolfram_api_key)
+            res = client.query(query)
+            answer = next(res.results).text
+            await self.bot.say(answer)
+        except StopIteration:
+            wikipedia.set_lang("es")
+            print(wikipedia.summary(query, sentences=2))
 
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
