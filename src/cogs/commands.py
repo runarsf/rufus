@@ -86,6 +86,7 @@ class Commands:
         """
         url = 'https://api.tronalddump.io/random/quote'
         data = urllib.request.urlopen(url)
+        data = data.read
         data = json.load(data)
         await self.bot.say('Pooped on: ' + data['appeared_at'][:10])
         await self.bot.say('"' + data[value] + '"')
