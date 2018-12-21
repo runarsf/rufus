@@ -110,7 +110,7 @@ class Commands:
             await self.bot.say(answer)
         except StopIteration:
             wikipedia.set_lang("es")
-            print(wikipedia.summary(query, sentences=2))
+            await self.bot.say(wikipedia.summary(query, sentences=2))
 
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
