@@ -118,13 +118,17 @@ class Commands:
             except Exception:
                 await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
 
-    @commands.command()>translate jp ln dk
+    @commands.command()
     async def translate(self, fromLanguage: str = '', toLanguage: str = '', *, text: str = ''):
         """ Search Google Translate.
         """
         translator = Translator()
         if fromLanguage == '' or toLanguage == '' or text == '':
             await self.bot.say('Missing information.')
+        elif fromLanguage == 'auto':
+            translatedList = translator.translate([text], dest=toLanguage)
+            for translated in translatedList:
+                await self.bot.say(translated.origin, '->', translated.text)
         else:
             translatedList = translator.translate([text], src=fromLanguage, dest=toLanguage)
             for translated in translatedList:
