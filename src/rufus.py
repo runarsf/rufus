@@ -101,10 +101,9 @@ async def on_message(message):
             return
         if any(word in message.content for word in c.swears):
             await bot.send_file(message.channel, 'img/christ.jpg')
-        memer = re.search(r'.*?meme.*?review.*?', message.content)
-        if memer:
+        if any(clap in message.content for clap in c.claps):
             await bot.say(':clap: :clap:')
-        if any(word in message.content for word in c.mention):
+        if any(mention in message.content for mention in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     except:
         pass
