@@ -84,14 +84,14 @@ async def reload(extension_name: str):
     else:
         await bot.say('Could not reload {}'.format(extension_name))
 
-        @bot.command()
-        async def pull(extension_name: str = ''):
-            """ Pull github origin.
-            """
-            g = git.cmd.Git('./')
-            g.pull()
-            if extension_name != '':
-                self.reload(extension_name)
+@bot.command()
+async def pull(extension_name: str = ''):
+    """ Pull github origin.
+    """
+    g = git.cmd.Git('./')
+    g.pull()
+    if extension_name != '':
+        self.reload(extension_name)
 
 @bot.event
 async def on_message(message):
