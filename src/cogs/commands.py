@@ -81,15 +81,13 @@ class Commands:
         await self.bot.say('```' + 'BTC price is currently at $' + BTC_USD + ' USD' + '```')
 
     @commands.command()
-    async def trump(self, searchString: str = ''):
+    async def trump(self, searchString: str = 'random'):
         """ Search the extensive database of Tronald Dump for rich knowledge.
         """
-        url = 'https://api.tronalddump.io/random/quote'
-        data = urllib.request.urlopen(url)
-        data = data.read
-        data = json.load(data)
-        await self.bot.say('Pooped on: ' + data['appeared_at'][:10])
-        await self.bot.say('"' + data[value] + '"')
+        URL = 'https://api.tronalddump.io/random/quote'
+        DATA = requests.get(URL).json()
+        OUT = DATA['value']
+        await self.bot.say(OUT)
 
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
