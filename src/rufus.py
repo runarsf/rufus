@@ -99,16 +99,16 @@ async def on_message(message):
     try:
         if message.author == bot.user:
             return
-        if any(word in message.content for word in c.swears):
+        elif any(word in message.content for word in c.swears):
             await bot.send_file(message.channel, 'img/christ.jpg')
-        if any(clap in message.content for clap in c.claps):
+        elif any(clap in message.content for clap in c.claps):
             await bot.say(':clap: :clap:')
         if any(mention in message.content for mention in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     except:
         pass
     finally:
-        if '>>' in message.content[:2]:
+        if c.prefix in message.content[1:2]:
             return
         elif c.prefix in message.content[:1]:
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
