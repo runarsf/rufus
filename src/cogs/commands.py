@@ -93,8 +93,11 @@ class Commands:
             URL = 'https://api.tronalddump.io/search/quote?query={}'.format(searchString)
             DATA = requests.get(URL).json()
             COUNT = DATA['count']
-            OUT = DATA['_embedded']['quotes'][random.randint(0, COUNT-1)]['value']
-            await self.bot.say(OUT)
+            if COUNT <= 0:
+                await self.bot.say('Sorry, Trump never said anything about ``{}``.'.format(searchString))
+            else:
+                OUT = DATA['_embedded']['quotes'][random.randint(0, COUNT-1)]['value']
+                await self.bot.say(OUT)
 
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
