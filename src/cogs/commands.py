@@ -102,7 +102,9 @@ class Commands:
                 await self.bot.say(OUT)
 
     @commands.command()
-    async def wolfram(self, *, query: str = ''):
+    async def query(self, *, query: str = ''):
+        """ Search wolfram alpha for query, if no answer is found, search wikipedia.
+        """
         try:
             client = wolframalpha.Client(c.wolfram_api_key)
             res = client.query(query)
