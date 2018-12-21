@@ -4,4 +4,4 @@ requests
 cogs
 puush.py
 easygui
-git
+gitpython
