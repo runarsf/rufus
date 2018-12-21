@@ -3,6 +3,7 @@
 import os
 
 token = os.environ['BOT_TOKEN']
+wolfram_api_key = os.environ['WOLFRAM_API_KEY']
 prefix = '>'
 game = 'in his container'
 games = ['1','2']

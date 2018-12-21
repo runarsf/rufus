@@ -7,3 +7,5 @@ easygui
 gitpython
 liburl
 selenium
+wolframalpha
+wikipedia
