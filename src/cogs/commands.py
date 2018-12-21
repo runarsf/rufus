@@ -3,7 +3,7 @@ import random
 import config as c
 import requests
 import os.path
-import urllib, json, webbrowser
+import urllib.request, json, webbrowser
 import time
 from time import gmtime, strftime
 import discord
@@ -85,7 +85,7 @@ class Commands:
         """ Search the extensive database of Tronald Dump for rich knowledge.
         """
         url = 'https://api.tronalddump.io/random/quote'
-        data = urllib.urlopen(url)
+        data = urllib.request.urlopen(url)
         data = json.load(data)
         await self.bot.say('Pooped on: ' + data['appeared_at'][:10])
         await self.bot.say('"' + data[value] + '"')
