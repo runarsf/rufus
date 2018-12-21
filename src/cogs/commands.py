@@ -132,7 +132,7 @@ class Commands:
         else:
             translatedList = translator.translate([text], src=fromLanguage, dest=toLanguage)
             for translated in translatedList:
-                await self.bot.say(translated.origin, '->', translated.text)
+                await self.bot.say(translated.origin + '->' + translated.text)
 
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
