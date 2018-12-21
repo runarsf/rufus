@@ -84,10 +84,16 @@ class Commands:
     async def trump(self, searchString: str = 'random'):
         """ Search the extensive database of Tronald Dump for rich knowledge.
         """
-        URL = 'https://api.tronalddump.io/random/quote'
-        DATA = requests.get(URL).json()
-        OUT = DATA['value']
-        await self.bot.say(OUT)
+        if searchString == 'random':
+            URL = 'https://api.tronalddump.io/random/quote'
+            DATA = requests.get(URL).json()
+            OUT = DATA['value']
+            await self.bot.say(OUT)
+        else:
+            URL = 'https://api.tronalddump.io/search/quote?query={}'.format(searchString)
+            DATA = requests.get(URL).json()
+            OUT = DATA['0']['value']
+            await self.bot.say(OUT)
 
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
