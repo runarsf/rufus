@@ -6,6 +6,7 @@ import re
 from discord.ext import commands
 from subprocess import call
 import config as c
+import git
 
 
 STARTUP_EXTENSIONS = ['cogs.manager',
@@ -38,7 +39,6 @@ async def on_ready():
 
     await bot.change_presence(game=discord.Game(name=c.game))
 
-
 @bot.command()
 async def load(extension_name: str):
     """ Loads an extension.
@@ -50,7 +50,6 @@ async def load(extension_name: str):
         return
     await bot.say('Successfully loaded {}.'.format(extension_name))
 
-
 @bot.command()
 async def unload(extension_name: str):
     """ Unloads an extension.
@@ -61,6 +60,13 @@ async def unload(extension_name: str):
         await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
         return
     await bot.say('Successfully unloaded {}.'.format(extension_name))
+
+@bot.command()
+async def pull():
+    """ Pull github origin.
+    """
+    g = git.cmd.Git('./')
+    g.pull()
 
 @bot.command()
 async def reload(extension_name: str):
