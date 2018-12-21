@@ -92,7 +92,7 @@ class Commands:
         else:
             URL = 'https://api.tronalddump.io/search/quote?query={}'.format(searchString)
             DATA = requests.get(URL).json()
-            OUT = DATA['_embedded']['quotes']['0']['value']
+            OUT = DATA['_embedded']['quotes'][0]['value']
             await self.bot.say(OUT)
 
     @commands.command(pass_context=True)
