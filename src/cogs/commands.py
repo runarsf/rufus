@@ -6,6 +6,7 @@ import urllib.request, json, webbrowser
 import wolframalpha
 import wikipedia
 import requests
+from googletrans import Translator
 import time
 from time import gmtime, strftime
 import discord
@@ -103,7 +104,7 @@ class Commands:
 
     @commands.command()
     async def query(self, *, query: str = ''):
-        """ Search wolfram alpha for query, if no answer is found, search wikipedia.
+        """ Search wolfram alpha for query, if no answer is found, search Wikipedia.
         """
         try:
             client = wolframalpha.Client(c.wolfram_api_key)
@@ -111,8 +112,23 @@ class Commands:
             answer = next(res.results).text
             await self.bot.say(answer)
         except StopIteration:
-            wikipedia.set_lang("en")
-            await self.bot.say(wikipedia.summary(query))
+            try:
+                wikipedia.set_lang("en")
+                await self.bot.say(wikipedia.summary(query))
+            except Exception:
+                await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
+
+    @commands.command()>translate jp ln dk
+    async def translate(self, fromLanguage: str = '', toLanguage: str = '', *, text: str = ''):
+        """ Search Google Translate.
+        """
+        translator = Translator()
+        if fromLanguage == '' or toLanguage == '' or text == '':
+            await self.bot.say('Missing information.')
+        else:
+            translatedList = translator.translate([text], src=fromLanguage, dest=toLanguage)
+            for translated in translatedList:
+                await self.bot.say(translated.origin, '->', translated.text)
 
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):

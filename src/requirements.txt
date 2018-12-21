@@ -9,3 +9,4 @@ liburl
 selenium
 wolframalpha
 wikipedia
+googletrans
