@@ -81,7 +81,7 @@ class Commands:
         await self.bot.say('```' + 'BTC price is currently at $' + BTC_USD + ' USD' + '```')
 
     @commands.command()
-    async def trump(self, searchString: str = 'random'):
+    async def trump(self, *, searchString: str = 'random'):
         """ Search the extensive database of Tronald Dump for rich knowledge.
         """
         if searchString == 'random':
@@ -92,7 +92,7 @@ class Commands:
         else:
             URL = 'https://api.tronalddump.io/search/quote?query={}'.format(searchString)
             DATA = requests.get(URL).json()
-            OUT = DATA['_embedded']['quotes'][0]['value']
+            OUT = DATA[0][0][0]['value']
             await self.bot.say(OUT)
 
     @commands.command(pass_context=True)
