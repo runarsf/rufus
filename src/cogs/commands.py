@@ -174,9 +174,11 @@ class Commands:
             await self.bot.say('{} hugged {} :hearts:'.format(ctx.message.author.name, user))
 
     @commands.command()
-    async def timer(self, *, seconds: int):
+    async def timer(self, seconds: int, *, name: str = ''):
         """ Starts a countdown timer.
         """
+        if name != '':
+            name = ' Timer name: {}'.format(name)
         os = seconds
         msg = await self.bot.say('`` {} ``'.format(seconds))
         while seconds > 0:
@@ -184,7 +186,7 @@ class Commands:
             seconds -= 1
             await self.bot.edit_message(msg, '`` {} ``'.format(seconds))
         await self.bot.edit_message(msg, '`` Timer expired. ``')
-        await self.bot.say('Time is up! {} seconds have passed.'.format(os))
+        await self.bot.say('Time is up! {} seconds have passed.{}'.format(os, name))
 
     @commands.command(pass_context=True)
     async def echo(self, ctx, *, text: str):

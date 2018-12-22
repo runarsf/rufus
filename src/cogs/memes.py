@@ -55,7 +55,6 @@ class Memes:
         """ DOON NOTT TOCCH S P A G O O T
         """
         await self.bot.add_reaction(ctx.message, '🍝')
-        await self.bot.say('https://www.youtube.com/watch?v=cE1FrqheQNI DOON NOTT')
 
     @commands.command()
     async def knuckles(self):
