@@ -37,18 +37,18 @@ class Memes:
                            'the death needs to be inflicted by yourself and yourself alone.')
         await self.bot.delete_message(ctx.message)
 
-    @commands.command(pass_context=True)
-    async def pooser(self, ctx):
-        """ Why the actual f did I implement this?
-        """
-        await self.bot.send_file(ctx.message.channel, 'img/pooser.png')
-        await self.bot.say('OwO wat dis?')
-        asyncio.sleep(4)
-        await self.bot.send_file(ctx.message.channel, 'img/poosna.png')
-        await self.bot.say('It are his lips you porv.')
-        asyncio.sleep(4)
-        await self.bot.send_file(ctx.message.channel, 'img/ramboozled.png')
-        await self.bot.say('jk it am the handees of the Re:0*GB* Ram')
+    #@commands.command(pass_context=True)
+    #async def pooser(self, ctx):
+    #    """ Why the actual f did I implement this?
+    #    """
+    #    await self.bot.send_file(ctx.message.channel, 'img/pooser.png')
+    #    await self.bot.say('OwO wat dis?')
+    #    asyncio.sleep(4)
+    #    await self.bot.send_file(ctx.message.channel, 'img/poosna.png')
+    #    await self.bot.say('It are his lips you porv.')
+    #    asyncio.sleep(4)
+    #    await self.bot.send_file(ctx.message.channel, 'img/ramboozled.png')
+    #    await self.bot.say('jk it am the handees of the Re:0*GB* Ram')
 
     @commands.command(pass_context=True)
     async def tocch(self, ctx):

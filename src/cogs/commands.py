@@ -120,7 +120,7 @@ class Commands:
 
     @commands.command()
     async def translate(self, fromLanguage: str = '', toLanguage: str = '', *, text: str = ''):
-        """ Search Google Translate.
+        """ Translate string.
         """
         translator = Translator()
         if fromLanguage == '' or toLanguage == '' or text == '':
@@ -131,6 +131,14 @@ class Commands:
             translatedList = translator.translate([text], src=fromLanguage, dest=toLanguage)
         for translated in translatedList:
             await self.bot.say('``{}`` -> ``{}``'.format(translated.origin, translated.text))
+
+    @commands.command()
+    async def owo(self, *, message: str = 'owo'):
+        """ owo~ify something.
+        """
+        owolist = ['(・`ω´・)', ';;w;;', ';w;', 'owo', 'OwO', 'Owo', 'owO', 'uwu', 'UwU', '>w<', '^w^']
+        message = message.replace('l', 'w').replace('L', 'W').replace('r', 'w').replace('R', 'W')
+        message = message.replace('.', random.choice(owolist)).replace(',', random.choice(owolist)).replace('!', random.choice(owolist)).replace('?', random.choice(owolist))
 
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
