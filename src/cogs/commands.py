@@ -115,8 +115,8 @@ class Commands:
             try:
                 wikipedia.set_lang("en")
                 await self.bot.say(wikipedia.summary(query))
-            except Exception:
-                await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
+        except Exception:
+            await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
 
     @commands.command()
     async def translate(self, fromLanguage: str = '', toLanguage: str = '', *, text: str = ''):
@@ -138,7 +138,7 @@ class Commands:
         """
         owolist = ['(・`ω´・)', ';;w;;', ';w;', 'owo', 'OwO', 'Owo', 'owO', 'uwu', 'UwU', '>w<', '^w^']
         message = message.replace('l', 'w').replace('L', 'W').replace('r', 'w').replace('R', 'W')
-        message = message.replace('. ', ' ' + random.choice(owolist)).replace(',', ' ' + random.choice(owolist)).replace('!', ' ' + random.choice(owolist)).replace('?', ' ' + random.choice(owolist))
+        message = message.replace(',', ' ' + random.choice(owolist)).replace('!', ' ' + random.choice(owolist)).replace('?', ' ' + random.choice(owolist))
         await self.bot.say('```{}```'.format(message))
 
     @commands.command(pass_context=True)
