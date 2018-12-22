@@ -139,6 +139,7 @@ class Commands:
         owolist = ['(・`ω´・)', ';;w;;', ';w;', 'owo', 'OwO', 'Owo', 'owO', 'uwu', 'UwU', '>w<', '^w^']
         message = message.replace('l', 'w').replace('L', 'W').replace('r', 'w').replace('R', 'W')
         message = message.replace('.', random.choice(owolist)).replace(',', random.choice(owolist)).replace('!', random.choice(owolist)).replace('?', random.choice(owolist))
+        await self.bot.say(message)
 
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
