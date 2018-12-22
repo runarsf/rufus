@@ -115,8 +115,8 @@ class Commands:
             try:
                 wikipedia.set_lang("en")
                 await self.bot.say(wikipedia.summary(query))
-        except Exception:
-            await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
+            except Exception:
+                await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
 
     @commands.command()
     async def translate(self, fromLanguage: str = '', toLanguage: str = '', *, text: str = ''):
