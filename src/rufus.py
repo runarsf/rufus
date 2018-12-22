@@ -6,7 +6,7 @@ import re
 from discord.ext import commands
 from subprocess import call
 import config as c
-import git
+#import git
 
 
 STARTUP_EXTENSIONS = ['cogs.manager',
@@ -71,26 +71,26 @@ async def reload(extension_name: str):
         return
     await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
 
-@bot.command()
-async def pull(extension_name: str = ''):
-    """ Pull github origin.
-            If argument is passed, cog will be reloaded.
-            Does not support docker mode.
-    """
-    try:
-        g = git.cmd.Git('./')
-        g.pull()
-    except Exception as exopt:
-        await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
-        return
-    if extension_name != '':
-        try:
-            bot.unload_extension(extension_name)
-            bot.load_extension(extension_name)
-        except (AttributeError, ImportError) as exopt:
-            await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
-            return
-        await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
+#@bot.command()
+#async def pull(extension_name: str = ''):
+#    """ Pull github origin.
+#            If argument is passed, cog will be reloaded.
+#            Does not support docker mode.
+#    """
+#    try:
+#        g = git.cmd.Git('./')
+#        g.pull()
+#    except Exception as exopt:
+#        await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
+#        return
+#    if extension_name != '':
+#        try:
+#            bot.unload_extension(extension_name)
+#            bot.load_extension(extension_name)
+#        except (AttributeError, ImportError) as exopt:
+#            await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
+#            return
+#        await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
 
 @bot.event
 async def on_message(message):
