@@ -36,7 +36,7 @@ class Commands:
         """ Rolls a random number. Default: 0-100.
         """
         if max <= 0:
-            max = 100;
+            max = 100
         droll = random.randint(0, max)
         if droll == 1:
             suffix = ''
