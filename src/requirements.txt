@@ -4,6 +4,7 @@ requests
 cogs
 puush.py
 easygui
+gitpython
 liburl
 selenium
 wolframalpha
