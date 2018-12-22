@@ -100,7 +100,7 @@ async def on_message(message):
         if message.author == bot.user:
             return
         if any(word in message.content for word in c.swears):
-            await bot.send_file(message.channel, 'img/christ.jpg')
+            await bot.send_file(message.channel, './img/christ.jpg')
         if any(mention in message.content for mention in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     finally:
