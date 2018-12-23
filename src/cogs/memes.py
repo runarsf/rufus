@@ -17,7 +17,7 @@ class Memes:
         """
         await self.bot.send_file(ctx.message.channel, 'img/anoose.jpg')
         await self.bot.say('Come ' + ctx.message.author.mention +
-                           '. *~~She~~* He\'s waiting for you!')
+                           '. *~~He?~~* She\'s waiting for you!')
 
     @commands.command(pass_context=True)
     async def lenny(self, ctx):
