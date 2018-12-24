@@ -35,7 +35,8 @@ async def on_ready():
     print('-' * len(bot.user.id))
     print(' ')
 
-    if os.environ['DOCKER_MODE'] == true:
+    DOCKER_MODE = os.environ.get('DOCKER_MODE', False)
+    if DOCKER_MODE:
         await bot.change_presence(game=discord.Game(name=c.docker_game))
     else:
         await bot.change_presence(game=discord.Game(name=c.game))
