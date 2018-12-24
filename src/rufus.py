@@ -99,6 +99,8 @@ async def on_message(message):
     try:
         if message.author == bot.user:
             return
+        if any(message.content in cuss for cuss in c.swears):
+            await bot.send_file(message.channel, r"img/christ.jpg",filename="christ")
         #if any(word in message.content for word in c.swears):
         #    await bot.send_file(message.channel, 'img/christ.jpg')
         if any(mention in message.content for mention in c.mention):
