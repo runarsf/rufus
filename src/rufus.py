@@ -105,6 +105,7 @@ async def on_message(message):
             return
         if any(message.content in cuss for cuss in c.swears):
             await bot.send_file(message.channel, str("{}/img/christ.jpg".format(os.path.dirname(os.path.realpath(__file__)))))
+            print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + 'swore')
         #if any(word in message.content for word in c.swears):
         #    await bot.send_file(message.channel, 'img/christ.jpg')
         if any(mention in message.content for mention in c.mention):
