@@ -1,7 +1,7 @@
 """ memes -- rufus.py """
 """import asyncio"""
 import random
-import os.path
+import os
 
 from discord.ext import commands
 
@@ -15,7 +15,7 @@ class Memes:
     async def kms(self, ctx):
         """ End it all.
         """
-        await self.bot.send_file(ctx.message.channel, 'img/anoose.jpg')
+        await self.bot.send_file(ctx.message.channel, str("{}/img/anoose.jpg".format(os.path.dirname(os.path.realpath(__file__)))))
         await self.bot.say('Come ' + ctx.message.author.mention +
                            '. *~~He?~~* She\'s waiting for you!')
 
