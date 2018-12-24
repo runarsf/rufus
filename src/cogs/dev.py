@@ -23,6 +23,7 @@ class Dev:
         """
         if str(ctx.message.author.id) in str(c.owner_id) or str(c.dev_id):
             path = (os.path.dirname(os.path.realpath(__file__)))
+            print(os.system('pwd'))
             await self.bot.say(path)
         else:
             await self.bot.say('*Insufficient privileges*')
