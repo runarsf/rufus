@@ -35,7 +35,10 @@ async def on_ready():
     print('-' * len(bot.user.id))
     print(' ')
 
-    await bot.change_presence(game=discord.Game(name=c.game))
+    if os.environ['DOCKER_MODE'] == true:
+        await bot.change_presence(game=discord.Game(name=c.docker_game))
+    else:
+        await bot.change_presence(game=discord.Game(name=c.game))
 
 @bot.command()
 async def load(extension_name: str):

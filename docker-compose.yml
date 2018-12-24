@@ -9,6 +9,7 @@ services:
     build:
       context: .
     environment:
+        - DOCKER_MODE=true
         - GIT_PYTHON_REFRESH=quiet
         - BOT_TOKEN=$BOT_TOKEN
         - WOLFRAM_API_KEY=$WOLFRAM_API_KEY
