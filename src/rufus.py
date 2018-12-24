@@ -37,9 +37,9 @@ async def on_ready():
 
     DOCKER_MODE = os.environ.get('DOCKER_MODE', False)
     if DOCKER_MODE:
-        await bot.change_presence(game=discord.Game(name=c.docker_game))
-    else:
         await bot.change_presence(game=discord.Game(name=c.game))
+    else:
+        await bot.change_presence(game=discord.Game(name=c.docker_game))
 
 @bot.command()
 async def load(extension_name: str):
