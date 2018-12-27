@@ -110,18 +110,18 @@ class Commands:
             answer = next(res.results).text
             await self.bot.say(answer)
         except StopIteration:
-            try:
-                wikipedia.set_lang("en")
-                summary = wikipedia.summary(query)
-                wikiLen = 2000
-                if len(summary) > 2000:
-                    wikiLoop = true
-                    while wikiLoop == true:
-                        if summary[wikiLen-1:wikiLen].isupper() or summary[wikiLen-1:wikiLen] == '.':
-                            wikiLoop = false
-                        wikiLen-=1
-                    await self.bot.say("``Summary was longer than expected, output truncated.``")
-                await self.bot.say(summary[:wikiLen])
+            #try:
+            wikipedia.set_lang("en")
+            summary = wikipedia.summary(query)
+            wikiLen = 2000
+            if len(summary) > 2000:
+                wikiLoop = true
+                while wikiLoop == true:
+                    if summary[wikiLen-1:wikiLen].isupper() or summary[wikiLen-1:wikiLen] == '.':
+                        wikiLoop = false
+                    wikiLen-=1
+                await self.bot.say("``Summary was longer than expected, output truncated.``")
+            await self.bot.say(summary[:wikiLen])
             #except Exception:
             #    await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
 
