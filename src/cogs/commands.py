@@ -122,8 +122,8 @@ class Commands:
                         wikiLen-=1
                     await self.bot.say("``Summary was longer than expected, output truncated.``")
                 await self.bot.say(summary[:wikiLen])
-            except Exception:
-                await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
+            #except Exception:
+            #    await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
 
     @commands.command()
     async def translate(self, fromLanguage: str = '', toLanguage: str = '', *, text: str = ''):
