@@ -147,7 +147,6 @@ class Commands:
         """
         URL = 'http://api.urbandictionary.com/v0/define?term={}'.format(term)
         DATA = requests.get(URL).json()
-        COUNT = DATA[3]
         DEF = DATA[0]['definition']
         EKS = DATA[0]['example']
         await self.bot.say('```{}```\n``{}``'.format(OUT, EKS))
