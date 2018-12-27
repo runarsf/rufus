@@ -145,7 +145,7 @@ class Commands:
     async def urban(self, *, term: str = 'stupid'):
         """ Search Urban Dictionary for word definitions.
         """
-        URL = 'http://api.urbandictionary.com/v0/define?term={}'.format(searchString)
+        URL = 'http://api.urbandictionary.com/v0/define?term={}'.format(term)
         DATA = requests.get(URL).json()
         COUNT = DATA[3]
         DEF = DATA[0]['definition']
