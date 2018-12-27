@@ -115,11 +115,13 @@ class Commands:
             summary = wikipedia.summary(query)
             wikiLen = 2000
             if len(summary) > 2000:
-                wikiLoop = true
-                while wikiLoop == true:
-                    if summary[wikiLen-1:wikiLen].isupper() or summary[wikiLen-1:wikiLen] == '.':
-                        wikiLoop = false
-                    wikiLen-=1
+                wikiLoop = 'true'
+                while wikiLoop == 'true':
+                    #summary[wikiLen-1:wikiLen].isupper() or
+                    if summary[wikiLen-1:wikiLen] == '.':
+                        wikiLoop = 'false'
+                    else:
+                        wikiLen-=1
                 await self.bot.say("``Summary was longer than expected, output truncated.``")
             await self.bot.say(summary[:wikiLen])
             #except Exception:
