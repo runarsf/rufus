@@ -159,7 +159,7 @@ class Commands:
                 else:
                     dictLen-=1
             await self.bot.say("``Summary was longer than expected, output truncated.``")
-        await self.bot.say('```diff{}```'.format(summary[:dictLen]))
+        await self.bot.say('```diff\n{}```'.format(summary[:dictLen]))
 
     @commands.command()
     async def owo(self, *, message: str = 'owo'):
