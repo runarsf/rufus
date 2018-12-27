@@ -47,8 +47,8 @@ async def load(extension_name: str):
     """
     try:
         bot.load_extension(extension_name)
-    except (AttributeError, ImportError) as exopt:
-        await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
+    except (AttributeError, ImportError) as error:
+        await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
         return
     await bot.say('Successfully loaded {}.'.format(extension_name))
 
@@ -58,8 +58,8 @@ async def unload(extension_name: str):
     """
     try:
         bot.unload_extension(extension_name)
-    except (AttributeError, ImportError) as exopt:
-        await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
+    except (AttributeError, ImportError) as error:
+        await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
         return
     await bot.say('Successfully unloaded {}.'.format(extension_name))
 
@@ -70,8 +70,8 @@ async def reload(extension_name: str):
     try:
         bot.unload_extension(extension_name)
         bot.load_extension(extension_name)
-    except (AttributeError, ImportError) as exopt:
-        await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
+    except (AttributeError, ImportError) as error:
+        await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
         return
     await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
 
@@ -84,15 +84,15 @@ async def pull(extension_name: str = ''):
     try:
         g = git.cmd.Git('./')
         g.pull()
-    except Exception as exopt:
-        await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
+    except Exception as error:
+        await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
         return
     if extension_name != '':
         try:
             bot.unload_extension(extension_name)
             bot.load_extension(extension_name)
-        except (AttributeError, ImportError) as exopt:
-            await bot.say('```py\n{}: {}\n```'.format(type(exopt).__name__, str(exopt)))
+        except (AttributeError, ImportError) as error:
+            await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
             return
         await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
 
@@ -122,8 +122,8 @@ if __name__ == '__main__':
     for extension in STARTUP_EXTENSIONS:
         try:
             bot.load_extension(extension)
-        except Exception as exopt:
-            exc = '{}: {}'.format(type(exopt).__name__, exopt)
+        except Exception as error:
+            exc = '{}: {}'.format(type(error).__name__, error)
             print('Failed to load extension {}\n{}'.format(extension, exc))
 
     bot.run(c.token)

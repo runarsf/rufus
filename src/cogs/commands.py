@@ -109,23 +109,23 @@ class Commands:
             res = client.query(query)
             answer = next(res.results).text
             await self.bot.say(answer)
-        except StopIteration:
-            #try:
-            wikipedia.set_lang("en")
-            summary = wikipedia.summary(query)
-            wikiLen = 2000
-            if len(summary) > 2000:
-                wikiLoop = 'true'
-                while wikiLoop == 'true':
-                    #summary[wikiLen-1:wikiLen].isupper() or
-                    if summary[wikiLen-1:wikiLen] == '.':
-                        wikiLoop = 'false'
-                    else:
-                        wikiLen-=1
-                await self.bot.say("``Summary was longer than expected, output truncated.``")
-            await self.bot.say(summary[:wikiLen])
-            #except Exception:
-            #    await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
+        except (Exception, StopIteration):
+            try:
+                wikipedia.set_lang("en")
+                summary = wikipedia.summary(query)
+                wikiLen = 2000
+                if len(summary) > 2000:
+                    wikiLoop = 'true'
+                    while wikiLoop == 'true':
+                        summary[wikiLen-1:wikiLen].isupper() or
+                        if summary[wikiLen-1:wikiLen] == '.':
+                            wikiLoop = 'false'
+                        else:
+                            wikiLen-=1
+                    await self.bot.say("``Summary was longer than expected, output truncated.``")
+                await self.bot.say(summary[:wikiLen])
+            except Exception:
+                await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
 
     @commands.command()
     async def translate(self, fromLanguage: str = '', toLanguage: str = '', *, text: str = ''):
@@ -155,12 +155,14 @@ class Commands:
         """ Poke user.
         """
         if user == '':
-            await self.bot.say('GRRR..')
+            await self.bot.say('*You tried poking the air... the air didn\'t respond.*')
         else:
+
             if message == '':
                 await self.bot.say('*{} poked {}*'.format(ctx.message.author.name, user))
             else:
                 await self.bot.say('*{} poked {}; ``{}``*'.format(ctx.message.author.name, user, message))
+            await self.bot.delete_message(ctx.message)
 
     @commands.command(pass_context=True)
     async def pat(self, ctx, user: discord.User = '', *, message: str = ''):
