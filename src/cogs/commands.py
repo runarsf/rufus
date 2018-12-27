@@ -149,7 +149,7 @@ class Commands:
         DATA = requests.get(URL).json()
         DEF = DATA['list'][0]['definition']
         EKS = DATA['list'][0]['example']
-        await self.bot.say('```{}```\n``{}``'.format(OUT, EKS))
+        await self.bot.say('```{}```\n``{}``'.format(DEF, EKS))
 
     @commands.command()
     async def owo(self, *, message: str = 'owo'):
