@@ -117,7 +117,7 @@ class Commands:
                 if len(summary) > 2000:
                     wikiLoop = 'true'
                     while wikiLoop == 'true':
-                        summary[wikiLen-1:wikiLen].isupper() or
+                        #summary[wikiLen-1:wikiLen].isupper() or
                         if summary[wikiLen-1:wikiLen] == '.':
                             wikiLoop = 'false'
                         else:
