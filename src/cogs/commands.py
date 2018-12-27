@@ -142,6 +142,17 @@ class Commands:
             await self.bot.say('``{}`` -> ``{}``'.format(translated.origin, translated.text))
 
     @commands.command()
+    async def urban(self, *, term: str = 'stupid'):
+        """ Search Urban Dictionary for word definitions.
+        """
+        URL = 'http://api.urbandictionary.com/v0/define?term={}'.format(searchString)
+        DATA = requests.get(URL).json()
+        COUNT = DATA[3]
+        DEF = DATA[0]['definition']
+        EKS = DATA[0]['example']
+        await self.bot.say('```{}```\n``{}``'.format(OUT, EKS))
+
+    @commands.command()
     async def owo(self, *, message: str = 'owo'):
         """ owo~ify something.
         """

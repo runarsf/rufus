@@ -103,12 +103,12 @@ async def on_message(message):
     try:
         if message.author == bot.user:
             return
-        if any(message.content in cuss for cuss in c.swears):
+        elif any(message.content in cuss for cuss in c.swears):
             await bot.send_file(message.channel, str("{}/img/christ.jpg".format(os.path.dirname(os.path.realpath(__file__)))))
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + 'swore')
-        #if any(word in message.content for word in c.swears):
+        #elif any(word in message.content for word in c.swears):
         #    await bot.send_file(message.channel, 'img/christ.jpg')
-        if any(mention in message.content for mention in c.mention):
+        elif any(mention in message.content for mention in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     finally:
         if c.prefix in message.content[1:2]:
