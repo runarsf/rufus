@@ -149,9 +149,9 @@ class Commands:
         DATA = requests.get(URL).json()
         DEF = DATA['list'][0]['definition']
         EKS = DATA['list'][0]['example']
-        summary = 'Definition:\n\t{}\n\nUsage:\n\t{}'.format(DEF, EKS)
-        dictLen = 1994
-        if len(summary) > 1994:
+        summary = '+Word: {}\n\n+Definition:\n\t-{}\n\n+Usage:\n\t-{}'.format(term, DEF, EKS)
+        dictLen = 1990
+        if len(summary) > 1990:
             loop = 'true'
             while loop == 'true':
                 if summary[dictLen-1:dictLen] == '.':
@@ -159,7 +159,7 @@ class Commands:
                 else:
                     dictLen-=1
             await self.bot.say("``Summary was longer than expected, output truncated.``")
-        await self.bot.say('```{}```'.format(summary[:dictLen]))
+        await self.bot.say('```diff{}```'.format(summary[:dictLen]))
 
     @commands.command()
     async def owo(self, *, message: str = 'owo'):
