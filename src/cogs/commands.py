@@ -149,7 +149,7 @@ class Commands:
         DATA = requests.get(URL).json()
         DEF = DATA['list'][0]['definition']
         EKS = DATA['list'][0]['example']
-        summary = 'Definition: {}\n\nUsage: {}'.format(DEF, EKS)
+        summary = 'Definition:\n\t{}\n\nUsage:\n\t{}'.format(DEF, EKS)
         dictLen = 1994
         if len(summary) > 1994:
             loop = 'true'
