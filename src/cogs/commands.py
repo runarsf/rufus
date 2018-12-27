@@ -2,10 +2,8 @@
 import random
 import config as c
 import os.path
-import urllib.request, json, webbrowser
-import wolframalpha
-import wikipedia
-import requests
+#import urllib.request, json, webbrowser
+import wolframalpha, wikipedia, requests
 from googletrans import Translator
 import time
 from time import gmtime, strftime
@@ -114,7 +112,10 @@ class Commands:
         except StopIteration:
             try:
                 wikipedia.set_lang("en")
-                await self.bot.say(wikipedia.summary(query))
+                summary = wikipedia.summary(query)
+                await self.bot.say(summary[:2000])
+                if len(summary) > 2000:
+                    await self.bot.say("Summary was longer than expected... output truncated.")
             except Exception:
                 await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
 
