@@ -106,8 +106,6 @@ async def on_message(message):
         elif any(message.content in cuss for cuss in c.swears):
             await bot.send_file(message.channel, str("{}/img/christ.jpg".format(os.path.dirname(os.path.realpath(__file__)))))
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + 'swore')
-        #elif any(word in message.content for word in c.swears):
-        #    await bot.send_file(message.channel, 'img/christ.jpg')
         elif any(mention in message.content for mention in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     finally:
@@ -115,6 +113,8 @@ async def on_message(message):
             return
         elif c.prefix in message.content[:1]:
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
+        if 'rufus' in message.content[:5]:
+            message.content = message.content.replace("rufus", ">", 1)
     await bot.process_commands(message)
 
 

@@ -172,9 +172,9 @@ class Commands:
         try:
             NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
             NOWPLAYING = 'now playing'
-            await self.bot.say('```diff\n-{}\n+Track: {}\n-Artist: {}```'.format(NOWPLAYING, TRACK, ARTIST))
+            await self.bot.say('```diff\n-{}\n\n+Track: {}\n-Artist: {}```'.format(NOWPLAYING, TRACK, ARTIST))
         except Exception:
-            await self.bot.say('```diff\n-User {} is not listening to anything at the moment.```'.format(username))
+            await self.bot.say('```diff\n-User {} is not scrobbling anything at the moment.```'.format(username))
 
 
     @commands.command()
