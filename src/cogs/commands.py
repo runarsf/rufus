@@ -169,7 +169,8 @@ class Commands:
         DATA = requests.get(URL).json()
         TRACK = DATA['recenttracks']['track'][0]['name']
         ARTIST = DATA['recenttracks']['track'][0]['artist']['#text']
-        await self.bot.say('```diff\n+Track: {}\n-Artist: {}```'.format(TRACK, ARTIST))
+        NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
+        await self.bot.say('```diff\n-Now playing? :: {}\n+Track: {}\n-Artist: {}```'.format(NOWPLAYING, TRACK, ARTIST))
 
     @commands.command()
     async def owo(self, *, message: str = 'owo'):
@@ -184,8 +185,10 @@ class Commands:
     async def ss(self, *, message: str = ''):
         """ ss-ify something.
         """
+        if message == '':
+            await self.bot.say('``Sẞsß``'.format(message))
         message = message.replace('ss', 'ß').replace('SS', 'ẞ').replace('sS', 'ß').replace('Ss', 'ẞ')
-        await self.bot.say('```{}```'.format(message))
+        await self.bot.say('```css\n{}```'.format(message))
 
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
