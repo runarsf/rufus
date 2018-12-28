@@ -172,9 +172,10 @@ class Commands:
         try:
             NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
             NOWPLAYING = 'now playing'
+            await self.bot.say('```diff\n-{}\n+Track: {}\n-Artist: {}```'.format(NOWPLAYING, TRACK, ARTIST))
         except Exception:
-            NOWPLAYING = ''
-        await self.bot.say('```diff\n-{}\n+Track: {}\n-Artist: {}```'.format(NOWPLAYING, TRACK, ARTIST))
+            await self.bot.say('```diff\n-User {} is not listening to anything at the moment.')
+
 
     @commands.command()
     async def owo(self, *, message: str = 'owo'):
