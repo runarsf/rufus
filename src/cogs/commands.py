@@ -180,6 +180,13 @@ class Commands:
         message = message.replace(',', ' ' + random.choice(owolist)).replace('!', ' ' + random.choice(owolist)).replace('?', ' ' + random.choice(owolist))
         await self.bot.say('```{}```'.format(message))
 
+    @commands.command()
+    async def ss(self, *, message: str = ''):
+        """ ss-ify something.
+        """
+        message = message.replace('ss', 'ß').replace('SS', 'ẞ').replace('sS', 'ß').replace('Ss', 'ẞ')
+        await self.bot.say('```{}```'.format(message))
+
     @commands.command(pass_context=True)
     async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
         """ Poke user.
