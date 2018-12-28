@@ -33,10 +33,18 @@ class Commands:
     async def hello(self, *, greeting: str = ''):
         """ hi there
         """
+        exclamations = [
+            '',
+            '!'
+        ]
         greetings = [
             'hi',
             'hello',
-            'greetings'
+            'greetings',
+            'hey',
+            'good to see you',
+            'nice to see you',
+            'howdy!'
         ]
         reactions = [
             'owo',
@@ -57,7 +65,7 @@ class Commands:
         if greeting == 'there':
             await self.bot.say('General Kenobi  \\.(o-o)./')
         else:
-            await self.bot.say('{} {}'.format(random.choice(greetings), random.choice(reactions)))
+            await self.bot.say('{}{} {}'.format(random.choice(greetings), random.choice(exclamations), random.choice(reactions)))
 
     @commands.command(pass_context=True)
     async def roll(self, ctx, *, max: int = 100):
