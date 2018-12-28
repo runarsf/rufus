@@ -29,6 +29,36 @@ class Commands:
         """
         await self.bot.say('``' + str(len(str(string).replace(' ', '').replace('　', ''))) + '``')
 
+    @commands.command()
+    async def hello(self, *, greeting: str = ''):
+        """ hi there
+        """
+        greetings = [
+            'hi',
+            'hello',
+            'greetings'
+        ]
+        reactions = [
+            'owo',
+            'OwO',
+            'Owo',
+            'owO',
+            'uwu',
+            'UwU',
+            '>w<',
+            '^w^',
+            '( .o.)',
+            '( ⚆ _ ⚆ )',
+            '(´・ω・)っ',
+            '(•◡•)/',
+            '(っ◕‿◕)っ',
+            '(◕‿◕)'
+        ]
+        if greeting == 'there':
+            await self.bot.say('General Kenobi  \\.(o-o)./')
+        else:
+            await self.bot.say('{} {}'.format(random.choice(greetings), random.choice(reactions)))
+
     @commands.command(pass_context=True)
     async def roll(self, ctx, *, max: int = 100):
         """ Rolls a random number. Default: 0-100.
