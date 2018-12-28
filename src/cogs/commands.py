@@ -131,7 +131,7 @@ class Commands:
             client = wolframalpha.Client(c.wolfram_api_key)
             res = client.query(query)
             answer = next(res.results).text
-            await self.bot.say(answer)
+            await self.bot.say('```css\n{}```'.format(answer))
         except (Exception, StopIteration):
             try:
                 wikipedia.set_lang("en")
@@ -214,7 +214,7 @@ class Commands:
         """ ss-ify something.
         """
         if message == '':
-            await self.bot.say('``Sẞsß``'.format(message))
+            message = 'ẞß'
         message = message.replace('ss', 'ß').replace('SS', 'ẞ').replace('sS', 'ß').replace('Ss', 'ẞ')
         await self.bot.say('```css\n{}```'.format(message))
 
