@@ -174,7 +174,7 @@ class Commands:
             NOWPLAYING = 'now playing'
             await self.bot.say('```diff\n-{}\n+Track: {}\n-Artist: {}```'.format(NOWPLAYING, TRACK, ARTIST))
         except Exception:
-            await self.bot.say('```diff\n-User {} is not listening to anything at the moment.')
+            await self.bot.say('```diff\n-User {} is not listening to anything at the moment.```'.format(username))
 
 
     @commands.command()
