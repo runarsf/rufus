@@ -114,7 +114,7 @@ async def on_message(message):
         elif c.prefix in message.content[:1]:
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
         if 'rufus' in message.content[:5]:
-            message.content = message.content.replace("rufus", ">", 1)
+            message.content = message.content.replace("rufus ", ">", 1)
     await bot.process_commands(message)
 
 
