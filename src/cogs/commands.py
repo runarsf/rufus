@@ -162,6 +162,16 @@ class Commands:
         await self.bot.say('```diff\n{}```'.format(summary[:dictLen]))
 
     @commands.command()
+    async def fm(self, *, username: str = ''):
+        """ Get currently playing last.fm songs.
+        """
+        URL = 'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={}&api_key={}&format=json"'.format(username, c.lastfm_api_key)
+        DATA = requests.get(URL).json()
+        TRACK = DATA['recenttracks']['track'][0]['name']
+        ARTIST = DATA['recenttracks']['track'][0]['artist']['#text']
+        await self.bot.say('Track: {} Artist: {}'.format(TRACK, ARTIST))
+
+    @commands.command()
     async def owo(self, *, message: str = 'owo'):
         """ owo~ify something.
         """

@@ -4,6 +4,7 @@ import os
 
 token = os.environ['BOT_TOKEN']
 wolfram_api_key = os.environ['WOLFRAM_API_KEY']
+lastfm_api_key = os.environ['LASTFM_API_KEY']
 prefix = '>'
 docker_game = 'in a trashcan'
 game = 'in his container'
