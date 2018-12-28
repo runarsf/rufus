@@ -165,7 +165,7 @@ class Commands:
     async def fm(self, *, username: str = ''):
         """ Get currently playing last.fm songs.
         """
-        URL = 'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={}&api_key={}&format=json"'.format(username, c.lastfm_api_key)
+        URL = 'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={}&api_key={}&format=json'.format(username, c.lastfm_api_key)
         DATA = requests.get(URL).json()
         TRACK = DATA['recenttracks']['track'][0]['name']
         ARTIST = DATA['recenttracks']['track'][0]['artist']['#text']
