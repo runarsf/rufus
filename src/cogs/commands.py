@@ -169,7 +169,7 @@ class Commands:
         DATA = requests.get(URL).json()
         TRACK = DATA['recenttracks']['track'][0]['name']
         ARTIST = DATA['recenttracks']['track'][0]['artist']['#text']
-        await self.bot.say('Track: {} Artist: {}'.format(TRACK, ARTIST))
+        await self.bot.say('```diff\n+Track: {}\n-Artist: {}```'.format(TRACK, ARTIST))
 
     @commands.command()
     async def owo(self, *, message: str = 'owo'):
