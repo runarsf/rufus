@@ -18,3 +18,40 @@ dev_id = ['85467784179351552', '198414561706115072']
 swears = ['frick', 'heck']
 mention = ['rufus', 'runar']
 claps = ['meme', 'review']
+
+greetings = [
+    'hi',
+    'hello',
+    'greetings',
+    'hey',
+    'good to see you',
+    'nice to see you',
+    'howdy',
+    '\'ello',
+    'ahoy',
+    'hiya',
+    'I\'m batman',
+    'yo',
+    'bonjour',
+    'hei',
+    'hej',
+    'hola',
+    'hallo',
+    'guten tag',
+    'ciao',
+    'olá',
+    'namaste',
+    'salaam',
+    'zdras-tvuy-te',
+    'ohayo',
+    'konnichiwa',
+    'konbanwa',
+    'jambo',
+    'habari',
+    'halo',
+    'goedendag',
+    'vanakkam',
+    'nyob zoo',
+    'salut',
+    'cześć'
+]

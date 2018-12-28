@@ -37,62 +37,20 @@ class Commands:
             '',
             '!'
         ]
-        greetings = [
-            'hi',
-            'hello',
-            'greetings',
-            'hey',
-            'good to see you',
-            'nice to see you',
-            'howdy',
-            '\'ello',
-            'ahoy',
-            'hiya',
-            'I\'m batman',
-            'yo',
-            'bonjour',
-            'hei',
-            'hej',
-            'hola',
-            'hallo',
-            'guten tag',
-            'ciao',
-            'olá',
-            'namaste',
-            'salaam',
-            'zdras-tvuy-te',
-            'ohayo',
-            'konnichiwa',
-            'konbanwa',
-            'jambo',
-            'habari',
-            'halo',
-            'goedendag',
-            'vanakkam',
-            'nyob zoo',
-            'salut',
-            'cześć'
-        ]
         reactions = [
             'owo',
-            'OwO',
-            'Owo',
-            'owO',
             'uwu',
-            'UwU',
             '>w<',
             '^w^',
-            '( .o.)',
-            '( ⚆ _ ⚆ )',
             '(´・ω・)っ',
             '(•◡•)/',
             '(っ◕‿◕)っ',
             '(◕‿◕)'
         ]
         if greeting == 'there':
-            await self.bot.say('General Kenobi  \\.(o-o)./')
+            await self.bot.say('General Kenobi  \\\.(o-o)./')
         else:
-            await self.bot.say('{}{} {}'.format(random.choice(greetings), random.choice(exclamations), random.choice(reactions)))
+            await self.bot.say('{}{} {}'.format(random.choice(c.greetings), random.choice(exclamations), random.choice(reactions)))
 
     @commands.command(pass_context=True)
     async def roll(self, ctx, *, max: int = 100):
