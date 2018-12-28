@@ -169,8 +169,12 @@ class Commands:
         DATA = requests.get(URL).json()
         TRACK = DATA['recenttracks']['track'][0]['name']
         ARTIST = DATA['recenttracks']['track'][0]['artist']['#text']
-        NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
-        await self.bot.say('```diff\n-Now playing? :: {}\n+Track: {}\n-Artist: {}```'.format(NOWPLAYING, TRACK, ARTIST))
+        try:
+            NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
+            NOWPLAYING = 'now playing'
+        except Exception:
+            NOWPLAYING = ''
+        await self.bot.say('```diff\n-{}\n+Track: {}\n-Artist: {}```'.format(NOWPLAYING, TRACK, ARTIST))
 
     @commands.command()
     async def owo(self, *, message: str = 'owo'):
