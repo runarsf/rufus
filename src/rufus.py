@@ -102,7 +102,7 @@ async def reload(extension_name: str):
     await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
 
 @bot.command()
-async def pull(extension_name: str = ''):
+async def pull(self, extension_name: str = ''):
     """ Pull github origin.
             If argument is passed, cog will be reloaded.
             Does not support docker mode.
@@ -115,11 +115,9 @@ async def pull(extension_name: str = ''):
         return
     if extension_name != '':
         try:
-            await reload(extension_name)
+            await self.reload(extension_name)
         except Exception:
             await bot.say('Could not run async function ``reload``')
-        finally:
-            await bot.say('async function ``reload`` run')
         try:
             bot.unload_extension(extension_name)
             bot.load_extension(extension_name)
