@@ -35,8 +35,8 @@ async def on_ready():
     print('-' * len(bot.user.id))
     print(' ')
 
-    DOCKER_MODE = os.environ.get('DOCKER_MODE', False)
-    if DOCKER_MODE:
+    NOT_DOCKER_MODE = os.environ.get('DOCKER_MODE', False)
+    if NOT_DOCKER_MODE:
         await bot.change_presence(game=discord.Game(name=c.game))
     else:
         await bot.change_presence(game=discord.Game(name=c.docker_game))
@@ -107,24 +107,25 @@ async def pull(extension_name: str = ''):
             If argument is passed, cog will be reloaded.
             Does not support docker mode.
     """
-    try:
-        g = git.cmd.Git('./')
-        g.pull()
-    except Exception as error:
-        await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
-        return
-    if extension_name != '':
+    if NOT_DOCKER_MODE:
         try:
-            await bot.process_commands('reload({})'.format(extension_name))
-        except Exception:
-            await bot.say('Could not run coroutine function ``reload``')
-        try:
-            bot.unload_extension(extension_name)
-            bot.load_extension(extension_name)
-        except (AttributeError, ImportError) as error:
+            g = git.cmd.Git('./')
+            g.pull()
+        except Exception as error:
             await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
             return
-        await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
+        if extension_name != '':
+            try:
+                await bot.process_commands('reload({})'.format(extension_name))
+            except Exception:
+                await bot.say('Could not run coroutine function ``reload``')
+            try:
+                bot.unload_extension(extension_name)
+                bot.load_extension(extension_name)
+            except (AttributeError, ImportError) as error:
+                await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
+                return
+            await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
 
 if __name__ == '__main__':
     for extension in STARTUP_EXTENSIONS:
