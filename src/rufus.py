@@ -115,8 +115,8 @@ async def pull(extension_name: str = ''):
         return
     if extension_name != '':
         try:
-            reload()
-            await reload(extension_name)
+            reload(extension_name)
+            await reload()
         except Exception:
             await bot.say('Could not run coroutine function ``reload``')
         try:
