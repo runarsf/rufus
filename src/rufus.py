@@ -117,7 +117,9 @@ async def pull(extension_name: str = ''):
         try:
             await reload(extension_name)
         except Exception:
-            await bot.say('Could not run async function ``reload``'')
+            await bot.say('Could not run async function ``reload``')
+        finally:
+            await bot.say('async function ``reload`` run')
         try:
             bot.unload_extension(extension_name)
             bot.load_extension(extension_name)
