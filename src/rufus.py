@@ -41,6 +41,32 @@ async def on_ready():
     else:
         await bot.change_presence(game=discord.Game(name=c.docker_game))
 
+@bot.event
+async def on_message(message):
+    """ No swear words please.
+    """
+    try:
+        if message.author == bot.user:
+            return
+        elif any(message.content in cuss for cuss in c.swears):
+            await bot.send_file(message.channel, str("{}/img/christ.jpg".format(os.path.dirname(os.path.realpath(__file__)))))
+            print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + 'swore')
+        elif any(mention in message.content for mention in c.mention):
+            print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
+    finally:
+        if c.prefix in message.content[1:2]:
+            return
+        elif c.prefix in message.content[:1]:
+            print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
+        if 'rufus' in message.content[:5]:
+            message.content = message.content.replace("rufus ", c.prefix, 1)
+        if message.content[1:] in c.greetings:
+            if 'there' in message.content:
+                message.content = c.prefix+'hello there'
+            else:
+                message.content = c.prefix+'hello'
+    await bot.process_commands(message)
+
 @bot.command()
 async def load(extension_name: str):
     """ Loads an extension.
@@ -89,39 +115,16 @@ async def pull(extension_name: str = ''):
         return
     if extension_name != '':
         try:
+            await reload(extension_name)
+        except Exception:
+            await bot.say('Could not run async function ``reload``'')
+        try:
             bot.unload_extension(extension_name)
             bot.load_extension(extension_name)
         except (AttributeError, ImportError) as error:
             await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
             return
         await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
-
-@bot.event
-async def on_message(message):
-    """ No swear words please.
-    """
-    try:
-        if message.author == bot.user:
-            return
-        elif any(message.content in cuss for cuss in c.swears):
-            await bot.send_file(message.channel, str("{}/img/christ.jpg".format(os.path.dirname(os.path.realpath(__file__)))))
-            print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + 'swore')
-        elif any(mention in message.content for mention in c.mention):
-            print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
-    finally:
-        if c.prefix in message.content[1:2]:
-            return
-        elif c.prefix in message.content[:1]:
-            print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
-        if 'rufus' in message.content[:5]:
-            message.content = message.content.replace("rufus ", c.prefix, 1)
-        if message.content[1:] in c.greetings:
-            if 'there' in message.content:
-                message.content = c.prefix+'hello there'
-            else:
-                message.content = c.prefix+'hello'
-    await bot.process_commands(message)
-
 
 if __name__ == '__main__':
     for extension in STARTUP_EXTENSIONS:
