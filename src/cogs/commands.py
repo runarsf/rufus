@@ -165,6 +165,15 @@ class Commands:
             await self.bot.say('``{}`` -> ``{}``'.format(translated.origin, translated.text))
 
     @commands.command()
+    async def imdb(self, *, searchString: str = ''):
+        """ Find information about movies, series etc.
+        """
+        if not searchString == '':
+            URL = 'https://www.omdbapi.com/?t={}&apikey={}'.format(searchString, c.omdb_api_key)
+            DATA = requests.get(URL).json()
+            await self.bot.say('```css\nTitle: {}\nDate: {}\nLength: {}\nGenre: {}\nDirector: {}\nActors: {}\n\nPlot: {}```'.format(DATA['Title'], DATA['Released'], DATA['Runtime'], DATA['Genre'], DATA['Director'], DATA['Actors'], DATA['Plot']))
+
+    @commands.command()
     async def urban(self, *, term: str = 'stupid'):
         """ Search Urban Dictionary for word definitions.
         """
