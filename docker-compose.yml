@@ -12,6 +12,7 @@ services:
         - DOCKER_MODE=Yes
         - GIT_PYTHON_REFRESH=quiet
         - BOT_TOKEN=$BOT_TOKEN
+        - OMDB_API_KEY=$OMDB_API_KEY
         - LASTFM_API_KEY=$LASTFM_API_KEY
         - WOLFRAM_API_KEY=$WOLFRAM_API_KEY
     ports:
