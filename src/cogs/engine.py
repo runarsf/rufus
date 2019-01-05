@@ -22,12 +22,6 @@ class Engine:
         await self.bot.say('http://fandom.wikia.com/?s=' + content.replace(' ', '+'))
 
     @commands.command()
-    async def imdb(self, *, content):
-        """ Search IMDB for movies and series.
-        """
-        await self.bot.say('http://www.imdb.com/find?ref_=nv_sr_fn&q=' + content.replace(' ', '+') + '&s=all')
-
-    @commands.command()
     async def lmgtfy(self, *, content):
         """ Let Me Google That For You.
         """
