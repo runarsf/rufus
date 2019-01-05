@@ -131,7 +131,7 @@ class Commands:
             client = wolframalpha.Client(c.wolfram_api_key)
             res = client.query(query)
             answer = next(res.results).text
-            await self.bot.say('```css\n{}```'.format(answer))
+            await self.bot.say('```apache\n{}```'.format(answer))
         except (Exception, StopIteration):
             try:
                 wikipedia.set_lang("en")
@@ -171,7 +171,7 @@ class Commands:
         if not searchString == '':
             URL = 'https://www.omdbapi.com/?t={}&apikey={}'.format(searchString, c.omdb_api_key)
             DATA = requests.get(URL).json()
-            await self.bot.say('```css\nTitle: {}\nDate: {}\nLength: {}\nGenre: {}\nDirector: {}\nActors: {}\n\nPlot: {}```'.format(DATA['Title'], DATA['Released'], DATA['Runtime'], DATA['Genre'], DATA['Director'], DATA['Actors'], DATA['Plot']))
+            await self.bot.say('```apache\nTitle: {}\nDate: {}\nLength: {}\nGenre: {}\nDirector: {}\nActors: {}\n\nPlot: {}```'.format(DATA['Title'], DATA['Released'], DATA['Runtime'], DATA['Genre'], DATA['Director'], DATA['Actors'], DATA['Plot']))
 
     @commands.command()
     async def urban(self, *, term: str = 'stupid'):
@@ -181,7 +181,7 @@ class Commands:
         DATA = requests.get(URL).json()
         DEF = DATA['list'][0]['definition']
         EKS = DATA['list'][0]['example']
-        summary = '+Word: {}\n\n+Definition:\n\t{}\n\n+Usage:\n\t{}'.format(term, DEF, EKS)
+        summary = 'Word: {}\n\nDefinition:\n\t{}\n\nUsage:\n\t{}'.format(term, DEF, EKS)
         dictLen = 1990
         if len(summary) > 1990:
             loop = 'true'
@@ -191,7 +191,7 @@ class Commands:
                 else:
                     dictLen-=1
             await self.bot.say("``Summary was longer than expected, output truncated.``")
-        await self.bot.say('```diff\n{}```'.format(summary[:dictLen]))
+        await self.bot.say('```apache\n{}```'.format(summary[:dictLen]))
 
     @commands.command()
     async def fm(self, *, username: str = ''):
