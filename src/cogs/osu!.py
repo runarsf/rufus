@@ -12,12 +12,9 @@ class osu:
         self.bot = bot
 
     @commands.command()
-    async def o_user(self, username, mode='osu!', usernameIsId='false'):
+    async def o_user(self, username, mode='osu!'):
         """ Get osu! user information.
         """
-        type='string'
-        if usernameIsId:
-            type='id'
         if mode == 'osu!':
             mode = 0
         elif mode == 'taiko':
@@ -26,7 +23,7 @@ class osu:
             mode = 2
         elif mode == 'mania':
             mode = 3
-        URL = 'https://osu.ppy.sh/api/get_user?k={}&m={}&type={}&u={}'.format(c.osu_api_key, mode, type, username)
+        URL = 'https://osu.ppy.sh/api/get_user?k={}&m={}&u={}'.format(c.osu_api_key, mode, username)
         DATA = requests.get(URL).json()
         JOIN_DATE = DATA[0]['join_date']
         await self.bot.say(JOIN_DATE)
