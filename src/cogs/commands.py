@@ -212,7 +212,7 @@ class Commands:
     async def osu(self):
         URL = 'https://osu.ppy.sh/api/get_user?k={}&m=0&u=MagicStick'.format(c.osu_api_key)
         DATA = requests.get(URL).json()
-        JOIN_DATE = DATA[0]['join_date']
+        JOIN_DATE = DATA['join_date']
         await self.bot.say(JOIN_DATE)
 
     @commands.command(pass_context=True)
