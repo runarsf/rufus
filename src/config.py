@@ -3,6 +3,7 @@
 import os
 
 token = os.environ['BOT_TOKEN']
+osu_api_key = os.environ['OSU_API_KEY']
 wolfram_api_key = os.environ['WOLFRAM_API_KEY']
 lastfm_api_key = os.environ['LASTFM_API_KEY']
 omdb_api_key = os.environ['OMDB_API_KEY']
