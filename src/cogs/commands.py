@@ -209,7 +209,7 @@ class Commands:
             await self.bot.say('```diff\n-User {} is not scrobbling anything at the moment.```'.format(username))
 
     @commands.command()
-    async def osu!user(self):
+    async def osu\!user(self):
         """ A command to interact with the osu! api.
                 osu [map/user/replay/score/top/recent/multi] [user] [mode]
         """
