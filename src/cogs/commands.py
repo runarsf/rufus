@@ -213,6 +213,7 @@ class Commands:
         URL = 'https://osu.ppy.sh/api/get_user?k='+c.osu_api_key+'&m=0&u=MagicStick'
         DATA = requests.get(URL).json()
         #JOIN_DATE = DATA[0]
+        print(URL)
         await self.bot.say(DATA)
 
     @commands.command(pass_context=True)
