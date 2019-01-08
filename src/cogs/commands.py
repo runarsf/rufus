@@ -210,11 +210,11 @@ class Commands:
 
     @commands.command()
     async def osu(self):
-        URL = 'https://osu.ppy.sh/api/get_user?k='+c.osu_api_key+'&m=0&u=MagicStick'
+        URL = 'https://osu.ppy.sh/api/get_user?k={}&m=0&u=MagicStick'.format(c.osu_api_key)
         DATA = requests.get(URL).json()
-        #JOIN_DATE = DATA[0]
+        JOIN_DATE = DATA[0]['join_date']
         print(URL)
-        await self.bot.say(DATA)
+        await self.bot.say(JOIN_DATE)
 
     @commands.command(pass_context=True)
     async def skin(self, ctx):
