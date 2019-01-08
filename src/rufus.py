@@ -15,7 +15,8 @@ STARTUP_EXTENSIONS = ['cogs.manager',
                       'cogs.memes',
                       'cogs.engine',
                       'cogs.dev',
-                      'cogs.uptime'
+                      'cogs.uptime',
+                      'cogs.osu!'
                       ]
 
 bot = commands.Bot(command_prefix=c.prefix, description=c.description)
