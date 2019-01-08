@@ -1,6 +1,7 @@
 """ osu! -- rufus.py """
 import config as c
 import os.path
+import requests
 from discord.ext import commands
 
 
