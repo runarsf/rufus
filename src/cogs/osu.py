@@ -14,14 +14,19 @@ class osu:
     @commands.command()
     async def o_user(self, username, mode='osu!'):
         """ Get osu! user information.
+            Available modes:
+                - osu!
+                - taiko
+                - ctb
+                - mania
         """
-        if mode == 'osu!':
+        if mode.lower() == 'osu!':
             mode = 0
-        elif mode == 'taiko':
+        elif mode.lower() == 'taiko':
             mode = 1
-        elif mode == 'ctb':
+        elif mode.lower() == 'ctb':
             mode = 2
-        elif mode == 'mania' or mode == 'osu!mania':
+        elif mode.lower() == 'mania' or mode.lower() == 'osu!mania':
             mode = 3
         URL = 'https://osu.ppy.sh/api/get_user?k={}&m={}&u={}'.format(c.osu_api_key, mode, username)
         DATA = requests.get(URL).json()
