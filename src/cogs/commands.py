@@ -209,11 +209,13 @@ class Commands:
             await self.bot.say('```diff\n-User {} is not scrobbling anything at the moment.```'.format(username))
 
     @commands.command()
-    async def osu(self):
+    async def osu!user(self):
+        """ A command to interact with the osu! api.
+                osu [map/user/replay/score/top/recent/multi] [user] [mode]
+        """
         URL = 'https://osu.ppy.sh/api/get_user?k={}&m=0&u=MagicStick'.format(c.osu_api_key)
         DATA = requests.get(URL).json()
         JOIN_DATE = DATA[0]['join_date']
-        print(URL)
         await self.bot.say(JOIN_DATE)
 
     @commands.command(pass_context=True)
