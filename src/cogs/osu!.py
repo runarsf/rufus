@@ -21,11 +21,16 @@ class osu:
             mode = 1
         elif mode == 'ctb':
             mode = 2
-        elif mode == 'mania':
+        elif mode == 'mania' or mode == 'osu!mania':
             mode = 3
         URL = 'https://osu.ppy.sh/api/get_user?k={}&m={}&u={}'.format(c.osu_api_key, mode, username)
         DATA = requests.get(URL).json()
-        await self.bot.say('```apache\nUsername: {}\nID: {}\nJoined at: {}\n300: {}\n100: {}\n50: {}\nPlays: {}\nLevel: {}\nPP: {}\nAccuracy: {}\nSS/SSH: {}/{}\nS/SH: {}/{}\nA: {}\nCountry: {}\n```'.format(DATA[0]['username'],DATA[0]['user_id'],DATA[0]['join_date'],DATA[0]['count300'],DATA[0]['count100'],DATA[0]['count50'],DATA[0]['playcount'],DATA[0]['level'],DATA[0]['pp_raw'],DATA[0]['accuracy'],DATA[0]['count_rank_ss'],DATA[0]['count_rank_ssh'],DATA[0]['count_rank_s'],DATA[0]['count_rank_sh'],DATA[0]['count_rank_a'],DATA[0]['country']))
+        BEST_URL = 'https://osu.ppy.sh/api/get_user_best?k={}&m={}&limit=3&u={}'.format(c.osu_api_key, mode, username)
+        BEST_DATA = requests.get(BEST_URL).json()
+        try:
+            await self.bot.say('```apache\nUsername: {}\nID: {}\nCreated: {}\n300: {}\n100: {}\n50: {}\nPlays: {}\nLevel: {}\nPP: {}\nAccuracy: {}\nSS/SSH: {}/{}\nS/SH: {}/{}\nA: {}\nCountry: {}\n\nTop Scores:\n\t1. {}\n\t2. {}\n\t3. {}```'.format(DATA[0]['username'],DATA[0]['user_id'],DATA[0]['join_date'],DATA[0]['count300'],DATA[0]['count100'],DATA[0]['count50'],DATA[0]['playcount'],DATA[0]['level'],DATA[0]['pp_raw'],DATA[0]['accuracy'],DATA[0]['count_rank_ss'],DATA[0]['count_rank_ssh'],DATA[0]['count_rank_s'],DATA[0]['count_rank_sh'],DATA[0]['count_rank_a'],DATA[0]['country'],BEST_DATA[0]['beatmap_id'],BEST_DATA[1]['beatmap_id'],BEST_DATA[2]['beatmap_id']))
+        except:
+            await self.bot.say('User with the name or ID of `{}` doesn\'t exist.'.format(username))
 
     @commands.command(pass_context=True)
     async def skin(self, ctx):
