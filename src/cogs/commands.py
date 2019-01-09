@@ -201,10 +201,11 @@ class Commands:
         DATA = requests.get(URL).json()
         TRACK = DATA['recenttracks']['track'][0]['name']
         ARTIST = DATA['recenttracks']['track'][0]['artist']['#text']
+        ALBUM = DATA['recenttracks']['track'][0]['album']['#text']
         try:
             NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
             NOWPLAYING = 'now playing'
-            await self.bot.say('```diff\n-{}\n\n+Track: {}\n-Artist: {}```'.format(NOWPLAYING, TRACK, ARTIST))
+            await self.bot.say('```brainfuck\n{} : {} ( {} )```'.format(ARTIST, TRACK, ALBUM))
         except Exception:
             await self.bot.say('```diff\n-User {} is not scrobbling anything at the moment.```'.format(username))
 
