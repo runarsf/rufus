@@ -194,11 +194,13 @@ class Commands:
         await self.bot.say('```apache\n{}```'.format(summary[:dictLen]))
 
     @commands.command()
-    async def fm(self, username: str = '', detailed: bool = 'false'):
+    async def fm(self, username: str = '', detailed: str = 'false'):
         """ Get currently playing last.fm songs.
         """
         if detailed == '1' or detailed == 'yes':
-            detailed = 'true'
+            detailed: bool = 'true'
+        else:
+            detailed: bool = 'false'
         URL = 'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={}&api_key={}&format=json'.format(username, c.lastfm_api_key)
         DATA = requests.get(URL).json()
         TRACK = DATA['recenttracks']['track'][0]['name']
