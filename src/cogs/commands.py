@@ -194,20 +194,30 @@ class Commands:
         await self.bot.say('```apache\n{}```'.format(summary[:dictLen]))
 
     @commands.command()
-    async def fm(self, *, username: str = ''):
+    async def fm(self, username: str = '', detailed: str = 'false'):
         """ Get currently playing last.fm songs.
         """
+        if detailed == '1' or detailed == 'yes':
+            detailed = 'true'
         URL = 'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={}&api_key={}&format=json'.format(username, c.lastfm_api_key)
         DATA = requests.get(URL).json()
         TRACK = DATA['recenttracks']['track'][0]['name']
         ARTIST = DATA['recenttracks']['track'][0]['artist']['#text']
         ALBUM = DATA['recenttracks']['track'][0]['album']['#text']
-        try:
-            NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
-            NOWPLAYING = 'now playing'
-            await self.bot.say('```brainfuck\n{} : {} ( {} )```'.format(ARTIST, TRACK, ALBUM))
-        except Exception:
-            await self.bot.say('```diff\n-User {} is not scrobbling anything at the moment.```'.format(username))
+        if detailed:
+            try:
+                NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
+                FM_URL = DATA['recenttracks']['track'][0]['url']
+                IMAGE = DATA['recenttracks']['track'][0]['image'][3]['#text']
+                await self.bot.say('```apache\nTrack: {}\nArtist: {}\n Album: {}\n\nURL: {}\nImage: {}```'.format(TRACK, ARTIST, ALBUM, FM_URL, IMAGE))
+            except Exception:
+                await self.bot.say('```diff\n-User {} is not scrobbling anything at the moment.```'.format(username))
+        else:
+            try:
+                NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
+                await self.bot.say('```brainfuck\n{} : {} ( {} )```'.format(ARTIST, TRACK, ALBUM))
+            except Exception:
+                await self.bot.say('```diff\n-User {} is not scrobbling anything at the moment.```'.format(username))
 
     @commands.command()
     async def owo(self, *, message: str = 'owo'):
