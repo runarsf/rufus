@@ -194,7 +194,7 @@ class Commands:
         await self.bot.say('```apache\n{}```'.format(summary[:dictLen]))
 
     @commands.command()
-    async def fm(self, username: str = '', detailed: str = 'false'):
+    async def fm(self, username: str = '', detailed: bool = 'false'):
         """ Get currently playing last.fm songs.
         """
         if detailed == '1' or detailed == 'yes':
@@ -209,7 +209,7 @@ class Commands:
                 NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
                 FM_URL = DATA['recenttracks']['track'][0]['url']
                 IMAGE = DATA['recenttracks']['track'][0]['image'][3]['#text']
-                await self.bot.say('```apache\nTrack: {}\nArtist: {}\n Album: {}\n\nURL: {}\nImage: {}```'.format(TRACK, ARTIST, ALBUM, FM_URL, IMAGE))
+                await self.bot.say('```apache\nTrack: {}\nArtist: {}\nAlbum: {}\n\nURL: {}\nImage: {}```'.format(TRACK, ARTIST, ALBUM, FM_URL, IMAGE))
             except Exception:
                 await self.bot.say('```diff\n-User {} is not scrobbling anything at the moment.```'.format(username))
         else:
