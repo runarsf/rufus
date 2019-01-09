@@ -198,15 +198,13 @@ class Commands:
         """ Get currently playing last.fm songs.
         """
         if detailed == '1' or detailed == 'yes':
-            detailed: bool = 'true'
-        else:
-            detailed: bool = 'false'
+            detailed = 'true'
         URL = 'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={}&api_key={}&format=json'.format(username, c.lastfm_api_key)
         DATA = requests.get(URL).json()
         TRACK = DATA['recenttracks']['track'][0]['name']
         ARTIST = DATA['recenttracks']['track'][0]['artist']['#text']
         ALBUM = DATA['recenttracks']['track'][0]['album']['#text']
-        if detailed:
+        if detailed == 'true':
             try:
                 NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
                 FM_URL = DATA['recenttracks']['track'][0]['url']
