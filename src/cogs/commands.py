@@ -251,6 +251,21 @@ class Commands:
                 await self.bot.say('*{} poked {}; ``{}``*'.format(ctx.message.author.name, user, message))
             await self.bot.delete_message(ctx.message)
 
+    @commands.command()
+    async def mock(self, *, string: str = ''):
+        """ Convert string to mocking.
+        """
+        if string:
+            i=1
+            outstr=''
+            for letter in string:
+                if i % 2 == 0:
+                    outstr+=letter.lower()
+                else:
+                    outstr+=letter.upper()
+                i+=1
+            await self.bot.say('*{}*'.format(outstr))
+
     @commands.command(pass_context=True)
     async def pat(self, ctx, user: discord.User = '', *, message: str = ''):
         """ Pat user uwu.
