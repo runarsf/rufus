@@ -16,7 +16,7 @@ before_install:
 - ssh-add ./deploy_rsa
 
 script:
-- ssh -i ./deploy_rsa $STAGING_SERVER_USER@$STAGING_SERVER "cd ~/git/rufus; docker-compose down; git pull; export BOT_TOKEN=$BOT_TOKEN; docker-compose build; docker-compose up -d; echo WOLFRAM_API_KEY:$WOLFRAM_API_KEY\-BOT_TOKEN:$BOT_TOKEN\-OSU_API_KEY:$OSU_API_KEY\-OMDB_API_KEY:$OMDB_API_KEY\-LASTFM_API_KEY:$LASTFM_API_KEY > ~/keys"
+- ssh -i ./deploy_rsa $STAGING_SERVER_USER@$STAGING_SERVER "cd ~/git/rufus; docker-compose down; git pull; export BOT_TOKEN=$BOT_TOKEN; docker-compose build; docker-compose up -d; printf "export WOLFRAM_API_KEY=\"$WOLFRAM_API_KEY\"\nexport BOT_TOKEN=\"$BOT_TOKEN\"\nexport OSU_API_KEY=\"$OSU_API_KEY\"\nexport OMDB_API_KEY=\"$OMDB_API_KEY\"\nexport LASTFM_API_KEY=\"$LASTFM_API_KEY\"" > ~/autogen_travis_keys"
 
 after_success:
 - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
