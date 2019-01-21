@@ -49,9 +49,9 @@ async def on_message(message):
     try:
         if message.author == bot.user:
             return
-        elif any(message.content in cuss for cuss in c.swears):
-            await bot.send_file(message.channel, str("{}/img/christ.jpg".format(os.path.dirname(os.path.realpath(__file__)))))
-            print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + 'swore')
+        #elif any(message.content in cuss for cuss in c.swears):
+        #    await bot.send_file(message.channel, str("{}/img/christ.jpg".format(os.path.dirname(os.path.realpath(__file__)))))
+        #    print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + 'swore')
         elif any(mention in message.content for mention in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     finally:
