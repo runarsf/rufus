@@ -74,6 +74,68 @@ class Memes:
 					]
         await self.bot.say(random.choice(knuckles))
 
+    @commands.command()
+    async def owo(self, *, message: str = 'owo'):
+        """ owo~ify something.
+        """
+        owolist = ['(・`ω´・)', ';;w;;', ';w;', 'owo', 'OwO', 'Owo', 'owO', 'uwu', 'UwU', '>w<', '^w^']
+        message = message.replace('l', 'w').replace('L', 'W').replace('r', 'w').replace('R', 'W')
+        message = message.replace(',', ' ' + random.choice(owolist)).replace('!', ' ' + random.choice(owolist)).replace('?', ' ' + random.choice(owolist))
+        await self.bot.say('```{}```'.format(message))
+
+    @commands.command()
+    async def ss(self, *, message: str = ''):
+        """ ss-ify something.
+        """
+        if message == '':
+            message = 'ẞß'
+        message = message.replace('ss', 'ß').replace('SS', 'ẞ').replace('sS', 'ß').replace('Ss', 'ẞ')
+        await self.bot.say('```css\n{}```'.format(message))
+
+    @commands.command()
+    async def mock(self, *, string: str = ''):
+        """ Convert string to mocking.
+        """
+        if string:
+            i=1
+            outstr=''
+            for letter in string:
+                if i % 2 == 0:
+                    outstr+=letter.lower()
+                else:
+                    outstr+=letter.upper()
+                i+=1
+            await self.bot.say('*{}*'.format(outstr))
+
+    @commands.command(pass_context=True)
+    async def pat(self, ctx, user: discord.User = '', *, message: str = ''):
+        """ Pat user uwu.
+        """
+        if user == '':
+            await self.bot.say('uwu')
+        else:
+            if message == '':
+                await self.bot.say('*{} patted {} and is probably a disgusting weeb!*'.format(ctx.message.author.name, user))
+            else:
+                await self.bot.say('*{} patted {} {}*'.format(ctx.message.author.name, user, message))
+
+    @commands.command(pass_context=True)
+    async def hug(self, ctx, *, user: str = ''):
+        """ Hug user.
+        """
+        mcont = ctx.message.content
+        if user == '':
+            await self.bot.say('*{} tries to hug the air*'.format(ctx.message.author.name))
+        elif user == 'me':
+            await self.bot.say('*I hugged {}*'.format(ctx.message.author.name))
+        elif user == '<@{}>'.format(ctx.message.author.id):
+            await self.bot.say('Aaaaaaall by myseeeeeeeelf.')
+        elif user == '<@{}>'.format(self.bot.user.id):
+            await self.bot.say(' OwO wat dis? Am I being hugger?' +
+                               ' Hmmmm... always be a mystery it will')
+        else:
+            await self.bot.say('{} hugged {} :hearts:'.format(ctx.message.author.name, user))
+
 def setup(bot):
     """ defines setup """
     bot.add_cog(Memes(bot))
