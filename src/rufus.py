@@ -12,7 +12,6 @@ import git
 STARTUP_EXTENSIONS = ['cogs.manager',
                       'cogs.admin',
                       'cogs.commands',
-                      'cogs.memes',
                       'cogs.engine',
                       'cogs.dev',
                       'cogs.uptime',
@@ -49,9 +48,6 @@ async def on_message(message):
     try:
         if message.author == bot.user:
             return
-        #elif any(message.content in cuss for cuss in c.swears):
-        #    await bot.send_file(message.channel, str("{}/img/christ.jpg".format(os.path.dirname(os.path.realpath(__file__)))))
-        #    print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + 'swore')
         elif any(mention in message.content for mention in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
     finally:
@@ -116,10 +112,6 @@ async def pull(extension_name: str = ''):
             await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
             return
         if extension_name != '':
-            #try:
-            #    await bot.process_commands('reload({})'.format(extension_name))
-            #except Exception:
-            #    await bot.say('Could not run coroutine function ``reload``')
             try:
                 bot.unload_extension(extension_name)
                 bot.load_extension(extension_name)
@@ -133,8 +125,8 @@ if __name__ == '__main__':
         try:
             bot.load_extension(extension)
         except Exception as error:
-            exc = '{}: {}'.format(type(error).__name__, error)
-            print('Failed to load extension {}\n{}'.format(extension, exc))
+            exception = '{}: {}'.format(type(error).__name__, error)
+            print('Failed to load extension {}\n{}'.format(extension, exception))
 
     bot.run(c.token)
 
