@@ -74,11 +74,11 @@ async def on_message(message):
                 message.content = c.prefix+'hello'
     await bot.process_commands(message)
 
-@bot.event
-async def on_command_error(self, exception):
-    if isinstance(exception, commands.errors.CommandNotFound):
-        await self.say('```{}```'.format(exception))
-        return
+#@bot.event
+#async def on_command_error(self, exception):
+#    if isinstance(exception, commands.errors.CommandNotFound):
+#        await self.say('```{}```'.format(exception))
+#        return
 
 @bot.command(pass_context=True)
 async def load(ctx, extension_name: str):
@@ -92,7 +92,7 @@ async def load(ctx, extension_name: str):
             return
         await bot.say('Successfully loaded {}.'.format(extension_name))
     else:
-        await bot.say('```Insufficient privileges.\nAuthor ID: {}\nOwner ID: {}\nDev ID: {}```'.format(ctx.message.author.id, c.owner_id, c.dev_id))
+        await bot.say('```diff\n-Insufficient privileges.\nAuthor ID: {}\nOwner ID: {}\nDev ID: {}```'.format(ctx.message.author.id, c.owner_id, c.dev_id))
         return
 
 @bot.command(pass_context=True)
@@ -107,7 +107,7 @@ async def unload(ctx, extension_name: str):
             return
         await bot.say('Successfully unloaded {}.'.format(extension_name))
     else:
-        await bot.say('```Insufficient privileges.\nAuthor ID: {}\nOwner ID: {}\nDev ID: {}```'.format(ctx.message.author.id, c.owner_id, c.dev_id))
+        await bot.say('```diff\n-Insufficient privileges.\nAuthor ID: {}\nOwner ID: {}\nDev ID: {}```'.format(ctx.message.author.id, c.owner_id, c.dev_id))
         return
 
 @bot.command(pass_context=True)
@@ -123,7 +123,7 @@ async def reload(ctx, extension_name: str):
             return
         await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
     else:
-        await bot.say('```Insufficient privileges.\nAuthor ID: {}\nOwner ID: {}\nDev ID: {}```'.format(ctx.message.author.id, c.owner_id, c.dev_id))
+        await bot.say('```diff\n-Insufficient privileges.\nAuthor ID: {}\nOwner ID: {}\nDev ID: {}```'.format(ctx.message.author.id, c.owner_id, c.dev_id))
         return
 
 @bot.command(pass_context=True)
@@ -149,7 +149,7 @@ async def pull(ctx, extension_name: str = ''):
                     return
                 await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
     else:
-        await bot.say('```Insufficient privileges.\nAuthor ID: {}\nOwner ID: {}\nDev ID: {}```'.format(ctx.message.author.id, c.owner_id, c.dev_id))
+        await bot.say('```diff\n-Insufficient privileges.\nAuthor ID: {}\nOwner ID: {}\nDev ID: {}```'.format(ctx.message.author.id, c.owner_id, c.dev_id))
     return
 
 if __name__ == '__main__':

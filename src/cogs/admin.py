@@ -43,7 +43,7 @@ class Admin:
             else:
                 print('purge, error on else')
         else:
-            await self.bot.say('```Insufficient privileges.```')
+            await self.bot.say('```diff\n-Insufficient privileges.```')
 
     @commands.command(pass_context=True)
     async def spam(self, ctx, times: int = 1, *, msg: str = 'spam'):
@@ -54,7 +54,7 @@ class Admin:
                 await self.bot.say(msg)
                 print(i)
         else:
-            await self.bot.say('```Insufficient privileges.```')
+            await self.bot.say('```diff\n-Insufficient privileges.```')
 
     @commands.command(pass_context=True)
     async def kick(self, ctx, user: discord.User, *, reason: str = 'no reason given.'):
@@ -67,7 +67,7 @@ class Admin:
             except Exception:
                 await self.bot.say('```An error occurred. User {} could not be kicked.```'.format(user))
         else:
-            await self.bot.say('```Insufficient privileges.```')
+            await self.bot.say('```diff\n-Insufficient privileges.```')
 
     @commands.command(pass_context=True)
     async def ban(self, ctx, user: discord.User, *, reason: str = 'no reason given.'):
@@ -80,7 +80,7 @@ class Admin:
             #except Exception:
             #    await self.bot.say('```An error occurred. User {} could not be banned.```'.format(user))
         else:
-            await self.bot.say('```Insufficient privileges.```')
+            await self.bot.say('```diff\n-Insufficient privileges.```')
 
     @commands.command(pass_context=True)
     async def unban(self, ctx, user: discord.User):
@@ -93,7 +93,7 @@ class Admin:
             except Exception:
                 await self.bot.say('```An error occurred. User {} could not be banned.```'.format(user))
         else:
-            await self.bot.say('```Insufficient privileges.```')
+            await self.bot.say('```diff\n-Insufficient privileges.```')
 
     @commands.command(pass_context=True)
     async def inviter(self, ctx):
@@ -120,7 +120,7 @@ class Admin:
                     await self.bot.send_message(userToInvite, inviteLink + '\n```Invited by {};\n{}```'.format(ctx.message.author, message))
                 await self.bot.say('Invite link sent to ``{}``.'.format(userToInvite))
         else:
-            await self.bot.say('```Insufficient privileges.```')
+            await self.bot.say('```diff\n-Insufficient privileges.```')
 
     @commands.command(pass_context=True)
     async def nick(self, ctx, user: discord.User = '', *, new_nick: str = ''):
@@ -129,7 +129,7 @@ class Admin:
         if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
             self.bot.change_nickname(user, new_nick)
         else:
-            await self.bot.say('```Insufficient privileges.```')
+            await self.bot.say('```diff\n-Insufficient privileges.```')
 
 
 def setup(bot):
