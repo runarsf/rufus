@@ -9,11 +9,12 @@ lastfm_api_key = os.environ['LASTFM_API_KEY']
 omdb_api_key = os.environ['OMDB_API_KEY']
 prefix = '>'
 docker_game = 'in a trashcan'
+#docker_game = 'under development'
 game = 'in his container'
 description = 'rufus'
 
 owner_id = '177098893069254656'
-dev_id = ['85467784179351552', '198414561706115072']
+dev_id = ['324943524132814849', '359319833680281601']
 swears = ['frick', 'heck']
 mention = ['rufus', 'runar']
 

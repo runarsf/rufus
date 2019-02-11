@@ -25,7 +25,7 @@ class Dev:
             path = (os.path.dirname(os.path.realpath(__file__)))
             await self.bot.say(path)
         else:
-            await self.bot.say('*Insufficient privileges*')
+            await self.bot.say('```Insufficient privileges.```')
 
     @commands.command(pass_context=True)
     async def clear(self, ctx):
@@ -38,7 +38,7 @@ class Dev:
             print('Console cleared by {}'.format(ctx.message.author.name))
             await self.bot.delete_message(ctx.message)
         else:
-            await self.bot.say('*Insufficient privileges*')
+            await self.bot.say('```Insufficient privileges.```')
 
     @commands.command(pass_context=True)
     async def cogs(self, ctx):
@@ -51,13 +51,23 @@ class Dev:
                     cogger += (file+' ')
             self.bot.say('```{}```'.format(cogger))
         else:
-            await self.bot.say('*Insufficient privileges*')
+            await self.bot.say('```Insufficient privileges.```')
 
     @commands.command()
     async def bug(self):
         """ Submit a bug.
         """
         await self.bot.say('Submit a bug: https://github.com/runarsf/rufus/issues/new')
+
+    @commands.command(pass_context=True)
+    async def run(self, ctx):
+        """ Run the previous code block.
+        """
+        counter = 0
+        async for message in self.bot.logs_from(ctx.message.channel, limit=5):
+            if message.content.startswith('```') and message.content.startswith('```'):
+                await self.bot.say(str(message.content[3:-3]))
+            counter += 1
 
 def setup(bot):
     """ defines setup """

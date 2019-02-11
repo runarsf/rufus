@@ -20,7 +20,7 @@ class Manager:
             await self.bot.say('*Goodbye.*')
             await self.bot.logout()
         else:
-            await self.bot.say('*Insufficient privileges*')
+            await self.bot.say('```Insufficient privileges.```')
 
     @commands.command(pass_context=True)
     async def restart(self, ctx):
@@ -31,7 +31,7 @@ class Manager:
             await self.bot.logout()
             os.system('python rufus.py')
         else:
-            await self.bot.say('*Insufficient privileges*')
+            await self.bot.say('```Insufficient privileges.```')
 
 
 def setup(bot):

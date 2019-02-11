@@ -30,6 +30,17 @@ class Commands:
         await self.bot.say('``' + str(len(str(string).replace(' ', '').replace('　', ''))) + '``')
 
     @commands.command()
+    async def repeat(self, char: str, times: int):
+        """ Repeat a character the specified amount of times.
+        """
+        i = 1
+        outString = str('')
+        while i <= times:
+            outString = outString + char[0:1]
+            i = i + 1
+        await self.bot.say('``{}``'.format(outString))
+
+    @commands.command()
     async def hello(self, *, greeting: str = ''):
         """ hi there
         """
@@ -162,7 +173,10 @@ class Commands:
         else:
             translatedList = translator.translate([text], src=fromLanguage, dest=toLanguage)
         for translated in translatedList:
-            await self.bot.say('``{}`` -> ``{}``'.format(translated.origin, translated.text))
+            if len('``{}`` -> ``{}``'.format(translated.origin, translated.text)) >= 2000:
+                await self.bot.say('```{}```'.format(translated.text))
+            else:
+                await self.bot.say('``{}`` -> ``{}``'.format(translated.origin, translated.text))
 
     @commands.command()
     async def imdb(self, *, searchString: str = ''):
