@@ -5,6 +5,7 @@ import config as c
 import os
 import re
 import subprocess
+from cogs import runners
 
 
 class Dev:
@@ -66,25 +67,27 @@ class Dev:
         """ Run the most recent code block written by you.
             Custom limit may not exceed 50 messages.
         """
-        counter = 0
-        languages = ['python']
-        if customLimit > 50:
-            customLimit = 50
-            await self.bot.say('```diff\n-Custom limit may not exceed 50 messages, reduced to 50.```')
-        async for message in self.bot.logs_from(ctx.message.channel, limit=int(customLimit)):
-            if message.content.startswith('```') and message.content.endswith('```') and message.author.id == ctx.message.author.id:
-                #lang = str(message.content).split(' ', 1)[0][3:]
-                lang = str(re.findall(r'^\w+[^\n]', message.content[3:-3])).strip('[\',]')
-                if any(lin in lang for lin in languages): # then check if it's a supported language
-                    #await self.bot.say('```{}\n{}```'.format(lang, re.sub(r'^\w+\s{1}', '', message.content[3:-3])))
-                    with open('./runners/{}.{}'.format(lang, lang), 'w') as runner_file:
-                        runner_file.write(re.sub(r'^\w+\s{1}', '', message.content[3:-3]))
-                    await self.bot.say(subprocess.run([lang, './runners/{}.{}'.format(lang, lang)], stdout=subprocess.PIPE).stdout.decode('utf-8'))
-                    return
-                else:
-                    await self.bot.say('```diff\n-No supported languages detected in header.```')
-                    return
-            counter += 1
+        if str(ctx.message.author.id) in str(c.owner_id) or str(c.dev_id):
+            counter = 0
+            languages = ['python', 'py']
+            if customLimit > 50:
+                customLimit = 50
+                await self.bot.say('```diff\n-Custom limit may not exceed 50 messages, reduced to 50.```')
+            async for message in self.bot.logs_from(ctx.message.channel, limit=int(customLimit)):
+                if message.content.startswith('```') and message.content.endswith('```') and message.author.id == ctx.message.author.id:
+                    lang = str(re.findall(r'^\w+[^\n]', message.content[3:-3])).strip('[\',]')
+                    if any(lin in lang for lin in languages): # check if it's a supported language
+                        if lang == 'python' or 'py':
+                            build = runners.python(message)
+                            await self.bot.say(build)
+                        return
+                    else:
+                        await self.bot.say('```diff\n-No supported languages detected in header.```')
+                        return
+                counter += 1
+        else:
+            await self.bot.say('```diff\n-Insufficient privileges.```')
+            return
 
 def setup(bot):
     """ defines setup """

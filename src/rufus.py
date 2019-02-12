@@ -9,7 +9,6 @@ import config as c
 import git
 import datetime
 
-
 STARTUP_EXTENSIONS = ['cogs.manager',
                       'cogs.admin',
                       'cogs.commands',
