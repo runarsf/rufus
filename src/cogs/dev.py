@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 from cogs import runners
+import whois
 
 
 class Dev:
@@ -53,6 +54,19 @@ class Dev:
                 if not file == 'uptime.py' and file.endswith('.py'):
                     cogger += (file+' ')
             self.bot.say('```{}```'.format(cogger))
+        else:
+            await self.bot.say('```diff\n-Insufficient privileges.```')
+
+    @commands.command(pass_context=True)
+    async def whois(self, ctx, *, domains: str):
+        """ Whois lookup.
+            Comma separated.
+        """
+        if str(ctx.message.author.id) in str(c.owner_id) or str(c.dev_id):
+            domains = domains.split(', ')
+            for dom in domains:
+                domain = whois.query(dom)
+                await self.bot.say(domain.name, domain.registrar)
         else:
             await self.bot.say('```diff\n-Insufficient privileges.```')
 

@@ -14,28 +14,29 @@ class Admin:
         self.bot = bot
 
     @commands.command(pass_context=True)
-    async def purge(self, ctx, amountUserAll: str):
-        """ Delete messages from current channel.
+    async def purge(self, ctx, specifier: str):
+        """ Delete messages.
+            {specifier}: [ amount | user | all ]
         """
-        usid = int(amountUserAll.replace('<@', '').replace('>', ''))
+        usid = int(specifier.replace('<@', '').replace('>', ''))
         if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
             await self.bot.delete_message(ctx.message)
-            if '<@' in amountUserAll and '>' in amountUserAll:
-                async for amountUserAll in self.bot.logs_from(ctx.message.channel):
-                    if amountUserAll not in self.bot.logs_from(ctx.message.channel):
+            if '<@' in specifier and '>' in specifier:
+                async for specifier in self.bot.logs_from(ctx.message.channel):
+                    if specifier not in self.bot.logs_from(ctx.message.channel):
                         return
                     else:
                         await self.bot.delete_message(ctx.message.id == usid)
-            elif amountUserAll == str('all'):
+            elif specifier == str('all'):
                 deleted = await self.bot.purge_from(ctx.message.channel, limit=750)
                 await self.bot.say('Bulk-purged **{}** Messages'.format(len(deleted)))
                 async for msg in self.bot.logs_from(ctx.message.channel):
                     await self.bot.delete_message(msg)
-            elif int(amountUserAll) > 0:
+            elif int(specifier) > 0:
                 counter = 0
-                for counter in range(int(amountUserAll)):
+                for counter in range(int(specifier)):
                     async for msg in self.bot.logs_from(ctx.message.channel):
-                        if int(counter) >= int(amountUserAll):
+                        if int(counter) >= int(specifier):
                             return
                         else:
                             await self.bot.delete_message(msg)
