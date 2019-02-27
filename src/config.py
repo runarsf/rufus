@@ -11,7 +11,7 @@ prefix = '>'
 docker_game = 'in a trashcan'
 #docker_game = 'under development'
 game = 'in his container'
-description = 'rufus'
+description = 'Usage: {}help [command]'.format(prefix)
 
 owner_id = '177098893069254656'
 dev_id = ['324943524132814849', '359319833680281601']

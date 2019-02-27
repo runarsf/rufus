@@ -45,7 +45,7 @@ async def on_ready():
 async def on_message(message):
     """ No swear words please.
     """
-    if c.prefix in message.content[:1]:
+    if c.prefix in message.content[:1] or 'rufus' in message.content[:5]:
         if not os.path.exists('logs'):
             os.makedirs('logs')
         with open('logs/bot.log', 'a') as logfile:
@@ -55,7 +55,7 @@ async def on_message(message):
             logfile.write(str('{}\n'.format(message.content)))
 
     try:
-        if message.author == bot.user:
+        if message.author == bot.user or message.author.bot == True:
             return
         elif any(mention in message.content for mention in c.mention):
             print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)

@@ -10,3 +10,4 @@ selenium
 wolframalpha
 wikipedia
 googletrans
+whois
