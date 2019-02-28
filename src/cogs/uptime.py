@@ -2,7 +2,7 @@ import time
 from discord.ext import commands
 from cogs import utils
 
-class Utils:
+class Utils(commands.Cog, name="Utils"):
     def __init__(self, bot):
         self.bot = bot
         self.startTime = int(time.time())

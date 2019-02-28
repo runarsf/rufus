@@ -1,4 +1,4 @@
-# **rufus**
+# **rufus** <sub>[REWRITE]</sub>
 
 [![Travis build](https://travis-ci.org/runarsf/rufus.svg?branch=master)](https://travis-ci.org/runarsf/rufus)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
@@ -12,6 +12,12 @@
 <br/>[Server Invite Link](https://discord.me/shindeiru)
 
 #### A multipurpose open-source Discord bot made with discord.py
+
+## This is the rewrite branch of the bot, not currently working.
+## https://github.com/Rapptz/discord.py/blob/rewrite/docs/migrating.rst
+## http://discordpy.readthedocs.io/en/rewrite/api.html
+## https://discordpy.readthedocs.io/en/rewrite/ext/commands/api.html
+## https://discordpy.readthedocs.io/en/rewrite/faq.html
 
 ## Prerequisites & requirements
 - docker

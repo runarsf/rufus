@@ -3,7 +3,7 @@
 from discord.ext import commands
 
 
-class Engine:
+class Engine(commands.Cog, name="Engine"):
     """ Different search engines. """
 
     def __init__(self, bot):

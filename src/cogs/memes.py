@@ -7,7 +7,7 @@ from discord.ext import commands
 
 from discord.ext import commands
 
-class Memes:
+class Memes(commands.Cog, name="Memes"):
     """ memes lol """
 
     def __init__(self, bot):

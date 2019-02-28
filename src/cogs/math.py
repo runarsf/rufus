@@ -4,7 +4,7 @@ import math
 
 from discord.ext import commands
 
-class Math:
+class Math(commands.Cog, name="Math"):
     """ Math commands. """
 
     def __init__(self, bot):

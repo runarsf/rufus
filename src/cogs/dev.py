@@ -9,7 +9,7 @@ from cogs import runners
 import whois
 
 
-class Dev:
+class Dev(commands.Cog, name="Dev"):
     """ dev stuff """
 
     def __init__(self, bot):

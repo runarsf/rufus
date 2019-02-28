@@ -1,11 +1,15 @@
-FROM python:alpine3.6
+FROM python
 
 COPY ./src /app
 WORKDIR /app
 
-RUN pip install -r ./requirements.txt
-#RUN python ./run.py
+RUN apt-get update && \
+	apt-get install git -y && \
+	apt-get install python3 -y && \
+	apt-get install python3-pip -y
+
+RUN python3 -m pip install -U -r ./requirements.txt
 
 EXPOSE 8080
 
-CMD ["python", "-u", "rufus.py"]
+CMD ["python3", "-u", "rufus.py"]

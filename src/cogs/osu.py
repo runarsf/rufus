@@ -5,7 +5,7 @@ import requests
 from discord.ext import commands
 
 
-class osu:
+class osu(commands.Cog, name="osu!"):
     """ osu! commands """
 
     def __init__(self, bot):

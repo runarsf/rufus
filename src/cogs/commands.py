@@ -1,48 +1,46 @@
-""" commands -- rufus.py """
-import random
 import config as c
-import os.path
-#import urllib.request, json, webbrowser
-import wolframalpha, wikipedia, requests
-from googletrans import Translator
-import time
-from time import gmtime, strftime
+import random
 import discord
+import requests
+import time
+import wolframalpha, wikipedia
+from time import gmtime, strftime
+from googletrans import Translator
 from discord.ext import commands
 
 
-class Commands:
-    """ commands """
+class CommandsCog(commands.Cog, name="General Commands"):
+    """ CommandsCog """
 
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    async def len(self, *, string: str):
+    @commands.command(name='len', aliases=['length'])
+    async def stringLength(self, ctx, *, string: str):
         """ Find length of string.
         """
-        await self.bot.say('``' + str(len(str(string))) + '``')
+        await ctx.send('``' + str(len(str(string))) + '``')
 
-    @commands.command()
-    async def chars(self, *, string: str):
-        """ Find amount of characters in a string, excludes spaces.
+    @commands.command(name='chars', aliases=['char', 'characters'])
+    async def stringCharacters(self, ctx, *, string: str):
+        """ Find character length of string.
         """
-        await self.bot.say('``' + str(len(str(string).replace(' ', '').replace('　', ''))) + '``')
+        await ctx.send('``' + str(len(str(string).replace(' ', '').replace('　', ''))) + '``')
 
-    @commands.command()
-    async def repeat(self, char: str, times: int):
-        """ Repeat a character the specified amount of times.
+    @commands.command(name='repeat', aliases=['append'])
+    async def repeatString(self, ctx, times: int = 1, *, repeatString: str = ''):
+        """ Repeat the specified string.
         """
         i = 1
         outString = str('')
         while i <= times:
-            outString = outString + char[0:1]
+            outString = outString + repeatString.replace(' ', '')
             i = i + 1
-        await self.bot.say('``{}``'.format(outString))
+        await ctx.send(f'``{outString}``')
 
-    @commands.command()
-    async def hello(self, *, greeting: str = ''):
-        """ hi there
+    @commands.command(name='hello', hidden=True)
+    async def greetings(self, ctx, *, greeting: str = ''):
+        """ hello there
         """
         exclamations = [
             '',
@@ -59,94 +57,82 @@ class Commands:
             '(◕‿◕)'
         ]
         if greeting == 'there':
-            await self.bot.say('General Kenobi  \\\.(o-o)./')
+            await ctx.send('General Kenobi  \\\.(o-o)./')
         else:
-            await self.bot.say('{}{} {}'.format(random.choice(c.greetings), random.choice(exclamations), random.choice(reactions)))
+            await ctx.send(f'{random.choice(c.greetings)}{random.choice(exclamations)} {random.choice(reactions)}')
 
-    @commands.command(pass_context=True)
-    async def roll(self, ctx, *, max: int = 100):
-        """ Rolls a random number. Default: 0-100.
+    @commands.command(name='roll', aliases=['random'])
+    async def rollNumber(self, ctx, min: int = 0, max: int = 100):
+        """ Rolls a random number.
         """
-        if max <= 0:
-            max = 100
-        droll = random.randint(0, max)
+        suffix = 's'
+        if max <= min:
+            max = min + 1
+        droll = random.randint(int(min), int(max))
         if droll == 1:
             suffix = ''
+        if int(droll) <= int(min) and int(droll) != int(min):
+            await ctx.send(f'```{ctx.message.author.name} rolls {str(droll)} point{str(suffix)}.```')
+            await ctx.send('You need to git gud, rolling isn\'t a joke -.-')
+        elif int(droll) == int(max) and int(droll) != int(min):
+            await ctx.send(f'```{ctx.message.author.name} rolls {str(droll)} point{str(suffix)}.```')
+            await ctx.send('GG!')
         else:
-            suffix = 's'
-        if droll <= 0:
-            await self.bot.say('```' + ctx.message.author.name +
-                               ' rolls ' + str(droll) + ' point' + str(suffix) + '```')
-            await self.bot.say('You need to git gud, rolling isn\'t a joke -.-')
-        elif droll == 100:
-            await self.bot.say('```' + ctx.message.author.name +
-                               ' rolls ' + str(droll) + ' point' + str(suffix) + '```')
-            await self.bot.say('GG!')
-        else:
-            await self.bot.say('```' + ctx.message.author.name +
-                               ' rolls ' + str(droll) + ' point' + str(suffix) + '```')
+            await ctx.send(f'```{ctx.message.author.name} rolls {str(droll)} point{str(suffix)}.```')
 
-    @commands.command(pass_context=True)
-    async def flip(self, ctx):
+    @commands.command(name='flip')
+    async def flipCoint(self, ctx):
         """ Flip a coin.
         """
         cflip = random.choice(['Heads', 'Tails'])
         if cflip == 'Heads':
-            await self.bot.add_reaction(ctx.message, '⚪')
-            await self.bot.add_reaction(ctx.message, '🇭')
-            # await self.bot.add_reaction(ctx.message, '🇪')
-            # await self.bot.add_reaction(ctx.message, '🇦')
-            # await self.bot.add_reaction(ctx.message, '🇩')
-            # await self.bot.add_reaction(ctx.message, '🇸')
+            await ctx.message.add_reaction('⚪')
+            await ctx.message.add_reaction('🇭') #🇪🇦🇩🇸
         elif cflip == 'Tails':
-            await self.bot.add_reaction(ctx.message, '⚫')
-            await self.bot.add_reaction(ctx.message, '🇹')
-            # await self.bot.add_reaction(ctx.message, '🇦')
-            # await self.bot.add_reaction(ctx.message, '🇮')
-            # await self.bot.add_reaction(ctx.message, '🇱')
-            # await self.bot.add_reaction(ctx.message, '🇸')
+            await ctx.message.add_reaction('⚫')
+            await ctx.message.add_reaction('🇹') #🇦🇮🇱🇸
 
-    @commands.command()
-    async def btc(self):
+    @commands.command(name='btc', aliases=['bitcoin'])
+    async def bitcoinPrice(self, ctx):
         """ Show BitCoin price in USD.
         """
         BTC_URL = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
         DATA = requests.get(BTC_URL).json()
         BTC_USD = DATA['bpi']['USD']['rate']
-        await self.bot.say('```' + 'BTC price is currently at $' + BTC_USD + ' USD' + '```')
+        await ctx.send(f'```BTC price is currently at ${BTC_USD} USD```')
 
-    @commands.command()
-    async def trump(self, *, searchString: str = 'random'):
+    @commands.command(name='trump', aliases=['drumpf', 'dump', 'tronald'])
+    async def trumpAPI(self, ctx, *, searchString: str = 'random'):
         """ Search the extensive database of Tronald Dump for rich knowledge.
         """
         if searchString == 'random':
             URL = 'https://api.tronalddump.io/random/quote'
             DATA = requests.get(URL).json()
             OUT = DATA['value']
-            await self.bot.say(OUT)
+            await ctx.send(f'```{OUT}```')
         else:
-            URL = 'https://api.tronalddump.io/search/quote?query={}'.format(searchString)
+            URL = f'https://api.tronalddump.io/search/quote?query={searchString}'
             DATA = requests.get(URL).json()
             COUNT = DATA['count']
             if COUNT <= 0:
-                await self.bot.say('Sorry, Trump never said anything about ``{}``.'.format(searchString))
+                await ctx.send(f'Sorry, Trump never said anything about ``{searchString}``')
             else:
                 OUT = DATA['_embedded']['quotes'][random.randint(0, COUNT-1)]['value']
-                await self.bot.say(OUT)
+                await ctx.send(f'```{OUT}```')
 
-    @commands.command()
-    async def query(self, *, query: str = ''):
-        """ Search wolfram alpha for query, if no answer is found, search Wikipedia.
+    @commands.command(name='query', aliases=['what', 'is', 'am'])
+    async def informationQuery(self, ctx, *, searchString: str = ''):
+        """ Search Wolfram alpha for query, if no answer is found, search Wikipedia.
         """
         try:
             client = wolframalpha.Client(c.wolfram_api_key)
-            res = client.query(query)
+            res = client.query(searchString)
             answer = next(res.results).text
-            await self.bot.say('```apache\n{}```'.format(answer))
+            await ctx.send(f'```apache\n{answer}```')
         except (Exception, StopIteration):
             try:
                 wikipedia.set_lang("en")
-                summary = wikipedia.summary(query)
+                summary = wikipedia.summary(searchString)
                 wikiLen = 2000
                 if len(summary) > 2000:
                     wikiLoop = 'true'
@@ -156,46 +142,49 @@ class Commands:
                             wikiLoop = 'false'
                         else:
                             wikiLen-=1
-                    await self.bot.say("``Summary was longer than expected, output truncated.``")
-                await self.bot.say(summary[:wikiLen])
+                    await ctx.send('``Summary was longer than expected, output truncated.``')
+                await ctx.send(summary[:wikiLen])
             except Exception:
-                await self.bot.say('Sorry, no matches were found for ``{}``.'.format(query))
+                await ctx.send(f'Sorry, no matches were found for ``{query}``.')
 
-    @commands.command()
-    async def translate(self, fromLanguage: str = '', toLanguage: str = '', *, text: str = ''):
+    @commands.command(name='translate', aliases=['tr'])
+    async def textTranslate(self, ctx, fromLanguage: str = '', toLanguage: str = '', *, text: str = ''):
         """ Translate string.
         """
         translator = Translator()
         if fromLanguage == '' or toLanguage == '' or text == '':
-            await self.bot.say('Missing information.')
-        elif fromLanguage == 'auto':
+            await ctx.send('```Missing information.```')
+        elif fromLanguage == 'auto' or fromLanguage == 'au':
             translatedList = translator.translate([text], dest=toLanguage)
         else:
             translatedList = translator.translate([text], src=fromLanguage, dest=toLanguage)
         for translated in translatedList:
-            if len('``{}`` -> ``{}``'.format(translated.origin, translated.text)) >= 2000:
-                await self.bot.say('```{}```'.format(translated.text))
+            if len(f'``{translated.origin}`` -> ``{translated.text}``') >= 2000:
+                await ctx.send(f'```{translated.text}```')
             else:
-                await self.bot.say('``{}`` -> ``{}``'.format(translated.origin, translated.text))
+                await ctx.send(f'``{translated.origin}`` -> ``{translated.text}``')
 
-    @commands.command()
-    async def imdb(self, *, searchString: str = ''):
+    @commands.command(name='imdb', aliases=['omdb'])
+    async def imdb(self, ctx, *, searchString: str = ''):
         """ Find information about movies, series etc.
         """
         if not searchString == '':
-            URL = 'https://www.omdbapi.com/?t={}&apikey={}'.format(searchString, c.omdb_api_key)
+            URL = f'https://www.omdbapi.com/?t={searchString}&apikey={c.omdb_api_key}'
             DATA = requests.get(URL).json()
-            await self.bot.say('```apache\nTitle: {}\nDate: {}\nLength: {}\nGenre: {}\nDirector: {}\nActors: {}\n\nPlot: {}```'.format(DATA['Title'], DATA['Released'], DATA['Runtime'], DATA['Genre'], DATA['Director'], DATA['Actors'], DATA['Plot']))
+            try:
+                await ctx.send(f'```apache\nTitle: {DATA["Title"]}\nDate: {DATA["Released"]}\nLength: {DATA["Runtime"]}\nGenre: {DATA["Genre"]}\nDirector: {DATA["Director"]}\nActors: {DATA["Actors"]}\n\nPlot: {DATA["Plot"]}```')
+            except Exception as error:
+                await ctx.send(f'```No movie or series with the title \'{searchString}\' was found.\n{type(error).__name__}: {error}```')
 
-    @commands.command()
-    async def urban(self, *, term: str = 'stupid'):
+    @commands.command(name='urban', alias=['dictionary', 'dict'])
+    async def urban(self, ctx, *, term: str = 'stupid'):
         """ Search Urban Dictionary for word definitions.
         """
-        URL = 'http://api.urbandictionary.com/v0/define?term={}'.format(term)
+        URL = f'http://api.urbandictionary.com/v0/define?term={term}'
         DATA = requests.get(URL).json()
         DEF = DATA['list'][0]['definition']
         EKS = DATA['list'][0]['example']
-        summary = 'Word: {}\n\nDefinition:\n\t{}\n\nUsage:\n\t{}'.format(term, DEF, EKS)
+        summary = f'Word: {term}\n\nDefinition:\n\t{DEF}\n\nUsage:\n\t{EKS}'
         dictLen = 1990
         if len(summary) > 1990:
             loop = 'true'
@@ -204,16 +193,16 @@ class Commands:
                     loop = 'false'
                 else:
                     dictLen-=1
-            await self.bot.say("``Summary was longer than expected, output truncated.``")
-        await self.bot.say('```apache\n{}```'.format(summary[:dictLen]))
+            await ctx.send('``Summary was longer than expected, output truncated.``')
+        await ctx.send(f'```apache\n{summary[:dictLen]}```')
 
-    @commands.command()
-    async def fm(self, username: str = '', detailed: str = 'false'):
+    @commands.command(name='lastfm', aliases=['last', 'fm'])
+    async def lastfm(self, ctx, username: str = '', detailed: str = 'false'):
         """ Get currently playing last.fm songs.
         """
         if detailed == '1' or detailed == 'yes':
             detailed = 'true'
-        URL = 'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={}&api_key={}&format=json'.format(username, c.lastfm_api_key)
+        URL = f'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={username}&api_key={c.lastfm_api_key}&format=json'
         DATA = requests.get(URL).json()
         TRACK = DATA['recenttracks']['track'][0]['name']
         ARTIST = DATA['recenttracks']['track'][0]['artist']['#text']
@@ -223,82 +212,69 @@ class Commands:
                 NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
                 FM_URL = DATA['recenttracks']['track'][0]['url']
                 IMAGE = DATA['recenttracks']['track'][0]['image'][3]['#text']
-                await self.bot.say('```apache\nTrack: {}\nArtist: {}\nAlbum: {}\n\nURL: {}\nImage: {}```'.format(TRACK, ARTIST, ALBUM, FM_URL, IMAGE))
+                await ctx.send(f'```apache\nTrack: {TRACK}\nArtist: {ARTIST}\nAlbum: {ALBUM}\n\nURL: {FM_URL}\nImage: {IMAGE}```')
             except Exception:
-                await self.bot.say('```diff\n-User {} is not scrobbling anything at the moment.```'.format(username))
+                await ctx.send(f'```User {username} is not scrobbling anything at the moment.```')
         else:
             try:
                 NOWPLAYING = DATA['recenttracks']['track'][0]['@attr']['nowplaying']
-                await self.bot.say('```brainfuck\n{} : {} ( {} )```'.format(ARTIST, TRACK, ALBUM))
+                await ctx.send(f'```brainfuck\n{ARTIST} : {TRACK} ( {ALBUM} )```')
             except Exception:
-                await self.bot.say('```diff\n-User {} is not scrobbling anything at the moment.```'.format(username))
+                await ctx.send(f'```User {username} is not scrobbling anything at the moment.```')
 
-    @commands.command(pass_context=True)
-    async def poke(self, ctx, user: discord.User = '', *, message: str = ''):
+    @commands.command(name='poke')
+    async def poke(self, ctx, member: discord.Member = '', *, message: str = ''):
         """ Poke user.
         """
-        if user == '':
-            await self.bot.say('*You tried poking the air... the air didn\'t respond.*')
+        if member == '':
+            await ctx.send('*You tried poking the air... the air didn\'t respond.*')
         else:
-
             if message == '':
-                await self.bot.say('*{} poked {}*'.format(ctx.message.author.name, user))
+                await ctx.send(f'*{ctx.message.author.name} poked {member}*')
             else:
-                await self.bot.say('*{} poked {}; ``{}``*'.format(ctx.message.author.name, user, message))
-            await self.bot.delete_message(ctx.message)
+                await ctx.send(f'*{ctx.message.author.name} poked {member}; ``{message}``*')
+            await ctx.message.delete()
 
-    @commands.command()
-    async def timer(self, seconds: int, *, name: str = ''):
+    @commands.command(name='timer', aliases=['countdown'])
+    async def countdownTimer(self, ctx, seconds: int, *, name: str = ''):
         """ Starts a countdown timer.
         """
         if name != '':
-            name = ' Timer name: {}'.format(name)
+            name = f' Timer name: {name}'
         os = seconds
-        msg = await self.bot.say('`` {} ``'.format(seconds))
+        msg = await ctx.send(f'`` {os} ``')
         while seconds > 0:
             time.sleep(1)
             seconds -= 1
-            await self.bot.edit_message(msg, '`` {} ``'.format(seconds))
-        await self.bot.edit_message(msg, '`` Timer expired. ``')
-        await self.bot.say('Time is up! {} seconds have passed.{}'.format(os, name))
+            await msg.edit(content=f'`` {seconds} ``')
+        await ctx.send(f'Time is up! {os} seconds have passed.{name}')
 
-    @commands.command(pass_context=True)
-    async def echo(self, ctx, *, text: str):
+    @commands.command(name='echo', aliases=['say', 'print', 'printf'])
+    async def botEcho(self, ctx, *, phrase: str):
         """ Make the bot say something.
         """
-        await self.bot.delete_message(ctx.message)
-        await self.bot.say(text)
+        await ctx.message.delete()
+        await ctx.send(phrase)
 
-    @commands.command(pass_context=True)
-    async def info(self, ctx, user: discord.User = ''):
+    @commands.command(name='info', aliases=['inf', 'userinfo'])
+    async def memberInfo(self, ctx, *, member: discord.Member = ''):
         """ User info.
         """
-        if not user:
-            user=ctx.message.author
-        #userDescription = """
-#id: {}
-#nick: {}
-#created at: {}
-#joined at: {}
-#game: {}
-#top role: {}
-#bot? {}
-#avatar: {}
-        #""".format(user.id, user.nick, user.created_at, user.joined_at, user.game, user.top_role, user.bot, user.avatar_url)
-        embed=discord.Embed(title='{}#{}'.format(user.name, user.discriminator), color=0x114455)
-        embed.set_thumbnail(url=(user.avatar_url))
+        if not member:
+            member=ctx.message.author
+        embed=discord.Embed(title=f'{member.name}#{member.discriminator}', color=0x114455)
+        embed.set_thumbnail(url=(member.avatar_url))
         embed.set_footer(text=strftime("%d-%m-%Y %H:%M:%S", gmtime()))
-        embed.add_field(name="id:", value=user.id, inline=False)
-        embed.add_field(name="nick:", value=user.nick, inline=False)
-        embed.add_field(name="created at:", value=user.created_at, inline=False)
-        embed.add_field(name="joined at:", value=user.joined_at, inline=False)
-        embed.add_field(name="game:", value=user.game, inline=False)
-        embed.add_field(name="top role:", value=user.top_role, inline=False)
-        embed.add_field(name="bot?", value=user.bot, inline=False)
-        embed.add_field(name="avatar:", value=user.avatar_url, inline=False)
-        await self.bot.say(embed=embed)
+        embed.add_field(name="id:", value=member.id, inline=False)
+        embed.add_field(name="nick:", value=member.nick, inline=False)
+        embed.add_field(name="created at:", value=member.created_at, inline=False)
+        embed.add_field(name="joined at:", value=member.joined_at, inline=False)
+        embed.add_field(name="game:", value=str(member.activities).replace('()', 'None'), inline=False)
+        embed.add_field(name="top role:", value=member.top_role, inline=False)
+        embed.add_field(name="bot?", value=member.bot, inline=False)
+        embed.add_field(name="avatar url:", value=member.avatar_url, inline=False)
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
-    """ defines setup """
-    bot.add_cog(Commands(bot))
+    bot.add_cog(CommandsCog(bot))
