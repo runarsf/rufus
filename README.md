@@ -13,23 +13,22 @@
 
 #### A multipurpose open-source Discord bot made with discord.py
 
-## This is the rewrite branch of the bot, not currently working.
-## https://github.com/Rapptz/discord.py/blob/rewrite/docs/migrating.rst
-## http://discordpy.readthedocs.io/en/rewrite/api.html
-## https://discordpy.readthedocs.io/en/rewrite/ext/commands/api.html
-## https://discordpy.readthedocs.io/en/rewrite/faq.html
-## https://owo.codes/EJH2/ViralBot/blob/c4d9ab60bad8032bb88a1bf07cea4d7bf7dae2f2/discordbot/cogs/mod.py
+## Useful <sub>rewrite</sub> links
+- https://github.com/Rapptz/discord.py/blob/rewrite/docs/migrating.rst
+- http://discordpy.readthedocs.io/en/rewrite/api.html
+- https://discordpy.readthedocs.io/en/rewrite/ext/commands/api.html
+- https://discordpy.readthedocs.io/en/rewrite/faq.html
+- https://owo.codes/EJH2/ViralBot/blob/c4d9ab60bad8032bb88a1bf07cea4d7bf7dae2f2/discordbot/cogs/mod.py
 
 ## Prerequisites & requirements
 - docker
 - docker-compose
 
 ## Set up
-- **Recommended**: [Add the bot](https://discordapp.com/oauth2/authorize?client_id=387390496038977536&scope=bot&permissions=2146958591) to your own server!
-- Not recommended: Run your own instance.
-    - git clone https://github.com/runarsf/rufus
-    - [Download](https://github.com/runarsf/rufus/archive/master.zip) zip
-
+- **Strongly recommended**: [Add the bot](https://discordapp.com/oauth2/authorize?client_id=387390496038977536&scope=bot&permissions=2146958591) to your own server!
+- Not recommended: Run your own instance (not making instructions).
+    - git clone -b rewrite https://github.com/runarsf/rufus
+	- [Download](https://github.com/runarsf/rufus/archive/rewrite.zip) zip
 
 - Simply want to see the bot in action? [Join](https://discord.me/shindeiru) my Discord server!
     - This has the added bonus of constant status updates on how the bot is doing.
