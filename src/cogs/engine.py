@@ -3,30 +3,29 @@
 from discord.ext import commands
 
 
-class Engine(commands.Cog, name="Engine"):
-    """ Different search engines. """
+class EngineCog(commands.Cog, name="Search Engines"):
+    """ EngineCog """
 
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    async def genius(self, *, content):
+    @commands.command(name='genius', aliases=['lyrics'])
+    async def _genius(self, ctx, *, content):
         """ Search Genius for lyrics
         """
-        await self.bot.say('https://genius.com/search?q=' + content.replace(' ', '%20'))
+        await ctx.send(f'https://genius.com/search?q={content.replace(" ", "%20")}')
 
-    @commands.command()
-    async def fandom(self, *, content):
+    @commands.command(name='fandom')
+    async def _fandom(self, ctx, *, content):
         """ Search Fandom for stuff.
         """
-        await self.bot.say('http://fandom.wikia.com/?s=' + content.replace(' ', '+'))
+        await ctx.send(f'http://fandom.wikia.com/?s={content.replace(" ", "+")}')
 
-    @commands.command()
-    async def lmgtfy(self, *, content):
+    @commands.command(name='lmgtfy')
+    async def _lmgtfy(self, ctx, *, content):
         """ Let Me Google That For You.
         """
-        await self.bot.say('http://lmgtfy.com/?q=' + content.replace(' ', '+'))
+        await ctx.send(f'http://lmgtfy.com/?q={content.replace(" ", "+")}')
 
 def setup(bot):
-    """ defines setup """
-    bot.add_cog(Engine(bot))
+    bot.add_cog(EngineCog(bot))

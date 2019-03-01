@@ -15,20 +15,20 @@ class CommandsCog(commands.Cog, name="General Commands"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='len', aliases=['length'])
-    async def stringLength(self, ctx, *, string: str):
+    @commands.command(name='length', aliases=['len'])
+    async def _length(self, ctx, *, string: str):
         """ Find length of string.
         """
         await ctx.send('``' + str(len(str(string))) + '``')
 
-    @commands.command(name='chars', aliases=['char', 'characters'])
-    async def stringCharacters(self, ctx, *, string: str):
+    @commands.command(name='characters', aliases=['char', 'chars'])
+    async def _characters(self, ctx, *, string: str):
         """ Find character length of string.
         """
         await ctx.send('``' + str(len(str(string).replace(' ', '').replace('　', ''))) + '``')
 
-    @commands.command(name='repeat', aliases=['append'])
-    async def repeatString(self, ctx, times: int = 1, *, repeatString: str = ''):
+    @commands.command(name='repeat', aliases=['combine'])
+    async def _repeat(self, ctx, times: int = 1, *, repeatString: str = ''):
         """ Repeat the specified string.
         """
         i = 1
@@ -38,8 +38,17 @@ class CommandsCog(commands.Cog, name="General Commands"):
             i = i + 1
         await ctx.send(f'``{outString}``')
 
+    @commands.command(name='input')
+    async def _wait_for_input(self, ctx):
+        channel = ctx.message.channel
+        await channel.send('Say hello!')
+        def check(m):
+            return m.content == 'hello' and m.channel == channel
+        msg = await self.bot.wait_for('message', check=check)
+        await channel.send('Hello {.author}!'.format(msg))
+
     @commands.command(name='hello', hidden=True)
-    async def greetings(self, ctx, *, greeting: str = ''):
+    async def _greet(self, ctx, *, greeting: str = ''):
         """ hello there
         """
         exclamations = [
@@ -62,7 +71,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
             await ctx.send(f'{random.choice(c.greetings)}{random.choice(exclamations)} {random.choice(reactions)}')
 
     @commands.command(name='roll', aliases=['random'])
-    async def rollNumber(self, ctx, min: int = 0, max: int = 100):
+    async def _roll(self, ctx, min: int = 0, max: int = 100):
         """ Rolls a random number.
         """
         suffix = 's'
@@ -81,7 +90,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
             await ctx.send(f'```{ctx.message.author.name} rolls {str(droll)} point{str(suffix)}.```')
 
     @commands.command(name='flip')
-    async def flipCoint(self, ctx):
+    async def _flip(self, ctx):
         """ Flip a coin.
         """
         cflip = random.choice(['Heads', 'Tails'])
@@ -93,7 +102,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
             await ctx.message.add_reaction('🇹') #🇦🇮🇱🇸
 
     @commands.command(name='btc', aliases=['bitcoin'])
-    async def bitcoinPrice(self, ctx):
+    async def _bitcoin(self, ctx):
         """ Show BitCoin price in USD.
         """
         BTC_URL = 'https://api.coindesk.com/v1/bpi/currentprice/BTC.json'
@@ -102,7 +111,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
         await ctx.send(f'```BTC price is currently at ${BTC_USD} USD```')
 
     @commands.command(name='trump', aliases=['drumpf', 'dump', 'tronald'])
-    async def trumpAPI(self, ctx, *, searchString: str = 'random'):
+    async def _trump(self, ctx, *, searchString: str = 'random'):
         """ Search the extensive database of Tronald Dump for rich knowledge.
         """
         if searchString == 'random':
@@ -121,7 +130,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
                 await ctx.send(f'```{OUT}```')
 
     @commands.command(name='query', aliases=['what', 'is', 'am'])
-    async def informationQuery(self, ctx, *, searchString: str = ''):
+    async def _query(self, ctx, *, searchString: str = ''):
         """ Search Wolfram alpha for query, if no answer is found, search Wikipedia.
         """
         try:
@@ -148,7 +157,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
                 await ctx.send(f'Sorry, no matches were found for ``{query}``.')
 
     @commands.command(name='translate', aliases=['tr'])
-    async def textTranslate(self, ctx, fromLanguage: str = '', toLanguage: str = '', *, text: str = ''):
+    async def _translate(self, ctx, fromLanguage: str = '', toLanguage: str = '', *, text: str = ''):
         """ Translate string.
         """
         translator = Translator()
@@ -164,8 +173,8 @@ class CommandsCog(commands.Cog, name="General Commands"):
             else:
                 await ctx.send(f'``{translated.origin}`` -> ``{translated.text}``')
 
-    @commands.command(name='imdb', aliases=['omdb'])
-    async def imdb(self, ctx, *, searchString: str = ''):
+    @commands.command(name='imdb', aliases=['omdb', 'movie', 'series'])
+    async def _imdb(self, ctx, *, searchString: str = ''):
         """ Find information about movies, series etc.
         """
         if not searchString == '':
@@ -177,7 +186,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
                 await ctx.send(f'```No movie or series with the title \'{searchString}\' was found.\n{type(error).__name__}: {error}```')
 
     @commands.command(name='urban', alias=['dictionary', 'dict'])
-    async def urban(self, ctx, *, term: str = 'stupid'):
+    async def _urban(self, ctx, *, term: str = 'stupid'):
         """ Search Urban Dictionary for word definitions.
         """
         URL = f'http://api.urbandictionary.com/v0/define?term={term}'
@@ -197,7 +206,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
         await ctx.send(f'```apache\n{summary[:dictLen]}```')
 
     @commands.command(name='lastfm', aliases=['last', 'fm'])
-    async def lastfm(self, ctx, username: str = '', detailed: str = 'false'):
+    async def _lastfm(self, ctx, username: str = '', detailed: str = 'false'):
         """ Get currently playing last.fm songs.
         """
         if detailed == '1' or detailed == 'yes':
@@ -223,7 +232,8 @@ class CommandsCog(commands.Cog, name="General Commands"):
                 await ctx.send(f'```User {username} is not scrobbling anything at the moment.```')
 
     @commands.command(name='poke')
-    async def poke(self, ctx, member: discord.Member = '', *, message: str = ''):
+    @commands.guild_only()
+    async def _poke(self, ctx, member: discord.Member = '', *, message: str = ''):
         """ Poke user.
         """
         if member == '':
@@ -236,7 +246,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
             await ctx.message.delete()
 
     @commands.command(name='timer', aliases=['countdown'])
-    async def countdownTimer(self, ctx, seconds: int, *, name: str = ''):
+    async def _countdown(self, ctx, seconds: int, *, name: str = ''):
         """ Starts a countdown timer.
         """
         if name != '':
@@ -250,14 +260,14 @@ class CommandsCog(commands.Cog, name="General Commands"):
         await ctx.send(f'Time is up! {os} seconds have passed.{name}')
 
     @commands.command(name='echo', aliases=['say', 'print', 'printf'])
-    async def botEcho(self, ctx, *, phrase: str):
+    async def _echo(self, ctx, *, phrase: str):
         """ Make the bot say something.
         """
         await ctx.message.delete()
         await ctx.send(phrase)
 
     @commands.command(name='info', aliases=['inf', 'userinfo'])
-    async def memberInfo(self, ctx, *, member: discord.Member = ''):
+    async def _info(self, ctx, *, member: discord.Member = ''):
         """ User info.
         """
         if not member:

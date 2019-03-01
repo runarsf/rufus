@@ -1,19 +1,25 @@
-import time
-from discord.ext import commands
-from cogs import utils
 
-class Utils(commands.Cog, name="Utils"):
-    def __init__(self, bot):
-        self.bot = bot
-        self.startTime = int(time.time())
-
-    @commands.command(pass_context=True)
-    async def uptime(self):
-        """ Shows the uptime of the bot.
-        """
-        current_time = int(time.time())
-        uptime = utils.ReadableTime(self.startTime, current_time)
-        await self.bot.say('I\'ve been up for *{}*.'.format(uptime))
-
-def setup(bot):
-    bot.add_cog(Utils(bot))
+def ReadableTime(first, last):
+    readTime = int(last-first)
+    weeks   = int(readTime/604800)
+    days    = int((readTime-(weeks*604800))/86400)
+    hours   = int((readTime-(days*86400 + weeks*604800))/3600)
+    minutes = int((readTime-(hours*3600 + days*86400 + weeks*604800))/60)
+    seconds = int(readTime-(minutes*60 + hours*3600 + days*86400 + weeks*604800))
+    msg = ''
+    if weeks > 0:
+        msg += '1 week, ' if weeks == 1 else '{:,} weeks, '.format(weeks)
+    if weeks > 0:
+        msg += "1 week, " if weeks == 1 else "{:,} weeks, ".format(weeks)
+    if days > 0:
+        msg += "1 day, " if days == 1 else "{:,} days, ".format(days)
+    if hours > 0:
+        msg += "1 hour, " if hours == 1 else "{:,} hours, ".format(hours)
+    if minutes > 0:
+        msg += "1 minute, " if minutes == 1 else "{:,} minutes, ".format(minutes)
+    if seconds > 0:
+        msg += "1 second, " if seconds == 1 else "{:,} seconds, ".format(seconds)
+    if msg == "":
+        return "0 seconds"
+    else:
+        return msg[:-2]

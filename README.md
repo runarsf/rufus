@@ -18,6 +18,7 @@
 ## http://discordpy.readthedocs.io/en/rewrite/api.html
 ## https://discordpy.readthedocs.io/en/rewrite/ext/commands/api.html
 ## https://discordpy.readthedocs.io/en/rewrite/faq.html
+## https://owo.codes/EJH2/ViralBot/blob/c4d9ab60bad8032bb88a1bf07cea4d7bf7dae2f2/discordbot/cogs/mod.py
 
 ## Prerequisites & requirements
 - docker

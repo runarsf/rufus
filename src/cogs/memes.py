@@ -1,101 +1,92 @@
-""" memes -- rufus.py """
-"""import asyncio"""
 import random
 import os
+import re
 import discord
+import asyncio
 from discord.ext import commands
 
-from discord.ext import commands
-
-class Memes(commands.Cog, name="Memes"):
-    """ memes lol """
+class MemesCog(commands.Cog, name="Memes"):
+    """ MemesCog """
 
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(pass_context=True)
-    async def kms(self, ctx):
+    @commands.command(name='kms')
+    async def _self_kill(self, ctx):
         """ End it all.
         """
-        await self.bot.send_file(ctx.message.channel, str("{}/../img/anoose.jpg".format(os.path.dirname(os.path.realpath(__file__)))))
-        await self.bot.say('Come ' + ctx.message.author.mention +
-                           '. *~~He?~~* She\'s waiting for you!')
+        await ctx.send(file=discord.File(f'{str(os.path.dirname(os.path.realpath(__file__)))}/../img/anoose.jpg'))
+        await ctx.send(f'Come {ctx.message.author.mention}. *~~He?~~* She\'s waiting for you!')
 
-    @commands.command(pass_context=True)
-    async def lenny(self, ctx):
+    @commands.command(name='lenny')
+    async def _lennyface(self, ctx):
         """ Replaces user message with lennyface.
         """
-        await self.bot.say('( ͡° ͜ʖ ͡°)')
-        await self.bot.delete_message(ctx.message)
+        await ctx.send('( ͡° ͜ʖ ͡°)')
+        await ctx.message.delete()
 
-    @commands.command(pass_context=True)
-    async def kys(self, ctx, *, user: str):
+    @commands.command(name='kys')
+    async def _member_kill(self, ctx, *, member: discord.Member = ''):
         """ Please be cautious when using this command.
         """
-        await self.bot.say('Hey ' + user + '. ' +
-                           ctx.message.author.name + ' Is implying *he/she/it/social ' +
-                           'construct* wants you to cease existing, however, ' +
-                           'for their will to be fulfilled, ' +
-                           'the death needs to be inflicted by yourself and yourself alone.')
-        await self.bot.delete_message(ctx.message)
+        await ctx.message.delete()
+        await ctx.send(f'Hey {member}. {ctx.message.author.name} is implying *he/she/it/social construct*' +
+                        'wants you to cease existing, however,' +
+                        'for their will to be fulfilled,' +
+                        'the death needs to be inflicted by yourself and yourself alone.')
 
-    #@commands.command(pass_context=True)
-    #async def pooser(self, ctx):
-    #    """ Why the actual f did I implement this?
-    #    """
-    #    await self.bot.send_file(ctx.message.channel, 'img/pooser.png')
-    #    await self.bot.say('OwO wat dis?')
-    #    asyncio.sleep(4)
-    #    await self.bot.send_file(ctx.message.channel, 'img/poosna.png')
-    #    await self.bot.say('It are his lips you porv.')
-    #    asyncio.sleep(4)
-    #    await self.bot.send_file(ctx.message.channel, 'img/ramboozled.png')
-    #    await self.bot.say('jk it am the handees of the Re:0*GB* Ram')
-
-    @commands.command(pass_context=True)
-    async def tocch(self, ctx):
+    @commands.command(name='tocch', aliases=['touch'])
+    async def _touch_spaghetti(self, ctx):
         """ DOON NOTT TOCCH S P A G O O T
         """
-        await self.bot.add_reaction(ctx.message, '🍝')
+        channel = ctx.message.channel
+        await ctx.message.add_reaction('🍝')
+        def check(reaction, user):
+            return user == ctx.message.author and str(reaction.emoji) == '🍝'
+        try:
+            reaction, user = await self.bot.wait_for('reaction_add', timeout=30.0, check=check)
+        except asyncio.TimeoutError:
+            await ctx.message.remove_reaction('🍝', self.bot.user)
+        else:
+            await channel.send('***DOON NOTT TOCCH S P A G O O T***')
+            await ctx.message.remove_reaction('🍝', user)
 
-    @commands.command()
-    async def knuckles(self):
+    @commands.command(name='knuckles')
+    async def _ugandan_knuckles(self, ctx):
         """ DO YOU KNO DE WAE?
         """
-        knuckles = ["ALL HEIL DE QUEEN BRUDDERS",
-                    "*spit*",
-                    "WE MUST PROTECC DE QUEEN",
-                    "DO YOU KNO DE WAE?",
-                    "WE MUST RETURN TO UGANDA",
-                    "YOU MUST BOW DOWN TO DE QUEEN",
-                    "I DON'T KNOW DE WAE",
-                    "MY BRUDDERS THE QUEEN WILL MAKE A SPEECH",
-                    "SPIT ON HIM",
-                    "DO NOT DISRESPEC DE QUEEN",
-                    "WHY AR U RUNNIN?"
-					]
-        await self.bot.say(random.choice(knuckles))
+        knuckles = ['ALL HEIL DE QUEEN BRUDDERS',
+                    '*spit*',
+                    'WE MUST PROTECC DE QUEEN',
+                    'DO YOU KNO DE WAE?',
+                    'WE MUST RETURN TO UGANDA',
+                    'YOU MUST BOW DOWN TO DE QUEEN',
+                    'I DON\'T KNOW DE WAE',
+                    'MY BRUDDERS THE QUEEN WILL MAKE A SPEECH',
+                    'SPIT ON HIM',
+                    'DO NOT DISRESPEC DE QUEEN',
+                    'WHY AR U RUNNIN?'
+		    ]
+        await ctx.send(random.choice(knuckles))
 
-    @commands.command()
-    async def owo(self, *, message: str = 'owo'):
-        """ owo~ify something.
+    @commands.command(name='owo', aliases=['uwu'])
+    async def _owo(self, ctx, *, message: str = 'owo'):
+        """ owo~ify text.
         """
         owolist = ['(・`ω´・)', ';;w;;', ';w;', 'owo', 'OwO', 'Owo', 'owO', 'uwu', 'UwU', '>w<', '^w^']
+        replacers = [',', '.', '!', '?']
         message = message.replace('l', 'w').replace('L', 'W').replace('r', 'w').replace('R', 'W')
-        message = message.replace(',', ' ' + random.choice(owolist)).replace('!', ' ' + random.choice(owolist)).replace('?', ' ' + random.choice(owolist))
-        await self.bot.say('```{}```'.format(message))
+        newmessage = message
+        for index, letter in enumerate(str(message)):
+            if letter in replacers:
+                if str(message)[index-1:index] == ' ':
+                    newmessage = newmessage.replace(letter, random.choice(owolist), 1)
+                else:
+                    newmessage = newmessage.replace(letter, f' {random.choice(owolist)}', 1)
+        await ctx.send(f'```{newmessage}```')
 
-    @commands.command()
-    async def ss(self, *, message: str = ''):
-        """ ss-ify something.
-        """
-        if message == '':
-            message = 'ẞß'
-        message = message.replace('ss', 'ß').replace('SS', 'ẞ').replace('sS', 'ß').replace('Ss', 'ẞ')
-        await self.bot.say('```css\n{}```'.format(message))
-
-    @commands.command()
-    async def mock(self, *, string: str = ''):
+    @commands.command(name='mock')
+    async def _mock(self, ctx, *, string: str = ''):
         """ Convert string to mocking.
         """
         if string:
@@ -107,37 +98,33 @@ class Memes(commands.Cog, name="Memes"):
                 else:
                     outstr+=letter.upper()
                 i+=1
-            await self.bot.say('*{}*'.format(outstr))
+            await ctx.send(f'```{outstr}```')
 
-    @commands.command(pass_context=True)
-    async def pat(self, ctx, user: discord.User = '', *, message: str = ''):
-        """ Pat user uwu.
+    @commands.command(name='pat')
+    async def _pat(self, ctx, member: discord.Member = '', *, message: str = ''):
+        """ Pat  uwu.
         """
-        if user == '':
-            await self.bot.say('uwu')
+        if member == '':
+            await ctx.send('uwu')
         else:
             if message == '':
-                await self.bot.say('*{} patted {} and is probably a disgusting weeb!*'.format(ctx.message.author.name, user))
+                await ctx.send(f'*{ctx.message.author.name} patted {member} and is probably a disgusting weeb!*')
             else:
-                await self.bot.say('*{} patted {} {}*'.format(ctx.message.author.name, user, message))
+                await self.bot.say(f'*{ctx.message.author.name} patted {member} {message}*')
 
-    @commands.command(pass_context=True)
-    async def hug(self, ctx, *, user: str = ''):
+    @commands.command(name='hug')
+    async def _hug(self, ctx, *, member: discord.Member = ''):
         """ Hug user.
         """
         mcont = ctx.message.content
-        if user == '':
-            await self.bot.say('*{} tries to hug the air*'.format(ctx.message.author.name))
-        elif user == 'me':
-            await self.bot.say('*I hugged {}*'.format(ctx.message.author.name))
-        elif user == '<@{}>'.format(ctx.message.author.id):
-            await self.bot.say('Aaaaaaall by myseeeeeeeelf.')
-        elif user == '<@{}>'.format(self.bot.user.id):
-            await self.bot.say(' OwO wat dis? Am I being hugger?' +
-                               ' Hmmmm... always be a mystery it will')
+        if member == '':
+            await ctx.send(f'*{ctx.message.author.name} tries to hug the air*')
+        elif member == ctx.message.author:
+            await ctx.send(random.choice(['Aaaaaaall by myseeeeeeeelf.', '*hugs you*']))
+        elif member == self.bot.user:
+            await ctx.send('OwO wat dis? Am I being hugger?')
         else:
-            await self.bot.say('{} hugged {} :hearts:'.format(ctx.message.author.name, user))
+            await ctx.send(f'{ctx.message.author.name} hugged {member} :hearts:')
 
 def setup(bot):
-    """ defines setup """
-    bot.add_cog(Memes(bot))
+    bot.add_cog(MemesCog(bot))

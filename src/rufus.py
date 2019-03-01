@@ -8,7 +8,12 @@ import config as c
 import datetime
 
 STARTUP_EXTENSIONS = ['cogs.owner',
-                      'cogs.commands'
+                      'cogs.commands',
+                      'cogs.admin',
+                      'cogs.dev',
+                      'cogs.engine',
+                      'cogs.osu',
+                      'cogs.memes'
                      ]
 
 def get_prefix(bot, message):
@@ -53,6 +58,15 @@ async def on_message(message):
                     message.content = c.prefixes[i]+'hello'
             logger(message)
             await bot.process_commands(message)
+
+@bot.event
+async def on_command_error(self, exception):
+    if isinstance(exception, commands.errors.MissingPermissions):
+        await self.send(f'```Sorry {self.message.author}, you do not have permissions to do that!```')
+    elif isinstance(exception, commands.errors.CheckFailure):
+        await self.send(f'```Sorry {self.message.author}, you don\'t have the necessary roles for that.```')
+    else:
+        await self.send(f'```python\n{type(exception).__name__}: {exception}```')
 
 def logger(message):
     try:

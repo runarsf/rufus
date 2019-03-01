@@ -10,7 +10,7 @@ class OwnerCog(commands.Cog, name="Owner Commands"):
 
     @commands.command(name='load', hidden=True)
     @commands.is_owner()
-    async def cogLoad(self, ctx, *, cog: str):
+    async def _load(self, ctx, *, cog: str):
         """ Command which Loads a Module.
             Remember to use dot path. e.g: cogs.owner
         """
@@ -23,7 +23,7 @@ class OwnerCog(commands.Cog, name="Owner Commands"):
 
     @commands.command(name='unload', hidden=True)
     @commands.is_owner()
-    async def cogUnload(self, ctx, *, cog: str):
+    async def _unload(self, ctx, *, cog: str):
         """ Command which Unloads a Module.
             Remember to use dot path. e.g: cogs.owner
         """
@@ -36,7 +36,7 @@ class OwnerCog(commands.Cog, name="Owner Commands"):
 
     @commands.command(name='reload', hidden=True)
     @commands.is_owner()
-    async def cogReload(self, ctx, *, cog: str):
+    async def _reload(self, ctx, *, cog: str):
         """ Command which Reloads a Module.
             Remember to use dot path. e.g: cogs.owner
         """
@@ -50,7 +50,7 @@ class OwnerCog(commands.Cog, name="Owner Commands"):
 
     @commands.command(name='pull', hidden=True)
     @commands.is_owner()
-    async def gitPull(self, ctx, cog: str = ''):
+    async def _pull(self, ctx, cog: str = ''):
         """ Pull github origin.
             If argument is passed, cog will be reloaded.
             Does not currently support docker mode.
@@ -73,7 +73,7 @@ class OwnerCog(commands.Cog, name="Owner Commands"):
 
     @commands.command(name='stop', hidden=True, aliases=['exit', 'die'])
     @commands.is_owner()
-    async def stopBot(self, ctx):
+    async def _stop(self, ctx):
         """ Stops the bot.
         """
         await ctx.send('*Goodbye.*')

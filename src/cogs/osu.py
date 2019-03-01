@@ -1,18 +1,17 @@
-""" osu! -- rufus.py """
 import config as c
 import os.path
 import requests
 from discord.ext import commands
 
 
-class osu(commands.Cog, name="osu!"):
-    """ osu! commands """
+class OsuCog(commands.Cog, name="osu!"):
+    """ OsuCog """
 
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    async def o_user(self, username, mode='osu!'):
+    @commands.command(name='o_user')
+    async def _osu_user(self, ctx, username, mode='osu!'):
         """ Get osu! user information.
             Available modes:
                 - osu!
@@ -33,12 +32,31 @@ class osu(commands.Cog, name="osu!"):
         BEST_URL = 'https://osu.ppy.sh/api/get_user_best?k={}&m={}&limit=3&u={}'.format(c.osu_api_key, mode, username)
         BEST_DATA = requests.get(BEST_URL).json()
         try:
-            await self.bot.say('```apache\nUsername: {}\nID: {}\nCreated: {}\n300: {}\n100: {}\n50: {}\nPlays: {}\nLevel: {}\nPP: {}\nAccuracy: {}\nSS/SSH: {}/{}\nS/SH: {}/{}\nA: {}\nCountry: {}\n\nTop Scores:\n\t1. {}\n\t2. {}\n\t3. {}```'.format(DATA[0]['username'],DATA[0]['user_id'],DATA[0]['join_date'],DATA[0]['count300'],DATA[0]['count100'],DATA[0]['count50'],DATA[0]['playcount'],DATA[0]['level'],DATA[0]['pp_raw'],DATA[0]['accuracy'],DATA[0]['count_rank_ss'],DATA[0]['count_rank_ssh'],DATA[0]['count_rank_s'],DATA[0]['count_rank_sh'],DATA[0]['count_rank_a'],DATA[0]['country'],BEST_DATA[0]['beatmap_id'],BEST_DATA[1]['beatmap_id'],BEST_DATA[2]['beatmap_id']))
+            await ctx.send(f'```apache\nUsername: {DATA[0]["username"]} \
+                \nID: {DATA[0]["user_id"]} \
+                \nCreated: {DATA[0]["join_date"]} \
+                \n300: {DATA[0]["count300"]} \
+                \n100: {DATA[0]["count100"]} \
+                \n50: {DATA[0]["count50"]} \
+                \nPlays: {DATA[0]["playcount"]} \
+                \nLevel: {DATA[0]["level"]} \
+                \nPP: {DATA[0]["pp_raw"]} \
+                \nAccuracy: {DATA[0]["accuracy"]} \
+                \nSS/SSH: {DATA[0]["count_rank_ss"]}/{DATA[0]["count_rank_ssh"]} \
+                \nS/SH: {DATA[0]["count_rank_s"]}/{DATA[0]["count_rank_sh"]} \
+                \nA: {DATA[0]["count_rank_a"]} \
+                \nCountry: {DATA[0]["country"]} \
+                \n\nTop Scores: \
+                \n\t1. {BEST_DATA[0]["beatmap_id"]} \
+                \n\t2. {BEST_DATA[1]["beatmap_id"]} \
+                \n\t3. {BEST_DATA[2]["beatmap_id"]} \
+                ```')
         except:
-            await self.bot.say('User with the name or ID of `{}` doesn\'t exist.'.format(username))
+            await ctx.send(f'User with the name or ID of `{username}` doesn\'t exist.')
 
-    @commands.command(pass_context=True)
-    async def skin(self, ctx):
+    @commands.command(name='o_skin', hidden=True)
+    @commands.is_owner()
+    async def _osu_skin(self, ctx):
         """ current osu! skin.
             Deprecated because docker.
         """
@@ -67,5 +85,4 @@ class osu(commands.Cog, name="osu!"):
 
 
 def setup(bot):
-    """ defines setup """
-    bot.add_cog(osu(bot))
+    bot.add_cog(OsuCog(bot))
