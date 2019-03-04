@@ -11,8 +11,8 @@ docker_game = 'in a trashcan'
 game = 'in his container'
 description = f'prefixes: {str(prefixes).strip("[]")}'
 
-owner_id = '177098893069254656'
-dev_id = ['324943524132814849', '359319833680281601']
+owner_id = 177098893069254656
+dev_id = [324943524132814849, 359319833680281601]
 swears = ['frick', 'heck']
 
 greetings = [

@@ -9,14 +9,14 @@ services:
     build:
       context: .
     environment:
-        - DOCKER_MODE=Yes
-        - GIT_PYTHON_REFRESH=quiet
-        - BOT_TOKEN=$BOT_TOKEN
-        - OSU_API_KEY=$OSU_API_KEY
-        - OMDB_API_KEY=$OMDB_API_KEY
-        - LASTFM_API_KEY=$LASTFM_API_KEY
-        - WOLFRAM_API_KEY=$WOLFRAM_API_KEY
+      - DOCKER_MODE=Yes
+      - GIT_PYTHON_REFRESH=quiet
+      - BOT_TOKEN=$BOT_TOKEN
+      - OSU_API_KEY=$OSU_API_KEY
+      - OMDB_API_KEY=$OMDB_API_KEY
+      - LASTFM_API_KEY=$LASTFM_API_KEY
+      - WOLFRAM_API_KEY=$WOLFRAM_API_KEY
     volumes:
-      - ./src/logs/bot.log:/app/logs/bot.log
+      - ./logs/bot.log:/app/logs/bot.log
     ports:
       - 8080:8080

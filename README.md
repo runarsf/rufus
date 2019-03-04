@@ -13,7 +13,7 @@
 
 #### A multipurpose open-source Discord bot made with discord.py
 
-## Useful <sub>rewrite</sub> links
+## Useful <sub>[rewrite]</sub> links
 - https://github.com/Rapptz/discord.py/blob/rewrite/docs/migrating.rst
 - http://discordpy.readthedocs.io/en/rewrite/api.html
 - https://discordpy.readthedocs.io/en/rewrite/ext/commands/api.html
