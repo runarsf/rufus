@@ -1,13 +1,16 @@
-""" admin -- rufus.py """
-import discord
+import config as c
+
 import os
 import re
 import whois
 import time
-from cogs import runners
-from cogs import uptime
+
+from cogs.utils import checks
+from cogs.utils import runners
+from cogs.utils import uptime
+
+import discord
 from discord.ext import commands
-import config as c
 
 
 class DevCog(commands.Cog, name="Dev"):
@@ -51,11 +54,13 @@ class DevCog(commands.Cog, name="Dev"):
         await ctx.send('Submit a bug: https://github.com/runarsf/rufus/issues/new')
 
     @commands.command(name='run', aliases=['runner'])
-    @commands.is_owner()
+    @checks.bot_has_role("Admin")
     async def _runner(self, ctx, customLimit: int = 2):
         """ Run the most recent code block written by you.
             Custom limit may not exceed 50 messages.
         """
+        await ctx.send('command runneded')
+        return
         counter = 0
         languages = ['python', 'py']
         if customLimit > 50:

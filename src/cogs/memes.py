@@ -48,7 +48,7 @@ class MemesCog(commands.Cog, name="Memes"):
         except asyncio.TimeoutError:
             await ctx.message.remove_reaction('🍝', self.bot.user)
         else:
-            await channel.send('***DOON NOTT TOCCH S P A G O O T***')
+            await channel.send(random.choice(['***DOON NOTT TOCCH S P A G O O T***', '***SOMEBODY TOUCHE MY SPAGHETT***', ':⁽']))
             await ctx.message.remove_reaction('🍝', user)
 
     @commands.command(name='knuckles')
