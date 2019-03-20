@@ -11,9 +11,9 @@ STARTUP_EXTENSIONS = ['cogs.owner',
                       'cogs.commands',
                       'cogs.admin',
                       'cogs.dev',
-                      'cogs.engine',
                       'cogs.osu',
-                      'cogs.memes'
+                      'cogs.memes',
+                      'cogs.runners'
                      ]
 
 def get_prefix(bot, message):
@@ -41,7 +41,8 @@ async def on_ready():
     if NOT_DOCKER_MODE:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(c.game))
     else:
-        await bot.change_presence(status=discord.Status.online, activity=discord.Game(c.docker_game))
+        #await bot.change_presence(status=discord.Status.online, activity=discord.Game(c.docker_game))
+        await bot.change_presence(status=discord.Status.online, activity=discord.Streaming(name=c.docker_game, url='https://twitch.tv/toolbar', details='programming'))
 
 @bot.event
 async def on_message(message):
@@ -62,27 +63,30 @@ async def on_message(message):
 @bot.event
 async def on_command_error(self, exception):
     if isinstance(exception, commands.errors.MissingPermissions):
-        await self.send(f'```Sorry {self.message.author}, you do not have permissions to do that!```')
+        await self.send(f'```Sorry {self.message.author.name}, you do not have permissions to do that!```')
     elif isinstance(exception, commands.errors.CheckFailure):
-        await self.send(f'```Sorry {self.message.author}, you don\'t have the necessary roles for that.```')
+        await self.send(f'```Sorry {self.message.author.name}, you don\'t have the necessary roles for that.```')
+    elif isinstance(exception, TimeoutError):
+        return
     else:
         await self.send(f'```python\n{type(exception).__name__}: {exception}```')
 
 def logger(message):
     try:
         test = message.guild.id
-        if not os.path.exists('logs'):
-            os.makedirs('logs')
-        with open('logs/bot.log', 'a') as logfile:
-            logfile.write(str(f'++ {datetime.datetime.now().date()} - {datetime.datetime.now().time()}\n'))
-            logfile.write(str(f'{message.guild.name} {str(message.guild.id)}\n'))
-            logfile.write(str(f'{message.author.name} {message.author.mention}\n'))
-            logfile.write(str(f'{message.content}\n'))
+        if not os.path.exists(f'{c.srcDir}/logs'):
+            os.makedirs(f'{c.srcDir}/logs')
+        with open(f'{c.srcDir}/logs/bot.log', 'a') as logfile:
+            logfile.write(str('{0.id} - {0.name} : {1.name} - {1.id} : {2.date()} - {2.time()}'.format(message.author, message.guild, datetime.datetime.now())))
+            #logfile.write(str(f'++ {datetime.datetime.now().date()} - {datetime.datetime.now().time()}\n'))
+            #logfile.write(str(f'{message.guild.name} {str(message.guild.id)}\n'))
+            #logfile.write(str(f'{message.author.name} {message.author.mention}\n'))
+            logfile.write(str('{message.content}\n'))
         print(f'{message.author.name} {message.author.mention} :: {message.guild.name} :: {message.content}')
     except:
-        if not os.path.exists('logs'):
-            os.makedirs('logs')
-        with open('logs/bot.log', 'a') as logfile:
+        if not os.path.exists(f'{c.srcDir}/logs'):
+            os.makedirs(f'{c.srcDir}/logs')
+        with open(f'{c.srcDir}/logs/bot.log', 'a') as logfile:
             logfile.write(str(f'++ {datetime.datetime.now().date()} - {datetime.datetime.now().time()}\n'))
             logfile.write(str(f'direct message\n'))
             logfile.write(str(f'{message.author.name} {message.author.mention}\n'))

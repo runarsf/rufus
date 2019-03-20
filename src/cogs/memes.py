@@ -87,22 +87,52 @@ class MemesCog(commands.Cog, name="Memes"):
 
     @commands.command(name='mock')
     async def _mock(self, ctx, *, string: str = ''):
-        """ Convert string to mocking.
+        """ Convert string to mock(str)ing.
         """
-        if string:
-            i=1
+        def mockify(string: str):
             outstr=''
-            for letter in string:
-                if i % 2 == 0:
-                    outstr+=letter.lower()
+            for index, letter in enumerate(string):
+                if index % 2 == 0:
+                    outstr += letter.lower()
                 else:
-                    outstr+=letter.upper()
-                i+=1
-            await ctx.send(f'```{outstr}```')
+                    outstr += letter.upper()
+            return outstr
+        if string:
+            _noTestsPassed: bool = True
+            try:
+                int(string)
+            except ValueError:
+                pass # is not an integer, pass this, intentional™ error
+            else:
+                # is an integer
+                _noTestsPassed: bool = False
+                iterator = 0
+                async for message in ctx.channel.history(limit=int(string)+1):
+                    if iterator == int(string):
+                        await ctx.send(mockify(str(message.content)))
+                    iterator += 1
+            try:
+                member = await discord.ext.commands.UserConverter().convert(ctx, string)
+            except discord.ext.commands.BadArgument:
+                pass # is not type discord.Member, pass this, intentional™ error
+            else:
+                # is type discord.Member
+                _noTestsPassed: bool = False
+                async for message in ctx.channel.history(limit=100):
+                    if message.author == member:
+                        await ctx.send(mockify(str(message.content)))
+                        break
+            if _noTestsPassed:
+                await ctx.send(f'```{mockify(str(string))}```')
+        else:
+            await ctx.message.delete()
+            async for message in ctx.channel.history(limit=1):
+                await ctx.send(mockify(str(message.content)))
+
 
     @commands.command(name='pat')
     async def _pat(self, ctx, member: discord.Member = '', *, message: str = ''):
-        """ Pat  uwu.
+        """ Pat uwu.
         """
         if member == '':
             await ctx.send('uwu')
@@ -125,6 +155,16 @@ class MemesCog(commands.Cog, name="Memes"):
             await ctx.send('OwO wat dis? Am I being hugger?')
         else:
             await ctx.send(f'{ctx.message.author.name} hugged {member} :hearts:')
+
+    @commands.command(name='slap', aliases=['hit', 'punch'])
+    async def _slap(self, ctx, member: discord.Member, *item):
+        """ Slap a person. They probably deserve it.
+        """
+        _slap_item: str = ''
+        if item:
+            _slap_item = f' with {" ".join(item)}.'
+        await ctx.send(f'{ctx.message.author.mention} slapped {member.mention}{_slap_item}')
+
 
 def setup(bot):
     bot.add_cog(MemesCog(bot))

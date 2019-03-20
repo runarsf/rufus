@@ -10,3 +10,5 @@ wolframalpha
 wikipedia
 googletrans
 whois
+BeautifulSoup4
+docker
