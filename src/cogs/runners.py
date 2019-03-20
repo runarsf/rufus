@@ -1,28 +1,59 @@
 import config as c
 import re
-import docker
+import os
+import shutil
+import subprocess
 
 from cogs.utils import checks
 
 import discord
 from discord.ext import commands
 
-class runner():
-    def python():
-        containerLogs = []
-        client = docker.DockerClient(base_url='unix://var/run/docker.sock', timeout=10)
-        container = client.containers.run('ubuntu:16.04',command="bash -c ' for((i=1;i<=10;i+=2)); do echo Welcome $i times; sleep 10; done'", detach=True)
-        logs = container.logs(stream=True)
-        for line in logs:
-            containerLogs.append(line)
-        return containerLogs
 
+class Runners():
+    """ Runners for different languages.
+    """
+    def python(message, code: str):
+        # make folder to hold temporary files
+        os.mkdir(f'{c.srcDir}/runners/{message.author.id}')
+        homedir =f'{c.srcDir}/runners/{message.author.id}'
+
+        # write code to a temporary file
+        with open(f'{homedir}/code.py', 'w+') as codeFile:
+            codeFile.write(code)
+
+        # make dockerfile
+        dockerfile = f"""FROM python
+COPY {homedir} /discordappapp
+WORKDIR /discordappapp
+CMD ['python3', '-u', '{homedir}/code.py']"""
+        with open(f'{homedir}/dockerfile', 'w+') as dockerfileFile:
+            dockerfileFile.write(dockerfile)
+
+        # run container and capture output
+        with open(f'{homedir}/output.py', 'a') as outputFile:
+            subprocess.call(f'cd {homedir} && docker run --rm', shell=True, stdout=outputFile, stderr=outputFile)
+            result = outputFile.read()
+        #os.remove(f'{homedir}/output.py')
+
+        #os.remove(f'{c.srcDir}/runners/{message.author.id}/code.py')
+        #shutil.rmtree(f'{c.srcDir}/runners/{message.author.id}')
+        return result
 
 class RunnerCog(commands.Cog, name="Runner Commands"):
     """ RunnerCog """
 
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(name='docker')
+    @commands.is_owner()
+    async def _docker_test(self, ctx):
+        """ Docker test.
+        """
+        testCode = """i = 1
+print(i)"""
+        await ctx.send(Runners.python(ctx.message, testCode))
 
     @commands.command(name='run')
     @commands.is_owner()
@@ -37,11 +68,11 @@ class RunnerCog(commands.Cog, name="Runner Commands"):
             if message.content.startswith('```') and message.content.endswith('```') and message.author.id == ctx.message.author.id:
                 lang = str(re.findall(r'^\w+[^\n]', message.content[3:-3])).strip('[\',]')
                 if any(lin in lang for lin in languages):
-                    if lang == 'python' or 'py':
-                        await ctx.send(runner.python())
+                    if lang == 'python' or lang == 'py':
+                        await ctx.send(Runners.python(ctx.message, message.content[3+len(lang):-3]))
                     return
                 else:
-                    await ctx.send('```No supported languages detected in header.```')
+                    await ctx.send('```No supported languages detected in codeblock header.```')
                     return
             counter += 1
 

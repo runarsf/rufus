@@ -28,7 +28,7 @@ def getDominantColor(filename: str):
     hexColor = discord.Color.from_rgb(dominant_color[0], dominant_color[1], dominant_color[2])
     return hexColor
 
-#def scraper(url: str, phrase: str = '<div class="beatmapset-header__content" style="background-image: url("URL_HERE");">'):
+# def scraper(url: str, phrase: str = '<div class="beatmapset-header__content" style="background-image: url("URL_HERE");">'):
     #from bs4 import BeautifulSoup
     #import urllib.request
     #import re

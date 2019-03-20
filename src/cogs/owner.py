@@ -44,6 +44,11 @@ class OwnerCog(commands.Cog, name="Owner Commands"):
         """ Command which Reloads a Module.
             Remember to use dot path. e.g: cogs.owner
         """
+        if cog == 'r':
+            async for message in ctx.channel.history(limit=200):
+                if str(message.content).startswith('rufus reload'):
+                    cog = message.content[13:]
+                    break
         try:
             self.bot.unload_extension(cog)
             self.bot.load_extension(cog)
