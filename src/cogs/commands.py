@@ -88,7 +88,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
         await ctx.send(file=discord.File(f'tempcolor{ctx.message.author.id}.png'))
         os.remove(f'tempcolor{ctx.message.author.id}.png')
 
-    @commands.command(name='setvar', aliases=['setvariable'])
+    @commands.command(name='setvar', aliases=['setvariable', 'set'])
     @checks.is_dev()
     async def _set_db_var(self, ctx, variableName: str, *, variableValue: str):
         """ Assign a value to a variable.
@@ -108,6 +108,18 @@ class CommandsCog(commands.Cog, name="General Commands"):
                                   (variableName,))
                         db.commit()
                     else:
+                        if variableValue == '++':
+                            cr.execute('SELECT keyword, value FROM variables')
+                            for row in cr.fetchall():
+                                if row[0] == variableName:
+                                    variableValue = str(int(row[1]) + 1)
+                                    break
+                        elif variableValue == '--':
+                            cr.execute('SELECT keyword, value FROM variables')
+                            for row in cr.fetchall():
+                                if row[0] == variableName:
+                                    variableValue = str(int(row[1]) - 1)
+                                    break
                         cr.execute("UPDATE variables SET value = (?) WHERE keyword = (?)",
                                   (variableValue, variableName))
                         db.commit()
@@ -126,7 +138,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
         cr.close()
         db.close()
 
-    @commands.command(name='getvar', aliases=['getvariable', 'readvar', 'readvariable'])
+    @commands.command(name='getvar', aliases=['getvariable', 'readvar', 'readvariable', 'get'])
     @checks.is_dev()
     async def _get_db_var(self, ctx, variableName: str):
         """ Get value from a variable.
@@ -462,4 +474,5 @@ class CommandsCog(commands.Cog, name="General Commands"):
 
 
 def setup(bot):
+    #bot.remove_command('help')
     bot.add_cog(CommandsCog(bot))

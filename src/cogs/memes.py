@@ -11,6 +11,12 @@ class MemesCog(commands.Cog, name="Memes"):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(name=':(')
+    async def _angry_face(self, ctx):
+        """ Don't be angry.
+        """
+        await ctx.message.add_reaction('😲')
+
     @commands.command(name='kms')
     async def _self_kill(self, ctx):
         """ End it all.

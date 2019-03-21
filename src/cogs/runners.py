@@ -35,7 +35,7 @@ CMD ['python3', '-u', '{homedir}/code.py']"""
 
         # run container and capture output
         with open(f'{homedir}/output.py', 'a') as outputFile:
-            subprocess.call(f'cd {homedir} && docker build -t {message.author.id}rbot && docker run --rm {message.author.id}rbot', shell=True, stdout=outputFile, stderr=outputFile)
+            subprocess.call(f'cd {homedir} && docker build -t {message.author.id}rbot . && docker run --rm {message.author.id}rbot', shell=True, stdout=outputFile, stderr=outputFile)
         with open(f'{homedir}/output.py', 'r') as outputFile:
             result = outputFile.readlines()
 
