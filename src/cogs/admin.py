@@ -1,138 +1,164 @@
-""" admin -- rufus.py """
-import os
-import ctypes
-import config as c
-
 import discord
+import config as c
+import asyncio
 from discord.ext import commands
 
 
-class Admin:
-    """ Admin restricted commands """
+class AdminCog(commands.Cog, name="Admin Commands"):
+    """ AdminCog """
 
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(pass_context=True)
-    async def purge(self, ctx, specifier: str):
-        """ Delete messages.
-            {specifier}: [ amount | user | all ]
-        """
-        usid = int(specifier.replace('<@', '').replace('>', ''))
-        if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
-            await self.bot.delete_message(ctx.message)
-            if '<@' in specifier and '>' in specifier:
-                async for specifier in self.bot.logs_from(ctx.message.channel):
-                    if specifier not in self.bot.logs_from(ctx.message.channel):
-                        return
-                    else:
-                        await self.bot.delete_message(ctx.message.id == usid)
-            elif specifier == str('all'):
-                deleted = await self.bot.purge_from(ctx.message.channel, limit=750)
-                await self.bot.say('Bulk-purged **{}** Messages'.format(len(deleted)))
-                async for msg in self.bot.logs_from(ctx.message.channel):
-                    await self.bot.delete_message(msg)
-            elif int(specifier) > 0:
-                counter = 0
-                for counter in range(int(specifier)):
-                    async for msg in self.bot.logs_from(ctx.message.channel):
-                        if int(counter) >= int(specifier):
-                            return
-                        else:
-                            await self.bot.delete_message(msg)
-                        counter += 1
-            else:
-                print('purge, error on else')
-        else:
-            await self.bot.say('```diff\n-Insufficient privileges.```')
-
-    @commands.command(pass_context=True)
-    async def spam(self, ctx, times: int = 1, *, msg: str = 'spam'):
+    @commands.command(name='spam', hidden=True)
+    @commands.has_role('admin')
+    async def _spam(self, ctx, times: int = 1, *, msg: str = 'spam'):
         """ Repeat a message multiple times.
         """
-        if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
-            for i in range(times):
-                await self.bot.say(msg)
-                print(i)
-        else:
-            await self.bot.say('```diff\n-Insufficient privileges.```')
+        for i in range(times):
+            await ctx.send(msg)
 
-    @commands.command(pass_context=True)
-    async def kick(self, ctx, user: discord.User, *, reason: str = 'no reason given.'):
-        """ Kick a user.
+    @commands.command(name='pin')
+    @commands.has_permissions(manage_messages=True)
+    async def _pin(self, ctx):
+        """ Pin previous message.
         """
-        if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
-            try:
-                await self.bot.kick(user)
-                await self.bot.say('User {} has been kicked with reason: ``{}``'.format(user, reason))
-            except Exception:
-                await self.bot.say('```An error occurred. User {} could not be kicked.```'.format(user))
-        else:
-            await self.bot.say('```diff\n-Insufficient privileges.```')
+        async for message in ctx.channel.history():
+            passer = False
+            for fix in c.prefixes:
+                if message.content == f'{fix}pin':
+                    passer = True
+            if passer:
+                continue
+            await message.pin()
+            return
 
-    @commands.command(pass_context=True)
-    async def ban(self, ctx, user: discord.User, *, reason: str = 'no reason given.'):
-        """ Ban a user.
+    @commands.command(name='unpin')
+    @commands.has_permissions(manage_messages=True)
+    async def _unpin(self, ctx):
+        """ Unpin previous message.
         """
-        if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
-            #try:
-            await self.bot.ban(user)
-            await self.bot.say('User {} has been banned with reason: ``{}``'.format(user, reason))
-            #except Exception:
-            #    await self.bot.say('```An error occurred. User {} could not be banned.```'.format(user))
-        else:
-            await self.bot.say('```diff\n-Insufficient privileges.```')
+        async for message in ctx.channel.history():
+            passer = False
+            for fix in c.prefixes:
+                if message.content == f'{fix}unpin':
+                    passer = True
+            if passer:
+                continue
+            await message.unpin()
+            return
 
-    @commands.command(pass_context=True)
-    async def unban(self, ctx, user: discord.User):
-        """ Ban a user.
+    @commands.command(name='purge')
+    @commands.has_permissions(manage_guild=True)
+    async def _purge(self, ctx, amount: str, member: discord.Member = None, channel: int = None):
+        """ Purge messages from current channel
         """
-        if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
-            try:
-                await self.bot.unban(user)
-                await self.bot.say('User {} has been unbanned.'.format(user))
-            except Exception:
-                await self.bot.say('```An error occurred. User {} could not be banned.```'.format(user))
+        def _member_check(m):
+            return m.author == member
+
+        if not str(amount) == 'all':
+            amnt: int = int(float(amount))
         else:
-            await self.bot.say('```diff\n-Insufficient privileges.```')
-
-    @commands.command(pass_context=True)
-    async def inviter(self, ctx):
-        await client.send_message(discord.Object(id='12324234183172'), 'hello')
-        invitelinknew = await self.bot.create_invite(destination = ctx.message.channel, xkcd = True, max_uses = 100)
-        embedMsg=discord.Embed(color=0x114455)
-        embedMsg.add_field(name="Discord Invite Link", value=invitelinknew)
-        embedMsg.set_footer(text="Discord server invited link.")
-        await self.bot.say(embed=embedMsg)
-
-    @commands.command(pass_context=True)
-    async def invite(self, ctx, userToInvite: discord.User = '', *, message: str = ''):
-        """ Invite user to server.
-        """
-        discord.create_invite()
-        inviteLink = 'discord.gg/uaECMPQ'
-        if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
-            if str(userToInvite) == '':
-                await self.bot.say(inviteLink)
+            is_owner = await ctx.bot.is_owner(ctx.author)
+            if not is_owner:
+                await ctx.send(f'```Sorry {ctx.message.author.name}, you need to be the bot owner to run this command!```')
+                return
             else:
-                if message == '':
-                    await self.bot.send_message(userToInvite, inviteLink + '\n``Invited by {}.``'.format(ctx.message.author))
-                else:
-                    await self.bot.send_message(userToInvite, inviteLink + '\n```Invited by {};\n{}```'.format(ctx.message.author, message))
-                await self.bot.say('Invite link sent to ``{}``.'.format(userToInvite))
-        else:
-            await self.bot.say('```diff\n-Insufficient privileges.```')
+                try:
+                    channel = ctx.message.channel
+                    await ctx.send(f'Are you sure? This will delete **ALL** messages in the current channel. (*{channel.name}*)')
 
-    @commands.command(pass_context=True)
-    async def nick(self, ctx, user: discord.User = '', *, new_nick: str = ''):
-        """ Change user nick.
-        """
-        if "admin" in [y.name.lower() for y in ctx.message.author.roles]:
-            self.bot.change_nickname(user, new_nick)
+                    def check(m):
+                        return m.content == 'yes' and m.channel == channel
+                    def c_check(m):
+                        return m.content == 'c' or m.content == 'cancel' and m.channel == channel
+
+                    msg = await self.bot.wait_for('message', check=check, timeout=10)
+                    await channel.send('Purging **ALL** messages from current channel in **7 seconds**!\nType \'**cancel**\' or \'**c**\' to cancel.')
+
+                    try:
+                        msg = await self.bot.wait_for('message', check=c_check, timeout=7)
+                        await ctx.send('Message purge cancelled.')
+                    except Exception:
+                        await ctx.message.channel.purge()
+                        #async for message in ctx.channel.history(): # old method
+                        #    await message.delete()
+
+                except Exception:
+                    await ctx.send('Response timed out, not doing anything.')
+                    return
+            return
+        amnt += 1
+        _suffix = ''
+        ch = ctx.message.channel
+        if channel is not None:
+            ch = self.bot.get_channel(channel)
+        if member is not None:
+            deleted = await ch.purge(limit=amnt, check=_member_check)
+            _suffix = f' from {member.name}'
         else:
-            await self.bot.say('```diff\n-Insufficient privileges.```')
+            deleted = await ch.purge(limit=amnt)
+        _s: str = '' if len(deleted)-1 == 1 else 's'
+        msg = await ch.send(f'```Deleted {len(deleted)-1} message{_s}{_suffix}.```')
+        await asyncio.sleep(3)
+        await msg.delete()
+
+    @commands.command(name='kick')
+    @commands.has_permissions(kick_members=True)
+    @commands.guild_only()
+    async def _kick(self, ctx, *members: discord.Member):
+        """ Kicks the specified member(s).
+        """
+        for member in members:
+            await ctx.message.guild.kick(member)
+            await ctx.send(f'```{member} was kicked from the server.```')
+
+    @commands.command(name='ban')
+    @commands.has_permissions(ban_members=True)
+    @commands.guild_only()
+    async def _ban(self, ctx, *members: discord.Member):
+        """ Bans the specified member(s) and deletes their messages.
+        """
+        for member in members:
+            await ctx.message.guild.ban(member, delete_message_days=7)
+            await ctx.send(f'```{member} was banned from the server.```')
+
+    @commands.command(name='unban')
+    @commands.has_permissions(ban_members=True)
+    @commands.guild_only()
+    async def _unban(self, ctx, *, name: str):
+        """ Unbans a member.
+        """
+        bans = await ctx.message.guild.bans()
+        member = discord.utils.get(bans, user__name=name)
+        if member:
+            await ctx.message.guild.unban(member.user)
+            await ctx.send(f'{member.user.name}#{member.user.discriminator} was unbanned. Welcome back!')
+            return
+        await ctx.send(f'{name} isn\' banned.')
+
+    @commands.command(name='leave', aliases=['disconnect'])
+    @commands.has_permissions(manage_guild=True, kick_members=True, ban_members=True)
+    @commands.guild_only()
+    async def _leave(self, ctx):
+        """ Remove bot from server.
+        """
+        server = ctx.message.guild
+        await server.leave()
+
+    @commands.command(name='nick', aliases=['nickname', 'changenick'])
+    @commands.has_permissions(manage_server=True)
+    @commands.guild_only()
+    async def _nickname(self, ctx, nickname, *members: discord.Member):
+        """ Change member(s) nickname(s).
+        """
+        for member in members:
+            await member.edit(nick=nickname)
+
+    @_nickname.error
+    async def nickname_error(self, ctx, error):
+        await ctx.say('Command not fully implemented yet!')
 
 
 def setup(bot):
-    """ defines setup """
-    bot.add_cog(Admin(bot))
+    bot.add_cog(AdminCog(bot))

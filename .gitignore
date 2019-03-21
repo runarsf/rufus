@@ -5,3 +5,4 @@ deploy_rsa
 logs
 *.log
 runners
+*.db

@@ -1,9 +1,8 @@
-discord.py
+yarl<1.2
+https://github.com/Rapptz/discord.py/archive/rewrite.zip#egg=discord.py[voice]
 asyncio
 requests
 cogs
-puush.py
-easygui
 gitpython
 liburl
 selenium
@@ -11,3 +10,4 @@ wolframalpha
 wikipedia
 googletrans
 whois
+BeautifulSoup4

@@ -1,4 +1,3 @@
-""" Rufus """
 import os
 import atexit
 import discord
@@ -6,167 +5,99 @@ import re
 from discord.ext import commands
 from subprocess import call
 import config as c
-import git
 import datetime
 
-STARTUP_EXTENSIONS = ['cogs.manager',
-                      'cogs.admin',
+STARTUP_EXTENSIONS = ['cogs.owner',
                       'cogs.commands',
-                      'cogs.engine',
+                      'cogs.admin',
                       'cogs.dev',
-                      'cogs.uptime',
-                      'cogs.osu'
-                      ]
+                      'cogs.osu',
+                      'cogs.memes',
+                      'cogs.runners'
+                     ]
 
-bot = commands.Bot(command_prefix=c.prefix, description=c.description)
+def get_prefix(bot, message):
+    """A callable Prefix for our bot. This could be edited to allow per server prefixes."""
+    if not message.guild:
+        return '?'
+    return commands.when_mentioned_or(*c.prefixes)(bot, message)
+
+bot = commands.Bot(command_prefix=get_prefix, description=c.description)
 
 @bot.event
 async def on_ready():
     """ Returns true if bot is ready.
     """
-    print('-' * len(bot.user.id))
+    print('-' * len(str(bot.user.id)))
     print('Logged in as:')
-    print(bot.user.name)
-    print(bot.user.id)
-    print(' ')
-    print('Bot currently running on {} servers:'.format(len(bot.servers)))
-    for s in bot.servers:
-        print(' - ' + s.name + ' :: ' + s.id)
-    print('-' * len(bot.user.id))
-    print(' ')
+    print(f'{bot.user.name} - {bot.user.id}')
+    print(f'Version: {discord.__version__}\n')
+    print(f'Bot currently running on {len(bot.guilds)} servers:')
+    for s in bot.guilds:
+        print(f' - {str(s.name)} :: {str(s.id)}')
+    print('-' * len(str(bot.user.id))+'\n')
 
     NOT_DOCKER_MODE = os.environ.get('DOCKER_MODE', False)
     if NOT_DOCKER_MODE:
-        await bot.change_presence(game=discord.Game(name=c.game))
+        await bot.change_presence(status=discord.Status.online, activity=discord.Game(c.game))
     else:
-        await bot.change_presence(game=discord.Game(name=c.docker_game))
+        #await bot.change_presence(status=discord.Status.online, activity=discord.Game(c.docker_game))
+        await bot.change_presence(status=discord.Status.online, activity=discord.Streaming(name=c.docker_game, url='https://twitch.tv/toolbar', details='programming'))
 
 @bot.event
 async def on_message(message):
     """ No swear words please.
     """
-    if c.prefix in message.content[:1] or 'rufus' in message.content[:5]:
-        if not os.path.exists('logs'):
-            os.makedirs('logs')
-        with open('logs/bot.log', 'a') as logfile:
-            logfile.write(str('++ {} - {}\n'.format(datetime.datetime.now().date(), datetime.datetime.now().time())))
-            logfile.write(str('{} {}\n'.format(message.server.name, message.server.id)))
-            logfile.write(str('{} {}\n'.format(message.author.name, message.author.mention)))
-            logfile.write(str('{}\n'.format(message.content)))
+    if message.author == bot.user or message.author.bot == True:
+        return
+    for i in range(len(c.prefixes)):
+        if message.content[:len(c.prefixes[i])] == c.prefixes[i]:
+            if message.content[len(c.prefixes[i]):] in c.greetings:
+                if 'there' in message.content[len(c.prefixes[i]):]:
+                    message.content = c.prefixes[i]+'hello there'
+                else:
+                    message.content = c.prefixes[i]+'hello'
+            logger(message)
+            await bot.process_commands(message)
 
+@bot.event
+async def on_command_error(self, exception):
+    if isinstance(exception, commands.errors.MissingPermissions):
+        await self.send(f'```Sorry {self.message.author.name}, you do not have permissions to do that!```')
+    elif isinstance(exception, commands.errors.CheckFailure):
+        await self.send(f'```Sorry {self.message.author.name}, you don\'t have the necessary roles for that.```')
+    elif isinstance(exception, TimeoutError):
+        return
+    else:
+        await self.send(f'```python\n{type(exception).__name__}: {exception}```')
+
+def logger(message):
     try:
-        if message.author == bot.user or message.author.bot == True:
-            return
-        elif any(mention in message.content for mention in c.mention):
-            print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
-    finally:
-        if c.prefix in message.content[1:2]:
-            return
-        elif c.prefix in message.content[:1]:
-            print(message.author.name + ' ' + message.author.mention + ' :: ' + message.server.name + ' :: ' + message.content)
-        if 'rufus' in message.content[:5]:
-            message.content = message.content.replace("rufus ", c.prefix, 1)
-        if message.content[1:] in c.greetings:
-            if 'there' in message.content:
-                message.content = c.prefix+'hello there'
-            else:
-                message.content = c.prefix+'hello'
-    await bot.process_commands(message)
+        test = message.guild.id
+        if not os.path.exists(f'{c.srcDir}/logs'):
+            os.makedirs(f'{c.srcDir}/logs')
+        with open(f'{c.srcDir}/logs/bot.log', 'a') as logfile:
+            logfile.write(str('{0.id} - {0.name} : {1.name} - {1.id} : {2.date()} - {2.time()}'.format(message.author, message.guild, datetime.datetime.now())))
+            #logfile.write(str(f'++ {datetime.datetime.now().date()} - {datetime.datetime.now().time()}\n'))
+            #logfile.write(str(f'{message.guild.name} {str(message.guild.id)}\n'))
+            #logfile.write(str(f'{message.author.name} {message.author.mention}\n'))
+            logfile.write(str('{message.content}\n'))
+        print(f'{message.author.name} {message.author.mention} :: {message.guild.name} :: {message.content}')
+    except:
+        if not os.path.exists(f'{c.srcDir}/logs'):
+            os.makedirs(f'{c.srcDir}/logs')
+        with open(f'{c.srcDir}/logs/bot.log', 'a') as logfile:
+            logfile.write(str(f'++ {datetime.datetime.now().date()} - {datetime.datetime.now().time()}\n'))
+            logfile.write(str(f'direct message\n'))
+            logfile.write(str(f'{message.author.name} {message.author.mention}\n'))
+            logfile.write(str(f'{message.content}\n'))
+        print(f'{message.author.name} {message.author.mention} :: {message.content}')
 
-#@bot.event
-#async def on_command_error(self, exception):
-#    if isinstance(exception, commands.errors.CommandNotFound):
-#        await self.say('```{}```'.format(exception))
-#        return
-
-@bot.command(pass_context=True)
-async def load(ctx, extension_name: str):
-    """ Loads an extension.
-    """
-    if str(ctx.message.author.id) == str(c.owner_id) or str(ctx.message.author.id) in c.dev_id:
-        try:
-            bot.load_extension(extension_name)
-        except (AttributeError, ImportError) as error:
-            await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
-            return
-        await bot.say('Successfully loaded {}.'.format(extension_name))
-    else:
-        await bot.say('```diff\n-Insufficient privileges.\nAuthor ID: {}\nOwner ID: {}\nDev ID: {}```'.format(ctx.message.author.id, c.owner_id, c.dev_id))
-        return
-
-@bot.command(pass_context=True)
-async def unload(ctx, extension_name: str):
-    """ Unloads an extension.
-    """
-    if str(ctx.message.author.id) == str(c.owner_id) or str(ctx.message.author.id) in c.dev_id:
-        try:
-            bot.unload_extension(extension_name)
-        except (AttributeError, ImportError) as error:
-            await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
-            return
-        await bot.say('Successfully unloaded {}.'.format(extension_name))
-    else:
-        await bot.say('```diff\n-Insufficient privileges.\nAuthor ID: {}\nOwner ID: {}\nDev ID: {}```'.format(ctx.message.author.id, c.owner_id, c.dev_id))
-        return
-
-@bot.command(pass_context=True)
-async def reload(ctx, extension_name: str):
-    """ Reloads an extension.
-    """
-    if str(ctx.message.author.id) == str(c.owner_id) or str(ctx.message.author.id) in c.dev_id:
-        try:
-            bot.unload_extension(extension_name)
-            bot.load_extension(extension_name)
-        except (AttributeError, ImportError) as error:
-            await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
-            return
-        await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
-    else:
-        await bot.say('```diff\n-Insufficient privileges.\nAuthor ID: {}\nOwner ID: {}\nDev ID: {}```'.format(ctx.message.author.id, c.owner_id, c.dev_id))
-        return
-
-@bot.command(pass_context=True)
-async def pull(ctx, extension_name: str = ''):
-    """ Pull github origin.
-            If argument is passed, cog will be reloaded.
-            Does not support docker mode.
-    """
-    if str(ctx.message.author.id) == str(c.owner_id) or str(ctx.message.author.id) in c.dev_id:
-        if NOT_DOCKER_MODE:
-            try:
-                g = git.cmd.Git('./')
-                g.pull()
-            except Exception as error:
-                await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
-                return
-            if extension_name != '':
-                try:
-                    bot.unload_extension(extension_name)
-                    bot.load_extension(extension_name)
-                except (AttributeError, ImportError) as error:
-                    await bot.say('```py\n{}: {}\n```'.format(type(error).__name__, str(error)))
-                    return
-                await bot.say('Successfully reloaded ``{}``.'.format(extension_name))
-    else:
-        await bot.say('```diff\n-Insufficient privileges.\nAuthor ID: {}\nOwner ID: {}\nDev ID: {}```'.format(ctx.message.author.id, c.owner_id, c.dev_id))
-    return
 
 if __name__ == '__main__':
     for extension in STARTUP_EXTENSIONS:
         try:
             bot.load_extension(extension)
         except Exception as error:
-            exception = '{}: {}'.format(type(error).__name__, error)
-            print('Failed to load extension {}\n{}'.format(extension, exception))
-
-    bot.run(c.token)
-
-
-def exit_handler():
-    """ What to do on exit.
-    """
-    print(' ')
-    print('exiting...')
-
-
-atexit.register(exit_handler)
+            print(f'Failed to load extension {extension}\n{type(error).__name__}: {error}')
+    bot.run(c.token, bot=True, reconnect=False)
