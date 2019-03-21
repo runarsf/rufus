@@ -15,8 +15,11 @@ class Runners():
     """
     def python(message, code: str):
         # make folder to hold temporary files
-        os.mkdir(f'{c.srcDir}/runners/{message.author.id}')
         homedir =f'{c.srcDir}/runners/{message.author.id}'
+        if os.path.isdir(homedir):
+            return 'File already exists.'
+        else:
+            os.mkdir(homedir)
 
         # write code to a temporary file
         with open(f'{homedir}/code.py', 'w+') as codeFile:
@@ -32,12 +35,11 @@ CMD ['python3', '-u', '{homedir}/code.py']"""
 
         # run container and capture output
         with open(f'{homedir}/output.py', 'a') as outputFile:
-            subprocess.call(f'cd {homedir} && docker run --rm', shell=True, stdout=outputFile, stderr=outputFile)
-            result = outputFile.read()
-        #os.remove(f'{homedir}/output.py')
+            subprocess.call(f'cd {homedir} && docker build -t {message.author.id}rbot && docker run --rm {message.author.id}rbot', shell=True, stdout=outputFile, stderr=outputFile)
+        with open(f'{homedir}/output.py', 'r') as outputFile:
+            result = outputFile.readlines()
 
-        #os.remove(f'{c.srcDir}/runners/{message.author.id}/code.py')
-        #shutil.rmtree(f'{c.srcDir}/runners/{message.author.id}')
+        shutil.rmtree(homedir)
         return result
 
 class RunnerCog(commands.Cog, name="Runner Commands"):
@@ -53,7 +55,7 @@ class RunnerCog(commands.Cog, name="Runner Commands"):
         """
         testCode = """i = 1
 print(i)"""
-        await ctx.send(Runners.python(ctx.message, testCode))
+        await ctx.send('```python\n{}```'.format('\n'.join(Runners.python(ctx.message, testCode))))
 
     @commands.command(name='run')
     @commands.is_owner()
@@ -69,7 +71,7 @@ print(i)"""
                 lang = str(re.findall(r'^\w+[^\n]', message.content[3:-3])).strip('[\',]')
                 if any(lin in lang for lin in languages):
                     if lang == 'python' or lang == 'py':
-                        await ctx.send(Runners.python(ctx.message, message.content[3+len(lang):-3]))
+                        await ctx.send('```python\n{}```'.format('\n'.join(Runners.python(ctx.message, message.content[3+len(lang):-3]))))
                     return
                 else:
                     await ctx.send('```No supported languages detected in codeblock header.```')
