@@ -13,15 +13,15 @@ class MemesCog(commands.Cog, name="Memes"):
     
     @commands.command(name='love')
     async def _love(self, ctx, member: discord.Member = '', *, message: str = ''):
-    """ Share your love
-    """
-    if not member:
-        await ctx.send('love')
-    else:
-        if not message:
-            await ctx.send(f'*{ctx.message.author.name} shared their love with {member} and probably likes them!*')
-        else:
-            await self.bot.say(f'*{ctx.message.author.name} shared their love with {member} {message}*')
+    	""" Share your love
+    	"""
+    	if not member:
+    	    await ctx.send('love')
+    	else:
+    	    if not message:
+    	        await ctx.send(f'*{ctx.message.author.name} shared their love with {member} and probably likes them!*')
+    	    else:
+    	        await self.bot.say(f'*{ctx.message.author.name} shared their love with {member} {message}*')
 
     @commands.command(name=':(')
     async def _angry_face(self, ctx):
