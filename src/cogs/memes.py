@@ -19,9 +19,9 @@ class MemesCog(commands.Cog, name="Memes"):
     	await ctx.send('love')
     else:
     	if not message:
-		await ctx.send(f'*{ctx.message.author.name} shared their love with {member} and probably likes them!*')
+			await ctx.send(f'*{ctx.message.author.name} shared their love with {member} and probably likes them!*')
     	else:
-    		await self.bot.say(f'*{ctx.message.author.name} shared their love with {member} {message}*')*
+    		await self.bot.say(f'*{ctx.message.author.name} shared their love with {member} {message}*')
 
     	
     
