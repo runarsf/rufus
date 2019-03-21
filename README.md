@@ -13,6 +13,9 @@
 
 #### A multipurpose open-source Discord bot made with discord.py
 
+## Trello board
+https://trello.com/b/i7fwOpdK
+
 ## Useful <sub>[rewrite]</sub> links
 - https://github.com/Rapptz/discord.py/blob/rewrite/docs/migrating.rst
 - http://discordpy.readthedocs.io/en/rewrite/api.html
