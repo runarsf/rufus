@@ -26,16 +26,19 @@ class Runners():
             codeFile.write(code)
 
         # make dockerfile
+        #dockerfile = ['FROM python', 'COPY']
+        #'\n'.join(dockerfile)
         dockerfile = f"""FROM python
-COPY {homedir} /discordappapp
-WORKDIR /discordappapp
-CMD ['python3', '-u', '{homedir}/code.py']"""
+COPY . /bot
+WORKDIR /bot
+RUN python --version
+CMD ["python", "-u", "/bot/code.py"]"""
         with open(f'{homedir}/dockerfile', 'w+') as dockerfileFile:
             dockerfileFile.write(dockerfile)
 
         # run container and capture output
         with open(f'{homedir}/output.py', 'a') as outputFile:
-            subprocess.call(f'cd {homedir} && docker build -t {message.author.id}rbot . && docker run --rm {message.author.id}rbot', shell=True, stdout=outputFile, stderr=outputFile)
+            subprocess.call(f'cd {homedir} && docker build -t {message.author.id}rbot {homedir} && docker run --rm {message.author.id}rbot', shell=True, stdout=outputFile, stderr=outputFile)
         with open(f'{homedir}/output.py', 'r') as outputFile:
             result = outputFile.readlines()
 
@@ -48,17 +51,8 @@ class RunnerCog(commands.Cog, name="Runner Commands"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='docker')
-    @commands.is_owner()
-    async def _docker_test(self, ctx):
-        """ Docker test.
-        """
-        testCode = """i = 1
-print(i)"""
-        await ctx.send('```python\n{}```'.format('\n'.join(Runners.python(ctx.message, testCode))))
-
     @commands.command(name='run')
-    @commands.is_owner()
+    @checks.is_dev()
     async def _runner(self, ctx, customLimit: int = 2):
         """ Run the most recent code block written by you.
             Custom limit may not exceed 50 messages.
@@ -71,7 +65,8 @@ print(i)"""
                 lang = str(re.findall(r'^\w+[^\n]', message.content[3:-3])).strip('[\',]')
                 if any(lin in lang for lin in languages):
                     if lang == 'python' or lang == 'py':
-                        await ctx.send('```python\n{}```'.format('\n'.join(Runners.python(ctx.message, message.content[3+len(lang):-3]))))
+                        output = '\n'.join(Runners.python(ctx.message, message.content[3+len(lang):-3]))
+                        await ctx.send('```python\n{}```'.format(output.split("rbot:latest",1)[1] ))
                     return
                 else:
                     await ctx.send('```No supported languages detected in codeblock header.```')
