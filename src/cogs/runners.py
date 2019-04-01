@@ -67,7 +67,7 @@ class RunnerCog(commands.Cog, name="Runner Commands"):
 
     @commands.command(name='run')
     @checks.is_dev()
-    async def _runner(self, ctx, customLimit: int = 2):
+    async def _runner(self, ctx, customLimit: int = 2, *customInput):
         """ Run the most recent code block written by you.
             Custom limit may not exceed 50 messages.
         """
@@ -86,7 +86,11 @@ class RunnerCog(commands.Cog, name="Runner Commands"):
                 if any(lin in lang.lower() for lin in languages):
 
                     if lang == 'python' or lang == 'py':
-                        output = ''.join(Runners.python(ctx.message, message.content[3+len(lang):-3]))
+                        code = message.content[3+len(lang):-3]
+                        if len(customInput) != code.count('input('):
+                            await ctx.send('Uneven amount of inputs, aborting.')
+                            return
+                        output = ''.join(Runners.python(ctx.message, code))
                         await ctx.send('```py\n{}```'.format(output.split("rbot:latest",1)[1]))
                     return
 
