@@ -1,5 +1,9 @@
 import git
+import inspect
+import config as c
+
 from discord.ext import commands
+from importlib import reload
 
 
 class OwnerCog(commands.Cog, name="Owner Commands"):
@@ -7,6 +11,45 @@ class OwnerCog(commands.Cog, name="Owner Commands"):
 
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(name='configflush', aliases=['flush'])
+    @commands.is_owner()
+    async def _config_flush(self, ctx):
+        """ Reload config.
+        """
+        reload(c)
+        await ctx.send('```Successully reloaded config file.```')
+
+    @commands.command(name='debug', aliases=['eval'])
+    @commands.is_owner()
+    async def debug(self, ctx, *, code : str):
+        """ Evaluates code.
+        """
+        # https://github.com/Rapptz/RoboDanny/blob/master/cogs/admin.py#L53
+        code = code.strip('` ')
+        python = '```py\n{}\n```'
+        result = None
+
+        env = {
+            'bot': self.bot,
+            'ctx': ctx,
+            'message': ctx.message,
+            'server': ctx.message.guild,
+            'channel': ctx.message.channel,
+            'author': ctx.message.author
+        }
+
+        env.update(globals())
+
+        try:
+            result = eval(code, env)
+            if inspect.isawaitable(result):
+                result = await result
+        except Exception as e:
+            await ctx.send(python.format(type(e).__name__ + ': ' + str(e)))
+            return
+
+        await ctx.send(python.format(result))
 
     @commands.command(name='load', hidden=True, aliases=['l', 'lo'])
     @commands.is_owner()

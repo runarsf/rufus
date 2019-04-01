@@ -100,7 +100,7 @@ class AdminCog(commands.Cog, name="Admin Commands"):
             deleted = await ch.purge(limit=amnt)
         _s: str = '' if len(deleted)-1 == 1 else 's'
         msg = await ch.send(f'```Deleted {len(deleted)-1} message{_s}{_suffix}.```')
-        await asyncio.sleep(3)
+        await asyncio.sleep(1)
         await msg.delete()
 
     @commands.command(name='kick')

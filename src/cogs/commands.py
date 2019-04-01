@@ -76,6 +76,23 @@ class CommandsCog(commands.Cog, name="General Commands"):
         DATA = json.loads(DATA)
         await ctx.send(f'```{DATA["Redirect"]}```')
 
+    @commands.command(name='tts')
+    async def _text_to_speech(self, ctx, *, sentence: str):
+        """ Make the bot say something in tts.
+        """
+        if not 'said' in sentence:
+            await ctx.send('```brainfuck\nWord [said] must be a part of the sentence.```')
+            return
+        nickname: str = '.' if sentence[:4] == 'said' else str(sentence).split('said', 1)[0]
+        message: str = '.' if sentence[-4:] == 'said' else str(sentence).split('said', 1)[1]
+
+        await ctx.message.guild.get_member(self.bot.user.id).edit(nick=nickname)
+
+        ttsMessage = await ctx.send(f'{message}', tts=True)
+        await ttsMessage.delete()
+
+        await ctx.message.guild.get_member(self.bot.user.id).edit(nick=None)
+
     @commands.command(name='color', aliases=['hex', 'colorsquare'])
     async def _visualize_hex(self, ctx, color: str):
         """ Generate a 128x128px colored square from a color code.
@@ -94,6 +111,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
         """ Assign a value to a variable.
             Value DELETE_ME will delete variable.
         """
+        variableName = variableName.lower()
         db = sqlite3.connect('uservars.db')
         cr = db.cursor()
         cr.execute('CREATE TABLE IF NOT EXISTS variables(keyword TEXT UNIQUE, value TEXT, owner INTEGER)')
@@ -143,6 +161,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
     async def _get_db_var(self, ctx, variableName: str):
         """ Get value from a variable.
         """
+        variableName = variableName.lower()
         db = sqlite3.connect('uservars.db')
         cr = db.cursor()
         try:
@@ -385,17 +404,21 @@ class CommandsCog(commands.Cog, name="General Commands"):
         """
         URL = f'http://api.urbandictionary.com/v0/define?term={term}'
         DATA = requests.get(URL).json()
-        DEF = DATA['list'][0]['definition']
+        try:
+            DEF = DATA['list'][0]['definition']
+        except IndexError:
+            await ctx.send(f'Could not find a definition for ``{term}``.')
+            return
         EKS = DATA['list'][0]['example']
         summary = f'Word: {term}\n\nDefinition:\n\t{DEF}\n\nUsage:\n\t{EKS}'
         dictLen = 1990
         if len(summary) > 1990:
-            loop = 'true'
-            while loop == 'true':
+            loop: bool = True
+            while loop:
                 if summary[dictLen-1:dictLen] == '.':
-                    loop = 'false'
+                    loop: bool = False
                 else:
-                    dictLen-=1
+                    dictLen -= 1
             await ctx.send('``Summary was longer than expected, output truncated.``')
         await ctx.send(f'```apache\n{summary[:dictLen]}```')
 
