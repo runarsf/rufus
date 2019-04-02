@@ -1,22 +1,20 @@
 import os
+import json
 
-token = os.environ['BOT_TOKEN']
-osu_api_key = os.environ['OSU_API_KEY']
-wolfram_api_key = os.environ['WOLFRAM_API_KEY']
-lastfm_api_key = os.environ['LASTFM_API_KEY']
-omdb_api_key = os.environ['OMDB_API_KEY']
+with open('secrets.json') as json_data_file:
+    data = json.load(json_data_file)
+
 prefixes = ['>', 'rufus ', 'r ']
-#docker_game = 'under development'
-#docker_game = 'in a trashcan'
-docker_game = 'under construction'
-game = 'in his container'
-description = f'prefixes: {str(prefixes).strip("[]")}'
-srcDir = (os.path.dirname(os.path.realpath(__file__)))
+devGame: str = 'under construction' # under development
+dockerGame: str = 'in his container'
+description: str = f'prefixes: {str(prefixes).strip("[]")}'
+dockerStatus: bool = os.environ.get('DOCKER_MODE') == True
+srcDir: str = (os.path.dirname(os.path.realpath(__file__)))
 
-owner_id = 177098893069254656
+owner_id: int = 177098893069254656
 dev_id = [324943524132814849, 359319833680281601] # 330837514246029312
-swears = ['frick', 'heck']
 
+swears = ['frick', 'heck']
 greetings = [
     'privet',
     'privyet',

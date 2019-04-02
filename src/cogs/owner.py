@@ -109,7 +109,7 @@ class OwnerCog(commands.Cog, name="Owner Commands"):
             If argument is passed, cog will be reloaded.
             Does not currently support docker mode.
         """
-        if NOT_DOCKER_MODE:
+        if not c.dockerStatus:
             try:
                 g = git.cmd.Git('./')
                 g.pull()

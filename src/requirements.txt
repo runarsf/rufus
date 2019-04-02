@@ -11,3 +11,5 @@ wikipedia
 googletrans
 whois
 BeautifulSoup4
+pillow
+pytz

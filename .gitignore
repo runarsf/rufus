@@ -6,3 +6,4 @@ logs
 *.log
 runners
 *.db
+secrets.json

@@ -1,11 +1,12 @@
 import os
 import atexit
-import discord
+import json
 import re
-from discord.ext import commands
-from subprocess import call
 import config as c
 import datetime
+
+import discord
+from discord.ext import commands
 
 STARTUP_EXTENSIONS = ['cogs.owner',
                       'cogs.commands',
@@ -37,12 +38,13 @@ async def on_ready():
         print(f' - {str(s.name)} :: {str(s.id)}')
     print('-' * len(str(bot.user.id))+'\n')
 
-    NOT_DOCKER_MODE = os.environ.get('DOCKER_MODE', False)
-    if NOT_DOCKER_MODE:
-        await bot.change_presence(status=discord.Status.online, activity=discord.Game(c.game))
+    if c.dockerStatus:
+        await bot.change_presence(status=discord.Status.online, activity=discord.Game(c.dockerGame))
     else:
-        #await bot.change_presence(status=discord.Status.online, activity=discord.Game(c.docker_game))
-        await bot.change_presence(status=discord.Status.online, activity=discord.Streaming(name=c.docker_game, url='https://twitch.tv/toolbar', details='programming'))
+        await bot.change_presence(status=discord.Status.online, activity=discord.Game(c.devGame))
+        #await bot.change_presence(status=discord.Status.online, activity=discord.Streaming(name=c.devGame, url='https://twitch.tv/toolbar', details='programming'))
+
+    dumpConfig(c.data, f'{c.srcDir}/template-secrets.json')
 
 @bot.event
 async def on_message(message):
@@ -50,6 +52,9 @@ async def on_message(message):
     """
     if message.author == bot.user or message.author.bot == True:
         return
+    if any(swears in message.content for swears in c.swears):
+        channel = message.channel
+        await channel.send('don\'t do the swear')
     for i in range(len(c.prefixes)):
         if message.content[:len(c.prefixes[i])] == c.prefixes[i]:
             if message.content[len(c.prefixes[i]):] in c.greetings:
@@ -93,11 +98,20 @@ def logger(message):
             logfile.write(str(f'{message.content}\n'))
         print(f'{message.author.name} {message.author.mention} :: {message.content}')
 
+def dumpConfig(jsonData, dumpFile: str):
+    """ Dump json data as a template.
+    """
+    with open(dumpFile, 'w') as template:
+        finalJson = ['{']
+        for x in jsonData:
+            finalJson.append(f'\t\"{str(x)}\": \"KEY\",')
+        finalJson = ''.join(finalJson)
+        finalJson = finalJson[:-1]
+        finalJson += '}'
+        json.dump(json.loads(finalJson), template)
+
 
 if __name__ == '__main__':
     for extension in STARTUP_EXTENSIONS:
-        try:
-            bot.load_extension(extension)
-        except Exception as error:
-            print(f'Failed to load extension {extension}\n{type(error).__name__}: {error}')
-    bot.run(c.token, bot=True, reconnect=False)
+        bot.load_extension(extension)
+    bot.run(c.data["botToken"], bot=True, reconnect=False)
