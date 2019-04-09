@@ -80,6 +80,9 @@ class CommandsCog(commands.Cog, name="General Commands"):
     async def _text_to_speech(self, ctx, *, sentence: str):
         """ Make the bot say something in tts.
         """
+        prevNick = ctx.message.guild.get_member(self.bot.user.id).nick
+        prevNick = prevNick if prevNick != None else None
+
         if not 'said' in sentence:
             await ctx.send('```brainfuck\nWord [said] must be a part of the sentence.```')
             return
@@ -91,7 +94,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
         ttsMessage = await ctx.send(f'{message}', tts=True)
         await ttsMessage.delete()
 
-        await ctx.message.guild.get_member(self.bot.user.id).edit(nick=None)
+        await ctx.message.guild.get_member(self.bot.user.id).edit(nick=prevNick)
 
     @commands.command(name='color', aliases=['hex', 'colorsquare'])
     async def _visualize_hex(self, ctx, color: str):
