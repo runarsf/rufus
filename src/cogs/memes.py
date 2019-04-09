@@ -2,6 +2,8 @@ import random
 import os
 import re
 import discord
+import requests
+import random, string
 import asyncio
 from discord.ext import commands
 
@@ -10,25 +12,50 @@ class MemesCog(commands.Cog, name="Memes"):
 
     def __init__(self, bot):
         self.bot = bot
-    
+
+    @commands.command(name='meme', aliases=['reddit'])
+    async def _random_meme(self, ctx, *, subreddit: str = 'random'):
+        """ Get a random meme from reddit.
+        """
+        try:
+            if subreddit != 'random':
+                try:
+                    memeUrl = f'https://meme-api.herokuapp.com/gimme/{subreddit}'
+                    memeData = requests.get(memeUrl).json()
+                    await ctx.send(str(memeData["url"]))
+                except: # CommandInvokeError
+                    await ctx.send('```No memes could be found on that subreddit.```')
+            else:
+                memeUrl = 'https://meme-api.herokuapp.com/gimme'
+                memeData = requests.get(memeUrl).json()
+                await ctx.send(str(memeData["url"]))
+        except ValueError: # includes simplejson.decoder.JSONDecodeError
+            await ctx.send('```API endpoint down for maintenance.```')
+
     @commands.command(name='love')
-    async def _love(self, ctx, member: discord.Member = '', *, message: str = ''):
-    	""" Share your love
-    	"""
-    	if not member:
-    	    await ctx.send('love')
-    	else:
-    	    if not message:
-    	        await ctx.send(f'*{ctx.message.author.name} shared their love with {member} and probably likes them!*')
-    	    else:
-    	        await self.bot.say(f'*{ctx.message.author.name} shared their love with {member} {message}*')
+    async def _love(self, ctx, member: str = '', *, message: str = ''):
+        """ Share your love
+        """
+        try:
+            member = await discord.ext.commands.UserConverter().convert(ctx, member)
+        except discord.ext.commands.BadArgument:
+            if str(member) == 'me':
+                await ctx.message.add_reaction('💖')
+                return
+        if not member:
+            await ctx.send('*...is a great thing...*')
+        else:
+            if not message:
+                await ctx.send(f'*{ctx.message.author.name} shared their love with {member} and probably likes them!*')
+            else:
+                await self.bot.say(f'*{ctx.message.author.name} shared their love with {member} {message}*')
 
     @commands.command(name=':(')
     async def _angry_face(self, ctx):
         """ Don't be angry.
         """
         await ctx.message.add_reaction('😲')
-        
+
     @commands.command(name='kms')
     async def _self_kill(self, ctx):
         """ End it all.
@@ -149,9 +176,15 @@ class MemesCog(commands.Cog, name="Memes"):
 
 
     @commands.command(name='pat')
-    async def _pat(self, ctx, member: discord.Member = '', *, message: str = ''):
+    async def _pat(self, ctx, member: str = '', *, message: str = ''):
         """ Pat uwu.
         """
+        try:
+            member = await discord.ext.commands.UserConverter().convert(ctx, member)
+        except discord.ext.commands.BadArgument:
+            if str(member) == 'me':
+                await ctx.send(f'*I gently pat {ctx.message.author.name}...*')
+                return
         if member == '':
             await ctx.send('uwu')
         else:
@@ -161,13 +194,18 @@ class MemesCog(commands.Cog, name="Memes"):
                 await self.bot.say(f'*{ctx.message.author.name} patted {member} {message}*')
 
     @commands.command(name='hug')
-    async def _hug(self, ctx, *, member: discord.Member = ''):
+    async def _hug(self, ctx, *, member: str = ''):
         """ Hug user.
         """
-        mcont = ctx.message.content
+        try:
+            member = await discord.ext.commands.UserConverter().convert(ctx, member)
+        except discord.ext.commands.BadArgument:
+            if str(member) == 'me':
+                await ctx.send(f'*Hugs {ctx.message.author.name}...*')
+                return
         if member == '':
             await ctx.send(f'*{ctx.message.author.name} tries to hug the air*')
-        elif member == ctx.message.author:
+        elif member == ctx.message.author or member == 'me':
             await ctx.send(random.choice(['Aaaaaaall by myseeeeeeeelf.', '*hugs you*']))
         elif member == self.bot.user:
             await ctx.send('OwO wat dis? Am I being hugger?')
@@ -175,9 +213,15 @@ class MemesCog(commands.Cog, name="Memes"):
             await ctx.send(f'{ctx.message.author.name} hugged {member} :hearts:')
 
     @commands.command(name='slap', aliases=['hit', 'punch'])
-    async def _slap(self, ctx, member: discord.Member, *item):
+    async def _slap(self, ctx, member: str, *item):
         """ Slap a person. They probably deserve it.
         """
+        try:
+            member = await discord.ext.commands.UserConverter().convert(ctx, member)
+        except discord.ext.commands.BadArgument:
+            if str(member) == 'me':
+                await ctx.send(f'*SLAP!*')
+                return
         _slap_item: str = ''
         if item:
             _slap_item = f' with {" ".join(item)}.'
