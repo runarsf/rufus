@@ -14,6 +14,45 @@ class Runners():
     """ Runners for different languages.
     """
     def python(message, code: str):
+        homedir = f'{c.srcDir}/runners/{message.author.id}'
+        if os.path.isdir(homedir):
+            return 'File already exists.'
+        else:
+            os.mkdir(homedir)
+
+        with open(f'{homedir}/code.py', 'w+') as codeFile:
+            codeFile.write(code)
+
+        dockerfile = f"""FROM python
+COPY . /bot
+WORKDIR /bot
+RUN python --version
+CMD ["python", "-u", "/bot/code.py"]"""
+        with open(f'{homedir}/dockerfile', 'w+') as dockerfileFile:
+            dockerfileFile.write(dockerfile)
+
+        # run container and capture output
+        with open(f'{homedir}/stdout.py', 'a') as stdout, open(f'{homedir}/stderr.py', 'a') as stderr:
+            subprocess.call(f'cd {homedir} && docker build -t {message.author.id}rbot {homedir} && docker run --rm {message.author.id}rbot', shell=True, stdout=stdout, stderr=stderr)
+        with open(f'{homedir}/stdout.py', 'r') as stdout:
+            rstdout = stdout.readlines()
+        with open(f'{homedir}/stderr.py', 'r') as stderr:
+            rstderr = stderr.readlines()
+
+        result = f"""``stderr:``
+```py
+{'None' if ''.join(rstderr) == '' else ''.join(rstderr)}```
+``stdout:``
+```py
+{'None' if ''.join(rstdout).split("rbot:latest",1)[1] == '' else
+''.join(rstdout).split("rbot:latest",1)[1]}```"""
+
+        shutil.rmtree(homedir)
+        return result
+
+
+
+    def old_python(message, code: str):
         # make folder to hold temporary files
 
         homedir = f'{c.srcDir}/runners/{message.author.id}'
@@ -90,8 +129,10 @@ class RunnerCog(commands.Cog, name="Runner Commands"):
                         if len(customInput) != code.count('input('):
                             await ctx.send('Uneven amount of inputs, aborting.')
                             return
-                        output = ''.join(Runners.python(ctx.message, code))
-                        await ctx.send('```py\n{}```'.format(output.split("rbot:latest",1)[1]))
+                        #output = ''.join(Runners.python(ctx.message, code))
+                        #await ctx.send('```py\n{}```'.format(output.split("rbot:latest",1)[1]))
+                        output = Runners.python(ctx.message, code)
+                        await ctx.send(output)
                     return
 
                 else:
