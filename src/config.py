@@ -8,13 +8,15 @@ prefixes = ['>', 'rufus ', 'r ']
 devGame: str = 'under construction' # under development
 dockerGame: str = 'in his container'
 description: str = f'prefixes: {str(prefixes).strip("[]")}'
-dockerStatus: bool = os.environ.get('DOCKER_MODE') == True
+dockerStatus: bool = os.getenv('DOCKER_MODE', False)
 srcDir: str = (os.path.dirname(os.path.realpath(__file__)))
 
 owner_id: int = 177098893069254656
-dev_id = [324943524132814849, 359319833680281601] # 330837514246029312
+dev_id = [324943524132814849, 359319833680281601, 180796078558281728, 85467784179351552] # 330837514246029312
 
 swears = ['frick', 'heck']
+for index, swear in enumerate(swears):
+    swears[index] = f' {swear} '
 greetings = [
     'privet',
     'privyet',
