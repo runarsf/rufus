@@ -52,9 +52,10 @@ async def on_message(message):
     """
     if message.author == bot.user or message.author.bot == True:
         return
-    if any(swears in message.content for swears in c.swears):
-        channel = message.channel
-        await channel.send('don\'t do the swear')
+    if any(swears in f' {message.content} ' for swears in c.swears):
+        await message.add_reaction('😠')
+    if message.content.upper() == 'F':
+        await message.channel.send('F')
     for i in range(len(c.prefixes)):
         if message.content[:len(c.prefixes[i])] == c.prefixes[i]:
             if message.content[len(c.prefixes[i]):] in c.greetings:
@@ -114,4 +115,4 @@ def dumpConfig(jsonData, dumpFile: str):
 if __name__ == '__main__':
     for extension in STARTUP_EXTENSIONS:
         bot.load_extension(extension)
-    bot.run(c.data["botToken"], bot=True, reconnect=False)
+    bot.run(c.data["botToken"], bot=True, reconnect=True)
