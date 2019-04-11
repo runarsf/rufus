@@ -29,3 +29,6 @@
 - You can see all prefixes and commands by running ``rufus help``.
 - [Trello](https://trello.com/b/i7fwOpdK) board.
 - All bot-PMs, commands and mentions will be logged, the logfile is cleared regularly and is only read if something has happened to the bot or for debugging purposes.
+
+<br/><br/>
+[![Travis Build History](https://buildstats.info/travisci/chart/runarsf/rufus)](https://travis-ci.org/runarsf/rufus/builds)
