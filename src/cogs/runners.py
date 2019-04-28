@@ -33,19 +33,19 @@ CMD ["python", "-u", "/bot/code.py"]"""
 
         # run container and capture output
         with open(f'{homedir}/stdout.py', 'a') as stdout, open(f'{homedir}/stderr.py', 'a') as stderr:
-            subprocess.call(f'cd {homedir} && docker build -t {message.author.id}rbot {homedir} && docker run --rm {message.author.id}rbot', shell=True, stdout=stdout, stderr=stderr)
+            subprocess.call(f'cd {homedir} && docker build -t {message.author.id}rbot {homedir} && docker run --rm {message.author.id}rbot', shell=True, stdout=stdout, stderr=stderr, timeout=30)
         with open(f'{homedir}/stdout.py', 'r') as stdout:
             rstdout = stdout.readlines()
         with open(f'{homedir}/stderr.py', 'r') as stderr:
             rstderr = stderr.readlines()
 
-        result = f"""``stderr:``
-```py
-{'None' if ''.join(rstderr) == '' else ''.join(rstderr)}```
-``stdout:``
-```py
-{'None' if ''.join(rstdout).split("rbot:latest",1)[1] == '' else
-''.join(rstdout).split("rbot:latest",1)[1]}```"""
+        result = f"""{'' if ''.join(rstderr) == '' else '`stderr:`'}
+{'' if ''.join(rstderr) == '' else '```py'}
+{'' if ''.join(rstderr) == '' else ''.join(rstderr)+'```'}
+{'' if ''.join(rstdout).split("rbot:latest",1)[1].strip() == '' else '``stdout:``'}
+{'' if ''.join(rstdout).split("rbot:latest",1)[1].strip() == '' else '```py'}
+{'' if ''.join(rstdout).split("rbot:latest",1)[1].strip() == '' else
+''.join(rstdout).split("rbot:latest",1)[1]+'```'}"""
 
         shutil.rmtree(homedir)
         return result
@@ -111,7 +111,7 @@ class RunnerCog(commands.Cog, name="Runner Commands"):
             Custom limit may not exceed 50 messages.
         """
         # if int(customLimit) >= 100000000000000000:
-        #    message = await ctx.get_message(customLimit)
+        #    message = await ctx.fetch_message(customLimit)
         #^ to make this work, the async for message part could be turned into two async functions and return message object and language
         languages = ['python', 'py']
         customLimit = 51 if customLimit > 50 else customLimit + 1

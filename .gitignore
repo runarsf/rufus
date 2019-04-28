@@ -6,4 +6,5 @@ logs
 *.log
 runners
 *.db
+.vscode
 secrets.json

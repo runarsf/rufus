@@ -1,11 +1,20 @@
+import PIL.Image as Image
 import random
 import os
 import re
 import discord
 import requests
-import random, string
+import random
+import string
 import asyncio
+import datetime
 from discord.ext import commands
+from PIL import Image
+from io import BytesIO
+
+import config as c
+from cogs.utils import checks
+from cogs.utils import deeppyer
 
 class MemesCog(commands.Cog, name="Memes"):
     """ MemesCog """
@@ -13,24 +22,102 @@ class MemesCog(commands.Cog, name="Memes"):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(name='pfp')
+    async def _emote_avatar(self, ctx, asEmotes: bool = True):
+        """ Print a happy dog in emotes.
+        """
+        rufusEmotes = [
+            '<:r0_0:567445956417552396>', '<:r1_0:567445959454490644>', '<:r2_0:567445960993669140>', '<:r3_0:567445963917099089>', '<:r4_0:567445963875287059>', '<:r5_0:567445965531906068>', '\n',
+            '<:r0_1:567445956841308160>', '<:r1_1:567445958888259614>', '<:r2_1:567445961018834944>', '<:r3_1:567445963225169920>', '<:r4_1:567445964902891522>', '<:r5_1:567445965506740260>', '\n',
+            '<:r0_2:567445956694507549>', '<:r1_2:567445959647166485>', '<:r2_2:567445961073491985>', '<:r3_2:567445963032100875>', '<:r4_2:567445965364133888>', '<:r5_2:567445965494026271>', '\n',
+            '<:r0_3:567445958510641162>', '<:r1_3:567445959672463381>', '<:r2_3:567445961962553409>', '<:r3_3:567445963384291330>', '<:r4_3:567445965448020002>', '<:r5_3:567445966853111864>', '\n',
+            '<:r0_4:567445958191743028>', '<:r1_4:567445960813314068>', '<:r2_4:567445961635266636>', '<:r3_4:567445963879219200>', '<:r4_4:567445965993279508>', '<:r5_4:567445965917913119>', '\n',
+            '<:r0_5:567445958821150721>', '<:r1_5:567445960914108416>', '<:r2_5:567445961715089428>', '<:r3_5:567445963501731850>', '<:r4_5:567445965607272478>', '<:r5_5:567445965984890900>'
+        ]
+        message = ''
+        for emote in rufusEmotes:
+            message += emote
+        await ctx.send(message)
+
+    @commands.command(name='search')
+    async def _reddit_search(self, ctx, *, query: str):
+        """ Search reddit.
+            https://stackoverflow.com/questions/21458102/reddit-search-api-url
+        """
+        pass
+
     @commands.command(name='meme', aliases=['reddit'])
-    async def _random_meme(self, ctx, *, subreddit: str = 'random'):
-        """ Get a random meme from reddit.
+    async def _reddit_meme(self, ctx, subreddit: str = 'random', section: str = 'random'):
+        """ Get memes (images, gifs, videos) from a subreddit.
+            Sections:
+                - random
+                - new
+                - top
+                - controversial
+                - hot
+                - rising
         """
         try:
-            if subreddit != 'random':
-                try:
-                    memeUrl = f'https://meme-api.herokuapp.com/gimme/{subreddit}'
-                    memeData = requests.get(memeUrl).json()
-                    await ctx.send(str(memeData["url"]))
-                except: # CommandInvokeError
-                    await ctx.send('```No memes could be found on that subreddit.```')
+            reddits = ['PewdiepieSubmissions', 'memes', 'dankmemes', 'me_irl']
+            if subreddit.lower() == 'random':
+                subreddit = random.choice(reddits)
+            if section.lower() == 'random' or subreddit.lower() == 'random':
+                num: int = random.randint(0, 24)
+                section = 'new'
             else:
-                memeUrl = 'https://meme-api.herokuapp.com/gimme'
-                memeData = requests.get(memeUrl).json()
-                await ctx.send(str(memeData["url"]))
-        except ValueError: # includes simplejson.decoder.JSONDecodeError
-            await ctx.send('```API endpoint down for maintenance.```')
+                num: int = 0
+            # requests
+            # reddit has blocked the curl user agent, change it
+            headers = {'User-Agent': 'rufus-agent'}
+            url = f'https://reddit.com/r/{subreddit}/new/.json'
+            data = requests.get(url, headers=headers).json()
+            aboutUrl = f'https://reddit.com/r/{subreddit}/about.json'
+            aboutData = requests.get(aboutUrl, headers=headers).json()
+            userUrl = f"https://reddit.com/user/{data['data']['children'][num]['data']['author']}/about.json"
+            userData = requests.get(userUrl, headers=headers).json()
+
+            # check if the post is a video
+            if bool(data['data']['children'][num]['data']['is_video']):
+                mediaUrl = str(data['data']['children'][num]['data']['media']['reddit_video']['fallback_url'])
+            else:
+                mediaUrl = str(data['data']['children'][num]['data']['url'])
+
+            selftext = str(data['data']['children'][num]['data']['selftext'])
+            description = selftext if bool(selftext) else ''
+            try:
+                icon = str(userData['data']['icon_img']).split('?')[0]
+            except:
+                icon = ''
+            embed = discord.Embed(title=str(data['data']['children'][num]['data']['title']), timestamp=datetime.datetime.fromtimestamp(int(data['data']['children'][num]['data']['created_utc'])), description=description, color=checks.getDominantColor(str(mediaUrl)), url='https://reddit.com' + data['data']['children'][num]['data']['permalink'])
+            embed.set_author(name='u/'+str(data['data']['children'][num]['data']['author']), icon_url=icon)
+            embed.set_footer(text=str(data['data']['children'][num]['data']['subreddit_name_prefixed']), icon_url=str(aboutData['data']['icon_img']))
+
+            if bool(data['data']['children'][num]['data']['over_18']) and not ctx.message.channel.is_nsfw():
+                embed.add_field(name="NSFW", value=str(mediaUrl), inline=False)
+            else:
+                try:
+                    embed.set_image(url=mediaUrl)
+                except:
+                    pass
+
+            await ctx.send(embed=embed)
+        except:
+            # CommandInvokeError: Command raised an exception: KeyError: 'is_video' (subreddit doesn't exist)
+            # CommandInvokeError: Command raised an exception: KeyError: 'data' (subreddit is restricted)
+            await ctx.send('```Subreddit restricted or non-existent.```')
+
+    @commands.command(name='fry')
+    async def _deepfry_image(self, ctx, image: str = 'previousMessage'):
+        """ Deepfry an image.
+        """
+        async for message in ctx.channel.history(limit=2):
+            imgUrl = message.attachments
+        imgUrl = imgUrl[0].url
+
+        response = requests.get(imgUrl)
+        img = Image.open(BytesIO(response.content))
+        img = await deeppyer.deepfry(img)
+        await ctx.send(file=discord.File(Image.open(img)))
 
     @commands.command(name='love')
     async def _love(self, ctx, member: str = '', *, message: str = ''):
@@ -50,7 +137,7 @@ class MemesCog(commands.Cog, name="Memes"):
             else:
                 await self.bot.say(f'*{ctx.message.author.name} shared their love with {member} {message}*')
 
-    @commands.command(name=':(')
+    @commands.command(name=':(', hidden=True)
     async def _angry_face(self, ctx):
         """ Don't be angry.
         """
@@ -80,7 +167,7 @@ class MemesCog(commands.Cog, name="Memes"):
                         'for their will to be fulfilled,' +
                         'the death needs to be inflicted by yourself and yourself alone.')
 
-    @commands.command(name='tocch', aliases=['touch'])
+    @commands.command(name='tocch', aliases=['touch', 'spaghetti', 'spaghett'])
     async def _touch_spaghetti(self, ctx):
         """ DOON NOTT TOCCH S P A G O O T
         """
@@ -168,7 +255,7 @@ class MemesCog(commands.Cog, name="Memes"):
                         await ctx.send(mockify(str(message.content)))
                         break
             if _noTestsPassed:
-                await ctx.send(f'```{mockify(str(string))}```')
+                await ctx.send(mockify(str(string)))
         else:
             await ctx.message.delete()
             async for message in ctx.channel.history(limit=1):
@@ -212,7 +299,7 @@ class MemesCog(commands.Cog, name="Memes"):
         else:
             await ctx.send(f'{ctx.message.author.name} hugged {member} :hearts:')
 
-    @commands.command(name='slap', aliases=['hit', 'punch'])
+    @commands.command(name='slap')
     async def _slap(self, ctx, member: str, *item):
         """ Slap a person. They probably deserve it.
         """

@@ -26,7 +26,31 @@ class DevCog(commands.Cog, name="Dev"):
     async def _ping(self, ctx):
         """ Ping the bot host.
         """
-        await ctx.send(f'`` {int(float(round(self.bot.latency, 1))*1000)}ms ``: pong 🏓')
+        await ctx.send(f'pong 🏓 ``{self.bot.ws.latency * 1000:.0f}ms``')
+
+    @commands.command(name='date', aliases=['time'])
+    async def _datetime(self, ctx):
+        """ Get datetetime.
+        """
+        await ctx.send(f'```apache\nLocal: {datetime.datetime.now()}\nUTC: {datetime.datetime.utcnow()}```')
+
+    @commands.command(name='stats')
+    async def _statistics(self, ctx):
+        """ Get bot stats.
+        """
+        await ctx.send(f'pong 🏓 ``{self.bot.ws.latency * 1000:.0f}ms``')
+
+    @commands.command(name='arr')
+    async def _to_int_arr(self, ctx, *words):
+        """ Convert word(s) to an integer array for use with swears (config).
+        """
+        output = ''
+        for word in words:
+            tarr = []
+            for letter in word:
+                tarr.append(ord(letter))
+            output += ',\n'+str(tarr)
+        await ctx.send(output[2:])
 
     @commands.command(name='uptime')
     async def _uptime(self, ctx):
@@ -36,7 +60,7 @@ class DevCog(commands.Cog, name="Dev"):
         upfor = uptime.ReadableTime(self.startTime, current_time)
         await ctx.send(f'I\'ve been up for *{upfor}*.')
 
-    @commands.command(name='echo', aliases=['say', 'print', 'printf'])
+    @commands.command(name='echo', aliases=['say', 'print'])
     @checks.is_dev()
     async def _echo(self, ctx, *, phrase: str):
         """ Make the bot say something.
@@ -75,8 +99,17 @@ class DevCog(commands.Cog, name="Dev"):
     async def _msgtime(self, ctx, id: int):
         """ Message creation date.
         """
-        msg = await ctx.get_message(id)
+        msg = await ctx.fetch_message(id)
         await ctx.send(f'Message was created at ``{msg.created_at}`` UTC')
+
+    @commands.command(name='input')
+    async def _wait_for_input(self, ctx):
+        channel = ctx.message.channel
+        await channel.send('Say hello!')
+        def check(m):
+            return m.content == 'hello' and m.channel == channel
+        msg = await self.bot.wait_for('message', check=check)
+        await channel.send('Hello {.author}!'.format(msg))  
 
     @commands.command(name='bug')
     async def _bug(self, ctx):

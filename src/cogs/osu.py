@@ -3,44 +3,12 @@ import os.path
 import requests
 import time
 import asyncio
-import urllib.request
-from PIL import Image
-from io import BytesIO
-from bs4 import BeautifulSoup
 from cogs.utils import countrycodes as cc
+from cogs.utils import checks
 
 import discord
 from discord.ext import commands
 
-
-def getDominantColor(filename: str):
-    #Resizing parameters
-    width, height = 150,150
-    response = requests.get(filename)
-    image = Image.open(BytesIO(response.content))
-    image = image.resize((width, height),resample = 0)
-    #Get colors from image object
-    pixels = image.getcolors(width * height)
-    #Sort them by count number(first element of tuple)
-    sorted_pixels = sorted(pixels, key=lambda t: t[0])
-    #Get the most frequent color
-    dominant_color = sorted_pixels[-1][1]
-    hexColor = discord.Color.from_rgb(dominant_color[0], dominant_color[1], dominant_color[2])
-    return hexColor
-
-# def scraper(url: str, phrase: str = '<div class="beatmapset-header__content" style="background-image: url("URL_HERE");">'):
-    #from bs4 import BeautifulSoup
-    #import urllib.request
-    #import re
-    #import time
-
-    #html_page = urllib.request.urlopen("https://osu.ppy.sh/beatmaps/1149713")
-    #html_page = urllib.request.urlopen("https://osu.ppy.sh/beatmapsets/542081#osu/1149713")
-    #soup = BeautifulSoup(html_page, features="html.parser")
-    #soup = soup.findAll('div')
-
-    #for line in soup:
-    #    print(f'\n\n{line}')
 
 class OsuCog(commands.Cog, name="osu!"):
     """ OsuCog """
@@ -48,7 +16,7 @@ class OsuCog(commands.Cog, name="osu!"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='osu!update', aliases=['u', 'update'])
+    @commands.command(name='osu!update', aliases=['u', 'update'], hidden=True)
     async def _osu_update(self, ctx, username: str):
         """ Get recent osu! plays for player.
             Available modes:
@@ -59,7 +27,7 @@ class OsuCog(commands.Cog, name="osu!"):
         """
         pass
 
-    @commands.command(name='osu!recent', aliases=['recent'])
+    @commands.command(name='osu!recent', aliases=['recent'], hidden=True)
     async def _osu_most_recent(self, ctx, username: str, mode: str = 'osu!'):
         """ Get most recent osu! play for player.
             Available modes:
@@ -82,7 +50,7 @@ class OsuCog(commands.Cog, name="osu!"):
         beatmapUrl = f'https://osu.ppy.sh/api/get_beatmaps?k={c.data["osu"]}&b={recentData[0]["beatmap_id"]}'
         beatmapData = requests.get(beatmapUrl).json()
 
-        embed=discord.Embed(title=f'most recent play for {username}', color=getDominantColor('https://assets.ppy.sh/beatmaps/542081/covers/cover.jpg?1521116828'))
+        embed=discord.Embed(title=f'most recent play for {username}', color=checks.getDominantColor('https://assets.ppy.sh/beatmaps/542081/covers/cover.jpg?1521116828'))
         embed.set_thumbnail(url=(f'{scraper("https://osu.ppy.sh/beatmaps/"+recentData[0]["beatmap_id"])}'))
         await ctx.send(embed=embed)
 
@@ -117,7 +85,7 @@ class OsuCog(commands.Cog, name="osu!"):
         userUrl = f'https://osu.ppy.sh/api/get_user?k={c.data["osu"]}&m={mode}&u={username}&type=string'
         userData = requests.get(userUrl).json()
 
-        embed=discord.Embed(title=f'osu! user information for {userData[0]["username"]}', color=getDominantColor(f'https://a.ppy.sh/{userData[0]["user_id"]}'))
+        embed=discord.Embed(title=f'osu! user information for {userData[0]["username"]}', color=checks.getDominantColor(f'https://a.ppy.sh/{userData[0]["user_id"]}'))
         embed.set_thumbnail(url=(f'https://a.ppy.sh/{userData[0]["user_id"]}'))
         embed.set_footer(text='')
         embed.add_field(name="Username:", value=userData[0]["username"], inline=True)

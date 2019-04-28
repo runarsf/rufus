@@ -12,7 +12,7 @@ class OwnerCog(commands.Cog, name="Owner Commands"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='configflush', aliases=['flush'])
+    @commands.command(name='configflush', aliases=['flush'], hidden=True)
     @commands.is_owner()
     async def _config_flush(self, ctx):
         """ Reload config.

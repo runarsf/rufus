@@ -11,7 +11,7 @@ class AdminCog(commands.Cog, name="Admin Commands"):
         self.bot = bot
 
     @commands.command(name='spam', hidden=True)
-    @commands.has_role('admin')
+    @commands.has_permissions(manage_messages=True)
     async def _spam(self, ctx, times: int = 1, *, msg: str = 'spam'):
         """ Repeat a message multiple times.
         """

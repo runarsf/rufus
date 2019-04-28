@@ -7,6 +7,7 @@ import json
 import base64
 import asyncio
 import sqlite3
+import datetime
 import wolframalpha, wikipedia
 from PIL import Image
 from time import gmtime, strftime
@@ -46,6 +47,29 @@ class CommandsCog(commands.Cog, name="General Commands"):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(name='display', aliases=['img'])
+    async def _display_image(self, ctx, *, url: str):
+        """ Display an image in chat.
+        """
+        embed = discord.Embed(title='', color=checks.getDominantColor(url), url='')
+        embed.set_image(url=url)
+        await ctx.send(embed=embed)
+
+    @commands.command(name='server')
+    async def _server_info(self, ctx):
+        """ Get information about the server.
+        """
+        widget = f'https://canary.discordapp.com/api/guilds/{self.message.guild.id}/widget.json'
+
+    @commands.command(name='funfact', aliases=['fact'])
+    async def _fun_fact(self, ctx):
+        """ Get a random fun fact.
+        """
+        url = 'https://randomuselessfact.appspot.com/random.json?language=en'
+        aboutData = requests.get(url).json()
+        embed = discord.Embed(title='Fun Fact!', description=aboutData['text'], timestamp=datetime.datetime.utcnow(), color=discord.Color.from_rgb(random.randint(1, 255), random.randint(1, 255), random.randint(1, 255)))
+        await ctx.send(embed=embed)
+
     @commands.command(name='scramble', aliases=['spoiler'])
     async def _scramble(self, ctx, *, text: str =''):
         """ Scramble a message and delete the original one, react with the given emoji to unscramble.
@@ -77,6 +101,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
         await ctx.send(f'```{DATA["Redirect"]}```')
 
     @commands.command(name='tts')
+    @commands.has_permissions(send_tts_messages=True)
     async def _text_to_speech(self, ctx, *, sentence: str):
         """ Make the bot say something in tts.
         """
@@ -96,7 +121,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
 
         await ctx.message.guild.get_member(self.bot.user.id).edit(nick=prevNick)
 
-    @commands.command(name='color', aliases=['hex', 'colorsquare'])
+    @commands.command(name='colour', aliases=['hex', 'color'])
     async def _visualize_hex(self, ctx, color: str):
         """ Generate a 128x128px colored square from a color code.
             Example values:
@@ -108,7 +133,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
         await ctx.send(file=discord.File(f'tempcolor{ctx.message.author.id}.png'))
         os.remove(f'tempcolor{ctx.message.author.id}.png')
 
-    @commands.command(name='setvar', aliases=['setvariable', 'set'])
+    @commands.command(name='setvar', aliases=['set'])
     @checks.is_dev()
     async def _set_db_var(self, ctx, variableName: str, *, variableValue: str):
         """ Assign a value to a variable.
@@ -128,6 +153,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
                         cr.execute("DELETE FROM variables WHERE keyword = (?)",
                                   (variableName,))
                         db.commit()
+                        await ctx.send(f'```apache\nVariable {variableName} deleted.```')
                     else:
                         if variableValue == '++':
                             cr.execute('SELECT keyword, value FROM variables')
@@ -159,7 +185,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
         cr.close()
         db.close()
 
-    @commands.command(name='getvar', aliases=['getvariable', 'readvar', 'readvariable', 'get'])
+    @commands.command(name='getvar', aliases=['get'])
     @checks.is_dev()
     async def _get_db_var(self, ctx, variableName: str):
         """ Get value from a variable.
@@ -168,12 +194,16 @@ class CommandsCog(commands.Cog, name="General Commands"):
         db = sqlite3.connect('uservars.db')
         cr = db.cursor()
         try:
+            found: bool = False
             cr.execute('SELECT keyword, value FROM variables')
             for row in cr.fetchall():
                 if row[0] == variableName:
                     await ctx.send(row[1])
+                    found: bool = True
+            if not found:
+                await ctx.send(f'```apache\nVariable \'{variableName}\' was not found.```')
         except:
-            await ctx.send('No table found, you should create one with the ``setvar`` command.')
+            await ctx.send('```\nNo database table found, you should create one with the setvar command.```')
         cr.close()
         db.close()
 
@@ -221,7 +251,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
                 continue
         if int(timeout) > 0:
             await asyncio.sleep(timeout)
-            msg = await ctx.get_message(message.id)
+            msg = await ctx.fetch_message(message.id)
             await message.unpin()
             await ctx.send(embed=tally(msg, msg.id))
 
@@ -229,7 +259,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
     async def _poll_tally(self, ctx, id: int):
         """ Tally poll.
         """
-        message = await ctx.get_message(id)
+        message = await ctx.fetch_message(id)
         await message.unpin()
         await ctx.send(embed=tally(message, id))
 
@@ -237,21 +267,10 @@ class CommandsCog(commands.Cog, name="General Commands"):
     async def _repeat(self, ctx, times: int = 1, *, repeatString: str = ''):
         """ Repeat the specified string.
         """
-        i = 1
-        outString = str('')
-        while i <= times:
-            outString = outString + repeatString.replace(' ', '')
-            i = i + 1
+        outString = ''
+        for i in range(times):
+            outString += repeatString.replace(' ', '')
         await ctx.send(f'``{outString}``')
-
-    @commands.command(name='input')
-    async def _wait_for_input(self, ctx):
-        channel = ctx.message.channel
-        await channel.send('Say hello!')
-        def check(m):
-            return m.content == 'hello' and m.channel == channel
-        msg = await self.bot.wait_for('message', check=check)
-        await channel.send('Hello {.author}!'.format(msg))
 
     @commands.command(name='hello', hidden=True)
     async def _greet(self, ctx, *, greeting: str = ''):
@@ -316,7 +335,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
         BTC_USD = DATA['bpi']['USD']['rate']
         await ctx.send(f'```BTC price is currently at ${BTC_USD} USD```')
 
-    @commands.command(name='trump', aliases=['drumpf', 'dump', 'tronald'])
+    @commands.command(name='trump')
     async def _trump(self, ctx, *, searchString: str = 'random'):
         """ Search the extensive database of Tronald Dump for rich knowledge.
         """
@@ -377,19 +396,36 @@ class CommandsCog(commands.Cog, name="General Commands"):
         """ Translate string.
         """
         translator = Translator()
-        if fromLanguage == '' or toLanguage == '' or text == '':
-            await ctx.send('```Missing information.```')
-        elif fromLanguage == 'auto' or fromLanguage == 'au':
+        if not fromLanguage and not toLanguage and not text:
+            index = 1
+            async for message in ctx.channel.history():
+                if index >= 3:
+                    break
+                fromLanguage: str = 'au'
+                toLanguage: str = 'en'
+                text = str(message.content)
+                index += 1
+        elif fromLanguage and toLanguage and not text:
+            index = 1
+            async for message in ctx.channel.history():
+                if index >= 3:
+                    break
+                text = str(message.content)
+                index += 1
+        if fromLanguage == 'auto' or fromLanguage == 'au':
             translatedList = translator.translate([text], dest=toLanguage)
         else:
             translatedList = translator.translate([text], src=fromLanguage, dest=toLanguage)
         for translated in translatedList:
+            await ctx.send(f'`{translated.src} > {translated.dest}`: `{translated.text}`')
+            """
             if len(f'``{translated.origin}`` -> ``{translated.text}``') >= 2000:
                 await ctx.send(f'```{translated.text}```')
             else:
                 await ctx.send(f'``{translated.origin}`` -> ``{translated.text}``')
+            """
 
-    @commands.command(name='imdb', aliases=['omdb', 'movie', 'series'])
+    @commands.command(name='imdb')
     async def _imdb(self, ctx, *, searchString: str = ''):
         """ Find information about movies, series etc.
         """
@@ -479,7 +515,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
             await msg.edit(content=f'`` {seconds} ``')
         await ctx.send(f'Time is up! {os} seconds have passed.{name}')
 
-    @commands.command(name='info', aliases=['inf', 'userinfo'])
+    @commands.command(name='info')
     async def _info(self, ctx, *, member: discord.Member = ''):
         """ User info.
         """
@@ -492,7 +528,15 @@ class CommandsCog(commands.Cog, name="General Commands"):
         embed.add_field(name="nick:", value=member.nick, inline=True)
         embed.add_field(name="created at:", value=member.created_at, inline=True)
         embed.add_field(name="joined at:", value=member.joined_at, inline=True)
-        embed.add_field(name="game:", value=str(member.activities).replace('()', 'None'), inline=True)
+        try:
+            state = f'\n{member.activity.state}'
+        except:
+            state = ''
+        try:
+            game = str(f'```\n{member.activity.name}{state}\n{member.activity.details}```').replace('()', 'None')
+        except:
+            game = 'None'
+        embed.add_field(name="activity:", value=game, inline=False)
         embed.add_field(name="top role:", value=member.top_role, inline=True)
         embed.add_field(name="bot?", value=member.bot, inline=True)
         embed.add_field(name="avatar url:", value=member.avatar_url, inline=True)
