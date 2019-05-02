@@ -66,22 +66,22 @@ async def on_message(message):
         await message.channel.send('F')
         logger(message)
     dads = ["i\'m", "i am", "jeg er", "ich bin", "ik ben"]
-    for dad in dads:
-        if message.content.lower().startswith(dad):
+    #for dad in dads:
+    #    if message.content.lower().startswith(dad):
         #if dad in message.content.lower():
-            dadmessage = await message.channel.send(random.choice(c.greetings)+', '+message.content[int(message.content.lower().find(dad))+len(dad):].strip()+'! I\'m Rufus.')
-            logger(message)
-            try:
-                channel = message.channel
-                thankers = ['stop that', 'stop', 'no', 'please stop', 'delet this']
-                def check(m):
-                    return any(thanks in m.content for thanks in thankers) and m.channel == channel
-                msg = await bot.wait_for('message', check=check, timeout=25)
-                await dadmessage.delete()
-                await msg.delete()
-                return
-            except Exception:
-                return
+    #        dadmessage = await message.channel.send(random.choice(c.greetings)+', '+message.content[int(message.content.lower().find(dad))+len(dad):].strip()+'! I\'m Rufus.')
+    #        logger(message)
+    #        try:
+    #            channel = message.channel
+    #            thankers = ['stop that', 'stop', 'no', 'please stop', 'delet this']
+    #            def check(m):
+    #                return any(thanks in m.content for thanks in thankers) and m.channel == channel
+    #            msg = await bot.wait_for('message', check=check, timeout=25)
+    #            await dadmessage.delete()
+    #            await msg.delete()
+    #            return
+    #        except Exception:
+    #            return
     for i in range(len(c.prefixes)):
         if message.content[:len(c.prefixes[i])] == c.prefixes[i]:
             if message.content[len(c.prefixes[i]):] in c.greetings:
