@@ -119,6 +119,12 @@ class MemesCog(commands.Cog, name="Memes"):
         img = await deeppyer.deepfry(img)
         await ctx.send(file=discord.File(Image.open(img)))
 
+    @commands.command(name='b')
+    async def _b(self, ctx):
+        """ B
+        """
+        await ctx.send(':b:')
+
     @commands.command(name='love')
     async def _love(self, ctx, member: str = '', *, message: str = ''):
         """ Share your love
