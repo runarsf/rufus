@@ -59,7 +59,7 @@ async def on_message(message):
     """
     if message.author == bot.user or message.author.bot == True:
         return
-    if any(swears in f' {message.content} ' for swears in c.swears):
+    if any(swears in f' {message.content.lower()} ' for swears in c.swears):
         await message.add_reaction(random.choice(c.rages))
         logger(message)
     if message.content.upper() == 'F':
@@ -124,24 +124,24 @@ async def on_command_error(self, exception):
 
 def logger(message):
     try:
-        test = message.guild.id
-        if not os.path.exists(f'{c.srcDir}/logs'):
-            os.makedirs(f'{c.srcDir}/logs')
-        with open(f'{c.srcDir}/logs/bot.log', 'a') as logfile:
-            logfile.write(str('{0.id} - {0.name} : {1.name} - {1.id} : {2.date()} - {2.time()}'.format(message.author, message.guild, datetime.datetime.now())))
+        #d test = message.guild.id
+        #d if not os.path.exists(f'{c.srcDir}/logs'):
+        #d     os.makedirs(f'{c.srcDir}/logs')
+        #d with open(f'{c.srcDir}/logs/bot.log', 'a') as logfile:
+        #d     logfile.write(str('{0.id} - {0.name} : {1.name} - {1.id} : {2.date()} - {2.time()}'.format(message.author, message.guild, datetime.datetime.now())))
             #logfile.write(str(f'++ {datetime.datetime.now().date()} - {datetime.datetime.now().time()}\n'))
             #logfile.write(str(f'{message.guild.name} {str(message.guild.id)}\n'))
             #logfile.write(str(f'{message.author.name} {message.author.mention}\n'))
-            logfile.write(str('{message.content}\n'))
+        #d     logfile.write(str('{message.content}\n'))
         print(f'{message.author.name} {message.author.mention} :: {message.guild.name} :: {message.content}')
     except:
-        if not os.path.exists(f'{c.srcDir}/logs'):
-            os.makedirs(f'{c.srcDir}/logs')
-        with open(f'{c.srcDir}/logs/bot.log', 'a') as logfile:
-            logfile.write(str(f'++ {datetime.datetime.now().date()} - {datetime.datetime.now().time()}\n'))
-            logfile.write(str(f'direct message\n'))
-            logfile.write(str(f'{message.author.name} {message.author.mention}\n'))
-            logfile.write(str(f'{message.content}\n'))
+        #d if not os.path.exists(f'{c.srcDir}/logs'):
+        #d     os.makedirs(f'{c.srcDir}/logs')
+        #d with open(f'{c.srcDir}/logs/bot.log', 'a') as logfile:
+        #d     logfile.write(str(f'++ {datetime.datetime.now().date()} - {datetime.datetime.now().time()}\n'))
+        #d     logfile.write(str(f'direct message\n'))
+        #d     logfile.write(str(f'{message.author.name} {message.author.mention}\n'))
+        #d     logfile.write(str(f'{message.content}\n'))
         print(f'{message.author.name} {message.author.mention} :: {message.content}')
 
 def dumpConfig(jsonData, dumpFile: str):
