@@ -62,6 +62,8 @@ async def on_message(message):
     if any(swears in f' {message.content.lower()} ' for swears in c.swears):
         await message.add_reaction(random.choice(c.rages))
         logger(message)
+    if message.content.startswith('man '):
+        message.content = message.content.replace('man ', c.prefixes[0]+'help ')
     if message.content.upper() == 'F':
         await message.channel.send('F')
         logger(message)
