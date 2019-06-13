@@ -12,6 +12,7 @@ services:
       - DOCKER_MODE=True
       - GIT_PYTHON_REFRESH=quiet
     volumes:
-      - ./logs/bot.log:/app/logs/bot.log
+      - ./src:/app
+      #- ./logs/bot.log:/app/logs/bot.log
     ports:
       - 8080:8080
