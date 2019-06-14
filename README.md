@@ -31,9 +31,9 @@ If you want more information on how to contribute, refer to [CONTRIBUTING.md](ht
 - [Trello](https://trello.com/b/i7fwOpdK) board.
 - The [Wiki](https://github.com/runarsf/rufus/wiki) has some additional info.
 - [Dev Bot](https://discordapp.com/oauth2/authorize?client_id=583992813553713178&scope=bot&permissions=2146958591).
-- Don't hesitate to contact me about any problems you might be experiencing!
 - [Status updates](https://discordapp.com/invite/9sVk3Jh).
 - You are free to remove certain bot permission as you please, note that this might restrict certain commands.
+- Don't hesitate to contact me about any problems you might be experiencing!
 
 <br/><br/>
 [![Travis Build History](https://buildstats.info/travisci/chart/runarsf/rufus)](https://travis-ci.org/runarsf/rufus/builds)
