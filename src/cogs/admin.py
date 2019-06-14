@@ -1,10 +1,11 @@
 import discord
 import config as c
 import asyncio
+
 from discord.ext import commands
+from cogs.utils import rules
 
-
-class AdminCog(commands.Cog, name="Admin Commands"):
+class AdminCog(commands.Cog, name="Admin"):
     """ AdminCog """
 
     def __init__(self, bot):
@@ -157,7 +158,31 @@ class AdminCog(commands.Cog, name="Admin Commands"):
 
     @_nickname.error
     async def nickname_error(self, ctx, error):
-        await ctx.say('Command not fully implemented yet!')
+        await ctx.send('Command not fully implemented yet!')
+
+    @commands.command(name='setrule', aliases=['gamerule'])
+    #@commands.has_permissions(manage_server=True)
+    @commands.guild_only()
+    async def _setrule(self, ctx, key: str, value: str = 'get'):
+        """ Set a server-side rule.
+            Set value to NONE to delete server-rule.
+            Valid rules:
+              - prefixless: True | *
+        """
+        key = key.lower()
+        await ctx.send(rules.setrule(key, value, ctx.message.guild.id))
+
+    @commands.command(name='getrule')
+    @commands.guild_only()
+    async def _getrule(self, ctx, key: str):
+        """ Get a server-side rule.
+        """
+        key = key.lower()
+        ruleinf = rules.getrule(key, ctx.message.guild.id)
+        if not ruleinf:
+            await ctx.send('```apache\nNot set.```')
+        else:
+            await ctx.send(f'```apache\n{ruleinf}```')
 
 
 def setup(bot):

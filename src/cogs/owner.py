@@ -6,7 +6,7 @@ from discord.ext import commands
 from importlib import reload
 
 
-class OwnerCog(commands.Cog, name="Owner Commands"):
+class OwnerCog(commands.Cog, name="Owner"):
     """ OwnerCog """
 
     def __init__(self, bot):

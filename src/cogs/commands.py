@@ -41,7 +41,7 @@ def tally(message, id):
     _embed.set_footer(text=f'Poll ID: {id}')
     return _embed
 
-class CommandsCog(commands.Cog, name="General Commands"):
+class CommandsCog(commands.Cog, name="General"):
     """ CommandsCog """
 
     def __init__(self, bot):
@@ -137,7 +137,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
     @checks.is_dev()
     async def _set_db_var(self, ctx, variableName: str, *, variableValue: str):
         """ Assign a value to a variable.
-            Value DELETE_ME will delete variable.
+            Value DELETE will delete variable.
         """
         variableName = variableName.lower()
         db = sqlite3.connect('uservars.db')
@@ -149,7 +149,7 @@ class CommandsCog(commands.Cog, name="General Commands"):
             if row[0] == variableName:
                 is_owner = await ctx.bot.is_owner(ctx.message.author)
                 if int(row[1]) == ctx.message.author.id or is_owner:
-                    if variableValue == 'DELETE_ME':
+                    if variableValue == 'DELETE':
                         cr.execute("DELETE FROM variables WHERE keyword = (?)",
                                   (variableName,))
                         db.commit()

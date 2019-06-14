@@ -7,7 +7,7 @@ import discord
 from discord.ext import commands
 
 
-class HelpCog(commands.Cog, name="Help Commands"):
+class HelpCog(commands.Cog, name="Help"):
     """ HelpCog """
 
     def __init__(self, bot):

@@ -13,6 +13,7 @@ import asyncio
 
 import discord
 from discord.ext import commands
+from cogs.utils import rules
 
 STARTUP_EXTENSIONS = ['cogs.owner',
                       'cogs.commands',
@@ -59,14 +60,15 @@ async def on_message(message):
     """
     if message.author == bot.user or message.author.bot == True:
         return
-    if any(swears in f' {message.content.lower()} ' for swears in c.swears):
-        await message.add_reaction(random.choice(c.rages))
-        logger(message)
-    if message.content.startswith('man '):
-        message.content = message.content.replace('man ', c.prefixes[0]+'help ')
-    if message.content.upper() == 'F':
-        await message.channel.send('F')
-        logger(message)
+    if str(rules.getrule('prefixless', message.guild.id)) == 'True':
+        if any(swears in f' {message.content.lower()} ' for swears in c.swears):
+            await message.add_reaction(random.choice(c.rages))
+            logger(message)
+        if message.content.startswith('man '):
+            message.content = message.content.replace('man ', c.prefixes[0]+'help ')
+        if message.content.upper() == 'F':
+            await message.channel.send('F')
+            logger(message)
     dads = ["i\'m", "i am", "jeg er", "ich bin", "ik ben"]
     #for dad in dads:
     #    if message.content.lower().startswith(dad):
