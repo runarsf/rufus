@@ -68,7 +68,7 @@ class HelpCog(commands.Cog, name="Help"):
             return
 
         for cmd in self.bot.commands:
-            if str(cmd) == command:
+            if str(cmd) == str(self.bot.get_command(command)):
                 # manualPrefix = ctx.message.content[:ctx.message.content.find("help")]
                 #sig = signature(cmd)
                 nameAliases = str(cmd) if not ' | '.join(cmd.aliases) else '['+str(' | '.join(str(cmd).split(" ")+cmd.aliases)+']')
