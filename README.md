@@ -1,5 +1,6 @@
 # rufus
 [![Travis Build](https://img.shields.io/travis/runarsf/rufus.svg?style=flat-square)](https://travis-ci.org/runarsf/rufus)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/44085548370046aeb594cde49bfc7ce8)](https://www.codacy.com/app/runarsf/rufus?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=runarsf/rufus&amp;utm_campaign=Badge_Grade)<br/>
 [![Made With Python](https://img.shields.io/badge/made%20with-python-%23306998.svg?style=flat-square)](https://www.python.org/)
 
 > [Invite link](https://discordapp.com/oauth2/authorize?client_id=387390496038977536&scope=bot&permissions=2146958591)
