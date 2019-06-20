@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import atexit
 import json
@@ -10,6 +11,11 @@ import sys
 import asyncio
 #import cherrypy
 #from threading import Thread
+
+#import socket
+#import threading
+#import time
+from flask import Flask
 
 import discord
 from discord.ext import commands
@@ -53,6 +59,7 @@ async def on_ready():
         await bot.change_presence(status=discord.Status.online, activity=discord.Streaming(name=c.devGame, url='https://twitch.tv/toolbar', details='coding'))
 
     dumpConfig(c.data, f'{c.srcDir}/template-secrets.json')
+    await pingable()
 
 @bot.event
 async def on_message(message):
@@ -60,7 +67,7 @@ async def on_message(message):
     """
     if message.author == bot.user or message.author.bot == True:
         return
-    if str(rules.getrule('prefixless', message.guild.id)) == 'True':
+    if str(rules.getrule('prefixless', message.guild.id)).lower() == 'true':
         if any(swears in f' {message.content.lower()} ' for swears in c.swears):
             await message.add_reaction(random.choice(c.rages))
             logger(message)
@@ -69,23 +76,24 @@ async def on_message(message):
         if message.content.upper() == 'F':
             await message.channel.send('F')
             logger(message)
-    dads = ["i\'m", "i am", "jeg er", "ich bin", "ik ben"]
-    #for dad in dads:
-    #    if message.content.lower().startswith(dad):
-        #if dad in message.content.lower():
-    #        dadmessage = await message.channel.send(random.choice(c.greetings)+', '+message.content[int(message.content.lower().find(dad))+len(dad):].strip()+'! I\'m Rufus.')
-    #        logger(message)
-    #        try:
-    #            channel = message.channel
-    #            thankers = ['stop that', 'stop', 'no', 'please stop', 'delet this']
-    #            def check(m):
-    #                return any(thanks in m.content for thanks in thankers) and m.channel == channel
-    #            msg = await bot.wait_for('message', check=check, timeout=25)
-    #            await dadmessage.delete()
-    #            await msg.delete()
-    #            return
-    #        except Exception:
-    #            return
+    if str(rules.getrule('dad', message.guild.id)).lower() == 'true':
+        dads = ["i\'m", "i am", "jeg er", "ich bin", "ik ben", "jag är"]
+        for dad in dads:
+            if message.content.lower().startswith(dad):
+                if dad in message.content.lower():
+                    dadmessage = await message.channel.send(random.choice(c.greetings)+', '+message.content[int(message.content.lower().find(dad))+len(dad):].strip()+'! I\'m Rufus.')
+                    logger(message)
+                    try:
+                        channel = message.channel
+                        thankers = ['stop that', 'stop', 'no', 'please stop', 'delet this']
+                        def check(m):
+                            return any(thanks in m.content for thanks in thankers) and m.channel == channel
+                        msg = await bot.wait_for('message', check=check, timeout=25)
+                        await dadmessage.delete()
+                        await msg.delete()
+                        return
+                    except Exception:
+                        return
     for i in range(len(c.prefixes)):
         if message.content[:len(c.prefixes[i])] == c.prefixes[i]:
             if message.content[len(c.prefixes[i]):] in c.greetings:
@@ -98,14 +106,14 @@ async def on_message(message):
 
 @bot.event
 async def on_command_error(self, exception):
-    if True:
-    #if isinstance(exception, commands.errors.MissingPermissions):
-    #    await self.send(f'```Sorry {self.message.author.name}, you don\'t have permissions to do that!```')
-    #elif isinstance(exception, commands.errors.CheckFailure):
-    #    await self.send(f'```Sorry {self.message.author.name}, you don\'t have the necessary roles for that.```')
-    #elif isinstance(exception, TimeoutError):
-    #    return
-    #else:
+    if str(rules.getrule('debug', message.guild.id)).lower() == 'true':
+        if isinstance(exception, commands.errors.MissingPermissions):
+            await self.send(f'```Sorry {self.message.author.name}, you don\'t have permissions to do that!```')
+        elif isinstance(exception, commands.errors.CheckFailure):
+            await self.send(f'```Sorry {self.message.author.name}, you don\'t have the necessary roles for that.```')
+        elif isinstance(exception, TimeoutError):
+            return
+    else:
         errorEmbed = discord.Embed(title='', timestamp=datetime.datetime.utcnow(), description=f'```python\n{exception}```', color=discord.Color.from_rgb(200, 0, 0))
         errorEmbed.set_author(name=str(self.message.author), icon_url=str(self.message.guild.get_member(self.message.author.id).avatar_url))
         errorEmbed.set_footer(text=str(type(exception).__name__))
@@ -165,22 +173,79 @@ def dumpConfig(jsonData, dumpFile: str):
 #    def index(self):
 #        return "Hello World!"
 
+async def pingable():
+    app = Flask(__name__)
+
+    @app.route("/")
+    def home():
+        return "Bot is up and running!"
+
+    if __name__ == '__main__':
+        app.run(host='0.0.0.0', port=50007, debug=True)
+#     HOST = ''                 # Symbolic name meaning the local host
+#     PORT = 50007              # Arbitrary non-privileged port
+#     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #create the socket
+#     s.bind((HOST, PORT))        #bind socket to port
+#     s.listen(1)                 # start listening
+#     conn, addr = s.accept()     # if someone connects
+#     print('Connected by' + addr)
+#     while 1:
+#         data = conn.recv(1024)  # whenever they send data (up to 1024 bytes)
+#         if not data:
+#             break
+#         conn.send(data)         # send through the same socket what they send (make echo)
+#     conn.close()
+
 if __name__ == '__main__':
     for extension in STARTUP_EXTENSIONS:
         bot.load_extension(extension)
-    #cherrypy.config.update({'server.socket_port': 8099})
 
-    #threads = []
+    # ATTEMP 1
+    # cherrypy.config.update({'server.socket_port': 8099})
 
-    #botProcess = Thread(target=bot.run, args=[c.data["botToken"]], kwargs={'bot': True, 'reconnect': True})
-    #botProcess.start()
-    #threads.append(botProcess)
+    # threads = []
 
-    #webProcess = Thread(target=cherrypy.quickstart, args=[HelloWorld()])
-    #webProcess.start()
-    #threads.append(webProcess)
+    # botProcess = Thread(target=bot.run, args=[c.data["botToken"]], kwargs={'bot': True, 'reconnect': True})
+    # botProcess.start()
+    # threads.append(botProcess)
 
-    #for process in threads:
-    #    process.join()
-    #cherrypy.quickstart(HelloWorld())
+    # webProcess = Thread(target=cherrypy.quickstart, args=[HelloWorld()])
+    # webProcess.start()
+    # threads.append(webProcess)
+
+    # for process in threads:
+    #     process.join()
+    # cherrypy.quickstart(HelloWorld())
+    #  Echo server program
+
+
+    # ATTEMPT 2
+    # def pingable():
+    #     HOST = ''                 # Symbolic name meaning the local host
+    #     PORT = 50007              # Arbitrary non-privileged port
+    #     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #create the socket
+    #     s.bind((HOST, PORT))        #bind socket to port
+    #     s.listen(1)                 # start listening
+    #     conn, addr = s.accept()     # if someone connects
+    #     print('Connected by' + addr)
+    #     while 1:
+    #         data = conn.recv(1024)  # whenever they send data (up to 1024 bytes)
+    #         if not data:
+    #             break
+    #         conn.send(data)         # send through the same socket what they send (make echo)
+    #     conn.close()
+
+    # def botrun():
+    #     bot.run(c.data["botToken"], bot=True, reconnect=True)
+
+    # botthread = threading.Thread(target=botrun)
+    # botthread.start()
+
+    # pingthread = threading.Thread(target=pingable)
+    # pingthread.start()
+
+
+    # ATTEMP 3
+    # pingable()
+
     bot.run(c.data["botToken"], bot=True, reconnect=True)

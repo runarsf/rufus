@@ -13,6 +13,6 @@ services:
       - GIT_PYTHON_REFRESH=quiet
     volumes:
       - ./src:/app
-      #- ./logs/bot.log:/app/logs/bot.log
+      #- ./logs:/app/logs
     ports:
       - 8080:8080

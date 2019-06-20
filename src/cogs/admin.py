@@ -67,7 +67,7 @@ class AdminCog(commands.Cog, name="Admin"):
             else:
                 try:
                     channel = ctx.message.channel
-                    await ctx.send(f'Are you sure? This will delete **ALL** messages in the current channel. (*{channel.name}*)')
+                    await ctx.send(f'Are you sure? This will delete **ALL** messages in the current channel. (*{channel.name}*)\nSend **yes** to proceed.')
 
                     def check(m):
                         return m.content == 'yes' and m.channel == channel
@@ -167,7 +167,9 @@ class AdminCog(commands.Cog, name="Admin"):
         """ Set a server-side rule.
             Set value to NONE to delete server-rule.
             Valid rules:
-              - prefixless: True | *
+              - prefixless: True *
+              - dad: True *
+              - debug: True *
         """
         key = key.lower()
         await ctx.send(rules.setrule(key, value, ctx.message.guild.id))
