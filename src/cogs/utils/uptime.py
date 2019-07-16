@@ -1,5 +1,8 @@
+import config as c
+import json
+import requests
 
-def ReadableTime(first, last):
+def readableTime(first, last):
     readTime = int(last-first)
     weeks   = int(readTime/604800)
     days    = int((readTime-(weeks*604800))/86400)
@@ -23,3 +26,16 @@ def ReadableTime(first, last):
         return "0 seconds"
     else:
         return msg[:-2]
+
+def robot():
+    url = "https://api.uptimerobot.com/v2/getMonitors"
+
+    payload = "api_key=" + c.data["uptimerobot"] + "&format=json&logs=1&response_times=1&average_response_time=1&all_time_uptime_ratio=1"
+    headers = {
+        'content-type': "application/x-www-form-urlencoded",
+        'cache-control': "no-cache"
+    }
+
+    response = requests.request("POST", url, data=payload, headers=headers)
+
+    return str(response.text).replace("\'", "\"")

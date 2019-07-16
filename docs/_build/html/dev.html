@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Running your own instance &#8212; rufus  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="rufus documentation index" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="running-your-own-instance">
+<h1>Running your own instance<a class="headerlink" href="#running-your-own-instance" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="api-keys-and-tokens">
+<h2>API Keys and tokens<a class="headerlink" href="#api-keys-and-tokens" title="Permalink to this headline">¶</a></h2>
+<p>The bot requires some API keys in order to work properly. Make sure not
+to share any of these keys with anyone, think of them as passwords.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 28%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Service</p></th>
+<th class="head"><p>Where</p></th>
+<th class="head"><p>How</p></th>
+<th class="head"><p>Why</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Discord bot token</p></td>
+<td><p><a class="reference external" href="https://discordapp.com/developers/applications/">Discord
+Developer
+Portal</a></p></td>
+<td><p>If you
+don’t
+have an
+applicati
+on
+for your
+bot
+already,
+<a class="reference external" href="https://discordjs.guide/preparations/setting-up-a-bot-application.html">create
+one</a> in
+the
+developer
+portal.
+Head to
+<a href="#id1"><span class="problematic" id="id2">``</span></a>General</p>
+<blockquote>
+<div><p>Informat</p>
+</div></blockquote>
+<p>ion``
+in your
+bot’s
+user
+page,
+click
+<code class="docutils literal notranslate"><span class="pre">Click</span> <span class="pre">t</span>
+<span class="pre">o</span> <span class="pre">reveal`</span>
+<span class="pre">`</span>
+<span class="pre">(under</span>
+<span class="pre">``CLIENT</span>
+<span class="pre">SECRET</span></code>)</p>
+</td>
+<td><p>This is
+required
+to login
+to your
+bot’s
+user
+profile.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Wolfram Alpha API</p></td>
+<td><p><a class="reference external" href="https://products.wolframalpha.com/api/">Wolfram|Alpha
+APIs</a></p></td>
+<td><p>Click
+<a href="#id3"><span class="problematic" id="id4">``</span></a>Get API</p>
+<blockquote>
+<div><p>Access``</p>
+</div></blockquote>
+<p>under
+<code class="docutils literal notranslate"><span class="pre">Get</span> <span class="pre">Sta</span>
+<span class="pre">rted</span> <span class="pre">for</span>
+<span class="pre">Free</span></code>
+and fill
+in the
+required
+informati
+on.</p>
+</td>
+<td><p>Used with
+the
+<code class="docutils literal notranslate"><span class="pre">query</span></code>
+command.</p></td>
+</tr>
+<tr class="row-even"><td><p>osu! API</p></td>
+<td><p><a class="reference external" href="https://osu.ppy.sh/p/api">Request API
+access</a></p></td>
+<td><p>Refer to
+the <a class="reference external" href="https://github.com/ppy/osu-api/wiki">osu!
+api
+wiki</a>.</p></td>
+<td><p>Used with
+commands
+in the
+osu! cog.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Omdb API</p></td>
+<td><p><a class="reference external" href="https://www.omdbapi.com/apikey.aspx">Generate API
+key</a></p></td>
+<td><p>Select
+<a href="#id5"><span class="problematic" id="id6">``</span></a>FREE! (
+1,000 dai
+ly limit)
+``
+and enter
+a valid
+email
+address
+(temporar
+y
+emails
+are
+purged.)</p></td>
+<td><p>Used with
+the
+<code class="docutils literal notranslate"><span class="pre">imdb</span></code>
+command.</p></td>
+</tr>
+<tr class="row-even"><td><p>LastFM API</p></td>
+<td><p><a class="reference external" href="https://www.last.fm/api/account/create">Create API
+account</a></p></td>
+<td><p>Enter the
+necessary
+informati
+on.
+Callback
+URL is
+not
+required.</p></td>
+<td><p>Used with
+the
+<a href="#id7"><span class="problematic" id="id8">``</span></a>lastfm`
+`
+command.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="saving-your-tokens-for-use-with-the-bot">
+<h3>Saving your tokens for use with the bot<a class="headerlink" href="#saving-your-tokens-for-use-with-the-bot" title="Permalink to this headline">¶</a></h3>
+<p>Copy the <a class="reference external" href="https://github.com/runarsf/rufus/blob/master/src/template-secrets.json">template-secrets.json</a> from the main repository and name it
+<code class="docutils literal notranslate"><span class="pre">secrets.json</span></code>. Put it in the same directory as
+<code class="docutils literal notranslate"><span class="pre">template-secrets.json</span></code> (<code class="docutils literal notranslate"><span class="pre">rufus/src/secrets.json</span></code>). Fill in the keys
+with the appropriate values.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;botToken&quot;</span><span class="p">:</span> <span class="s2">&quot;s3cr47-b07-70k3n&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;wolfram&quot;</span><span class="p">:</span> <span class="s2">&quot;w01fr4m-k3y&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;osu&quot;</span><span class="p">:</span> <span class="s2">&quot;p3r-4-m4nc3-p01n75&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;omdb&quot;</span><span class="p">:</span> <span class="s2">&quot;m0v135-4nd-53r135&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;lastfm&quot;</span><span class="p">:</span> <span class="s2">&quot;11573n-2-mu51c&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="setting-up-your-environment">
+<h2>Setting up your environment<a class="headerlink" href="#setting-up-your-environment" title="Permalink to this headline">¶</a></h2>
+<p>Clone the repository -
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">-b</span> <span class="pre">master</span> <span class="pre">https://github.com/runarsf/rufus.git</span></code></p>
+<div class="section" id="with-docker">
+<h3>With docker<a class="headerlink" href="#with-docker" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="prerequisites">
+<h4>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span>
+<span class="n">docker</span>
+<span class="n">docker</span><span class="o">-</span><span class="n">compose</span>
+</pre></div>
+</div>
+<div class="section" id="warning-do-not-run-docker-as-root">
+<h5><code class="docutils literal notranslate"><span class="pre">WARNING</span></code> Do not run docker as root!<a class="headerlink" href="#warning-do-not-run-docker-as-root" title="Permalink to this headline">¶</a></h5>
+<p>This can cause docker to change the ownerships of some files to root. If
+you’re having troubles with docker or docker-compose, run this to add
+yourself to the docker group. The command will take effect on next
+login, and will be effective in your current shell session.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>newgrp docker
+systemctl start docker
+</pre></div>
+</div>
+</div>
+<div class="section" id="starting-the-bot">
+<h5>Starting the bot<a class="headerlink" href="#starting-the-bot" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose up -d
+docker-compose logs -f
+</pre></div>
+</div>
+</div>
+<div class="section" id="rebuilding">
+<h5>Rebuilding<a class="headerlink" href="#rebuilding" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose build
+</pre></div>
+</div>
+</div>
+<div class="section" id="stopping">
+<h5>Stopping<a class="headerlink" href="#stopping" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose down
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="without-docker">
+<h3>Without docker<a class="headerlink" href="#without-docker" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span>
+<span class="n">python</span><span class="o">&gt;=</span><span class="mf">3.6</span>
+<span class="n">pip</span><span class="o">&gt;=</span><span class="mf">9.0</span><span class="o">.</span><span class="mi">1</span>
+<span class="n">docker</span>
+<span class="n">docker</span><span class="o">-</span><span class="n">compose</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>As well as all of the Python packages in <a class="reference external" href="https://github.com/runarsf/rufus/blob/master/src/requirements.txt">requirements.txt</a>.</p>
+<ul>
+<li><p>Can be easily installed with
+<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">./requirements.txt</span></code></p></li>
+</ul>
+</li>
+<li><p>Docker is still needed in use with the runner command.</p></li>
+</ul>
+<p>I suggest using tmux, these commands should be able to get you started.
+You can detach from a session using <kbd class="kbd docutils literal notranslate">CTRL+b</kbd> <kbd class="kbd docutils literal notranslate">d</kbd> to quit.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new session.</span>
+<span class="n">tmux</span> <span class="n">new</span> <span class="o">-</span><span class="n">s</span> <span class="n">rufus</span>
+<span class="c1"># Attach to existing session</span>
+<span class="n">tmux</span> <span class="n">a</span> <span class="o">-</span><span class="n">t</span> <span class="n">rufus</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">rufus</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Running your own instance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#api-keys-and-tokens">API Keys and tokens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setting-up-your-environment">Setting up your environment</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">rufus documentation index</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, runarsf.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/dev.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

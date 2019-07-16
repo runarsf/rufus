@@ -11,6 +11,7 @@ RUN python3 -m pip install -U -r /app/requirements.txt
 #COPY ./src /app
 WORKDIR /app
 
-EXPOSE 8080
+#EXPOSE 8080
 
 CMD ["python3", "-u", "rufus.py"]
+#CMD ["python3", "-u", "-m", "trace", "--trace", "./rufus.py", "|", "grep", "rufus.py"]

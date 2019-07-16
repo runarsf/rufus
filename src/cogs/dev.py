@@ -3,6 +3,7 @@ import config as c
 import os
 import re
 import whois
+import json
 import time
 import datetime
 
@@ -38,7 +39,15 @@ class DevCog(commands.Cog, name="Dev"):
     async def _statistics(self, ctx):
         """ Get bot stats.
         """
-        await ctx.send(f'pong 🏓 ``{self.bot.ws.latency * 1000:.0f}ms``')
+        rb = json.loads(str(uptime.robot()))
+        averageResponseTime: str = rb["monitors"][0]["response_times"]["average_response_time"]
+        uptimePercent: str = rb["monitors"][0]["all_time_uptime_ratio"]
+        await ctx.send(averageResponseTime)
+        await ctx.send(uptimePercent)
+
+        current_time = int(time.time())
+        upfor = uptime.readableTime(self.startTime, current_time)
+        await ctx.send(f'Ping: {self.bot.ws.latency * 1000:.0f}ms`\nUptime: `{upfor}`\n')
 
     @commands.command(name='arr')
     async def _to_int_arr(self, ctx, *words):
@@ -57,7 +66,7 @@ class DevCog(commands.Cog, name="Dev"):
         """ Shows the uptime of the bot.
         """
         current_time = int(time.time())
-        upfor = uptime.ReadableTime(self.startTime, current_time)
+        upfor = uptime.readableTime(self.startTime, current_time)
         await ctx.send(f'I\'ve been up for *{upfor}*.')
 
     @commands.command(name='echo', aliases=['say', 'print'])
@@ -109,7 +118,7 @@ class DevCog(commands.Cog, name="Dev"):
         def check(m):
             return m.content == 'hello' and m.channel == channel
         msg = await self.bot.wait_for('message', check=check)
-        await channel.send('Hello {.author}!'.format(msg))  
+        await channel.send('Hello {.author}!'.format(msg))
 
     @commands.command(name='bug')
     async def _bug(self, ctx):
