@@ -8,3 +8,4 @@ runners
 *.db
 .vscode
 secrets.json
+.env

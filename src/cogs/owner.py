@@ -27,7 +27,8 @@ class OwnerCog(commands.Cog, name="Owner"):
         """
         # https://github.com/Rapptz/RoboDanny/blob/master/cogs/admin.py#L53
         code = code.strip('` ')
-        python = '```py\n{}\n```'
+        #python = '```py\n{}\n```'
+        python = '{}'
         result = None
 
         env = {

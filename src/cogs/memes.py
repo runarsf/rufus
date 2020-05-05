@@ -204,7 +204,7 @@ class MemesCog(commands.Cog, name="Memes"):
                     'SPIT ON HIM',
                     'DO NOT DISRESPEC DE QUEEN',
                     'WHY AR U RUNNIN?'
-		    ]
+        ]
         await ctx.send(random.choice(knuckles))
 
     @commands.command(name='owo', aliases=['uwu'])
@@ -262,6 +262,7 @@ class MemesCog(commands.Cog, name="Memes"):
                         break
             if _noTestsPassed:
                 await ctx.send(mockify(str(string)))
+                await ctx.message.delete()
         else:
             await ctx.message.delete()
             async for message in ctx.channel.history(limit=1):
@@ -319,6 +320,46 @@ class MemesCog(commands.Cog, name="Memes"):
         if item:
             _slap_item = f' with {" ".join(item)}.'
         await ctx.send(f'{ctx.message.author.mention} slapped {member.mention}{_slap_item}')
+
+    @commands.command(name='markov', aliases=['sentence'])
+    async def _markov(self, ctx, messageAmount: int = 20, accuracy: int = 4, sentenceLength: int = 500):
+      """ Generate new sentences using the markov algorithm.
+      """
+      clamp = lambda n, minn, maxn: max(min(maxn, n), minn)
+      messageAmount = clamp(messageAmount, 2, 500)
+      accuracy = clamp(accuracy, 1, 400)
+      inputs = []
+      async for message in ctx.channel.history(limit=messageAmount + 1):
+        inputs.append(message.content)
+      ngrams = {}
+      beginnings = []
+
+      for txt in inputs:
+        # remove <@*> and URLs
+        txt = re.sub(r'https?:\/\/.*[\r\n]*|\<\@.*\>', '', txt, flags=re.MULTILINE)
+        if txt.lower().startswith(('`', '\'', '\"') + tuple(c.prefixes)):
+          continue
+        for i in range(len(txt)-accuracy):
+          gram = txt[i:i + accuracy]
+          if i == 0:
+            beginnings.append(gram)
+          if not gram in ngrams:
+            ngrams[gram] = []
+          ngrams[gram].append(txt[i + accuracy])
+
+      currentGram = random.choice(beginnings)
+      result = currentGram
+
+      for i in range(sentenceLength):
+        if currentGram in ngrams:
+          possibilities = ngrams[currentGram]
+        else:
+          break
+        next = random.choice(possibilities)
+        result = result + next
+        currentGram = result[len(result) - accuracy:len(result)]
+
+      await ctx.send(result)
 
 
 def setup(bot):

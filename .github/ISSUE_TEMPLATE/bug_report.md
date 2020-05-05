@@ -24,9 +24,9 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Discord Information (please complete the following information):**
- - Server Name [e.g. Servername]
- - Server ID [e.g. 206447591846576128]
- - Discord Username [e.g. rufus#0001]
+- Server Name [e.g. Servername]
+- Server ID [e.g. 206447591846576128]
+- Discord Username [e.g. rufus#0001]
 
 **Additional context**
 Add any other context about the problem here.

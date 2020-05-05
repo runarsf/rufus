@@ -2,17 +2,19 @@ version: "3"
 
 services:
   rufus:
-    container_name: rufus
-    hostname: rufus
-    restart: unless-stopped
     image: rufus
+    hostname: rufus
+    container_name: rufus
+    restart: unless-stopped
     build:
       context: .
+      dockerfile: Dockerfile
     environment:
-      - DOCKER_MODE=True
-      - GIT_PYTHON_REFRESH=quiet
+      TZ: Europe/Oslo
+      DOCKER_MODE: 'true'
+      GIT_PYTHON_REFRESH: quiet
     volumes:
-      - ./src:/app
+      - "./src:/app"
       #- ./logs:/app/logs
     #ports:
       #- 8080:8080
