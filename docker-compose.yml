@@ -16,5 +16,6 @@ services:
     volumes:
       - "./src:/app"
       #- ./logs:/app/logs
+    network_mode: host
     #ports:
       #- 8080:8080

@@ -358,11 +358,10 @@ class CommandsCog(commands.Cog, name="General"):
     async def _fox(self, ctx):
         """ Send a picture of a random fox.
         """
-        #URL = 'https://api.runarsf.dev/floof?type=json'
-        URL = 'http://192.168.0.42/random?type=json&album=fox'
-        DATA = requests.get(URL, proxies={'no': 'pass',}).json()
-        OUT = DATA['url']
-        await ctx.send(OUT)
+        URL = 'https://floof.runarsf.dev/api/random?type=json&album=fox'
+        #DATA = requests.get(URL, proxies={'no': 'pass',}, verify=False).json()
+        DATA = requests.get(URL).json()
+        await ctx.send(DATA['url'])
 
     @commands.command(name='floof')
     async def _floof(self, ctx, album: str = ''):
@@ -371,10 +370,9 @@ class CommandsCog(commands.Cog, name="General"):
         #URL = 'https://api.runarsf.dev/floof?type=json'
         if album:
             album = f'&album={album}'
-        URL = f'http://192.168.0.42/random?type=json{album}'
-        DATA = requests.get(URL, proxies={'no': 'pass',}).json()
-        OUT = DATA['url']
-        await ctx.send(OUT)
+        URL = f'https://floof.runarsf.dev/api/random?type=json{album}'
+        DATA = requests.get(URL).json()
+        await ctx.send(DATA['url'])
 
     @commands.command(name='query', aliases=['what', 'is', 'am'])
     async def _query(self, ctx, *, searchString: str = ''):
