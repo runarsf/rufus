@@ -5,13 +5,27 @@ with open('secrets.json') as json_data_file:
   data = json.load(json_data_file)
 
 prefixes = ['rufus ', 'r ']
-game: str = 'in his container'
 description: str = f'prefixes: {str(prefixes).strip("[]")}'
 dockerStatus: bool = os.getenv('DOCKER_MODE', False)
 srcDir: str = (os.path.dirname(os.path.realpath(__file__)))
 
 owner_id: int = 177098893069254656
 dev_id = [324943524132814849, 359319833680281601]
+
+scoped_prefixes = {
+    'guild': [
+        'r ',
+        'rufus '
+    ],
+    'direct': [
+        ''
+    ]
+}
+
+scoped_games = {
+    'default': 'with algorithms',
+    'docker': 'with containers'
+}
 
 rages = ['🚩', '😡', '😠', '🇮🇳', '🚫', '⛔', '🙅', '🚯', '👿', '🤐', '😱', '😳', '😭', '😢']
 swears = [

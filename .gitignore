@@ -6,6 +6,8 @@ logs
 *.log
 runners
 *.db
+*.sqlite
 .vscode
 secrets.json
 .env
+*.env

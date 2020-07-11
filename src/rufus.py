@@ -18,15 +18,15 @@ import socket
 from discord.ext import commands
 from cogs.utils import rules
 
-startup_extensions = ['cogs.owner',
-                      'cogs.commands',
-                      'cogs.admin',
-                      'cogs.dev',
-                      'cogs.osu',
-                      'cogs.memes',
-                      'cogs.runners',
-                      'cogs.help'
-                     ]
+COGS = ['cogs.owner',
+        'cogs.commands',
+        'cogs.admin',
+        'cogs.dev',
+        'cogs.osu',
+        'cogs.memes',
+        'cogs.runners',
+        'cogs.help'
+        ]
 
 # DEBUG, INFO, WARNING, ERROR, CRITICAL, EXCEPTION
 logging.basicConfig(stream=sys.stdout,
@@ -37,32 +37,57 @@ logging.basicConfig(stream=sys.stdout,
                     )
 log = logging.getLogger(__name__)
 
-def get_prefix(_bot, message):
-    if not message.guild:
-        return ''
-    return commands.when_mentioned_or(*c.prefixes)(_bot, message)
+#def get_prefix(_bot, message):
+#    if not message.guild:
+#        return ''
+#    return commands.when_mentioned_or(*c.prefixes)(_bot, message)
 
-bot = commands.Bot(command_prefix=get_prefix, description=c.description)
+def get_prefix(_bot, message):
+    """
+    Return the prefix used in the specific channel.
+    """
+    if message.guild:
+        scope = 'guild'
+    else:
+        scope = 'direct'
+    return commands.when_mentioned_or(*c.scoped_prefixes[scope])(_bot, message)
+
+bot = commands.Bot(command_prefix=get_prefix,
+                   description=c.description,
+                   case_insensitive=False)
 
 @bot.event
 async def on_ready():
-    joined = []
+    """
+    Bot is ready.
+    """
+    joined_guilds = []
     for guild in bot.guilds:
-        joined.append(f' - {str(guild.name)} :: {str(guild.id)}')
-    print()
-    print('Logged in as:')
-    print(f'{bot.user.name} - {bot.user.id}')
-    print(f'Version: {discord.__version__}')
-    print(f'\nBot currently running on {len(bot.guilds)} server(s):')
-    print('-' * len(max(joined, key=len)))
-    print('\n'.join(joined))
-    print('-' * len(max(joined, key=len)))
-    print()
+        #joined_guilds.append(f' - {str(guild.name)}'.ljust(6 + len(max([guild.name for guild in bot.guilds]))) + str(guild.id))
+        joined_guilds.append(f' - {str(guild.id).ljust(20)} {guild.name}')
 
-    await bot.change_presence(status=discord.Status.online, activity=discord.Game(c.game))
+    ready_message = [
+        'Logged in as:',
+        f'{bot.user.name}: {bot.user.id}',
+        f'Discord Version: {discord.__version__}',
+        f'\nBot currently running on {len(bot.guilds)} server(s):',
+        '\n'.join(joined_guilds)
+    ]
+    #dashes = '-' * len(max(ready_message, key=len))
+    #ready_message = [f'\n{dashes}'] + ready_message + [dashes]
+    log.info('\n'.join(ready_message))
+
+    if os.getenv('DOCKERIZED'):
+        game_scope = 'docker'
+    else:
+        game_scope = 'default'
+    await bot.change_presence(status=discord.Status.online, activity=discord.Game(c.scoped_games[game_scope]))
 
 @bot.event
 async def on_message(message):
+    """
+    When a message is sent in a channel the bot is a member of.
+    """
     if message.author == bot.user or message.author.bot:
         return
     try:
@@ -87,7 +112,17 @@ async def on_message(message):
     await bot.process_commands(message)
 
 @bot.event
+async def on_error(error):
+    """
+    Whan an error occurs.
+    """
+    log.error('An unexpected error occurred: %s', error)
+
+@bot.event
 async def on_command_error(self, exception):
+    """
+    When a command fails.
+    """
     log.info(exception)
     if isinstance(exception, commands.errors.MissingPermissions):
         exception = f'Sorry {self.message.author.name}, you don\'t have permissions to do that!'
@@ -99,7 +134,7 @@ async def on_command_error(self, exception):
 
     error_embed = discord.Embed(title='',
                                 timestamp=datetime.datetime.utcnow(),
-                                description=f'```python\n{exception}```',
+                                description=f'```css\n{exception}```',
                                 color=discord.Color.from_rgb(200, 0, 0))
     error_embed.set_author(name='Woops!',
                            icon_url=str(self.message.author.avatar_url))
@@ -122,7 +157,8 @@ async def on_command_error(self, exception):
 
 
 if __name__ == '__main__':
-    for extension in startup_extensions:
-        bot.load_extension(extension)
+    for cog in COGS:
+        bot.load_extension(cog)
 
+    log.debug('Starting bot.')
     bot.run(c.data["botToken"], bot=True, reconnect=True)

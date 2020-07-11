@@ -148,7 +148,7 @@ class AdminCog(commands.Cog, name="Admin"):
         await server.leave()
 
     @commands.command(name='nick', aliases=['nickname', 'changenick'])
-    @commands.has_permissions(manage_server=True)
+    @commands.has_permissions(manage_guild=True)
     @commands.guild_only()
     async def _nickname(self, ctx, nickname, *members: discord.Member):
         """ Change member(s) nickname(s).

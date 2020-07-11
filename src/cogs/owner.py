@@ -2,6 +2,7 @@ import git
 import inspect
 import config as c
 
+#from phue import Bridge
 from discord.ext import commands
 from importlib import reload
 
@@ -51,6 +52,17 @@ class OwnerCog(commands.Cog, name="Owner"):
             return
 
         await ctx.send(python.format(result))
+
+    #@commands.command('hue', aliases=['lights'])
+    #@commands.is_owner()
+    #async def hue(self, ctx, *, subcommand):
+    #    if subcommand:
+    #    if subcommand == 'on' or subcommand == 'off':
+    #    b = Bridge(c.data['hue_ip'])
+    #    b.connect()
+    #    b.get_api()
+    #    b.set_light(1, 'bri', 254)
+    #    await ctx.send(b.get_light(1, 'on'))
 
     @commands.command(name='load', hidden=True, aliases=['l', 'lo'])
     @commands.is_owner()

@@ -10,12 +10,12 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      TZ: Europe/Oslo
-      DOCKER_MODE: 'true'
+      TZ: "${TZ:-Europe/Oslo}"
+      DOCKERIZED: 'true'
       GIT_PYTHON_REFRESH: quiet
     volumes:
       - "./src:/app"
       #- ./logs:/app/logs
-    network_mode: host
+    #network_mode: host
     #ports:
       #- 8080:8080
