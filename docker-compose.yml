@@ -5,17 +5,11 @@ services:
     image: rufus
     hostname: rufus
     container_name: rufus
-    restart: unless-stopped
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     environment:
       TZ: "${TZ:-Europe/Oslo}"
       DOCKERIZED: 'true'
       GIT_PYTHON_REFRESH: quiet
     volumes:
       - "./src:/app"
-      #- ./logs:/app/logs
-    #network_mode: host
-    #ports:
-      #- 8080:8080
+    restart: unless-stopped

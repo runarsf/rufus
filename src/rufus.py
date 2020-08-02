@@ -17,6 +17,7 @@ import socket
 
 from discord.ext import commands
 from cogs.utils import rules
+#from pathlib import Path
 
 COGS = ['cogs.owner',
         'cogs.commands',
@@ -30,17 +31,12 @@ COGS = ['cogs.owner',
 
 # DEBUG, INFO, WARNING, ERROR, CRITICAL, EXCEPTION
 logging.basicConfig(stream=sys.stdout,
-                    #filename='bot.log',
                     level=logging.INFO,
-                    format='[%(asctime)s] [' + '%(levelname)s'.ljust(9) + '] %(name)s %(message)s',
+                    #format='[%(asctime)s] [' + '%(levelname)s'.ljust(9) + '] %(name)s %(message)s',
+                    format='%(levelname)-8s %(message)s',
                     datefmt='%d/%m/%Y %H:%M:%S'
                     )
 log = logging.getLogger(__name__)
-
-#def get_prefix(_bot, message):
-#    if not message.guild:
-#        return ''
-#    return commands.when_mentioned_or(*c.prefixes)(_bot, message)
 
 def get_prefix(_bot, message):
     """
@@ -55,6 +51,42 @@ def get_prefix(_bot, message):
 bot = commands.Bot(command_prefix=get_prefix,
                    description=c.description,
                    case_insensitive=False)
+
+
+class DetectURIException(Exception): pass
+
+def ConvertSpotifyURI(url):
+    # https://github.com/jpzfm/Spotify-URL-URI-Converter
+    if re.search("/track/", url):
+        processed = url.split('track/')
+        uri = "spotify:track:" + processed[-1][0:22]
+    elif re.search("/artist/", url):
+        processed = url.split('artist/')
+        uri = "spotify:artist:"+processed[-1][0:22]
+    elif re.search("/album/", url):
+        processed = url.split('album')
+        uri = "spotify:album:"+processed[-1][0:22]
+    elif re.search("/playlist/", url):
+        user = re.search('/user/(.*)/playlist/', url).group(1)
+        playlist = url.split('playlist/')
+        uri = "spotify:user:" + user + ":playlist:" + playlist[-1][0:22]
+    elif re.search(":track:", url):
+        processed = url.split('track:')
+        uri = "https://open.spotify.com/track/" + processed[-1][0:22]
+    elif re.search(":artist:", url):
+        processed = url.split('artist:')
+        uri = "https://open.spotify.com/artist/" + processed[-1][0:22]
+    elif re.search(":album:", url):
+        processed = url.split('album:')
+        uri = "https://open.spotify.com/album/" + processed[-1][0:22]
+    elif re.search(":playlist:", url):
+        user = re.search(':user:(.*):playlist:', url).group(1)
+        playlist = url.split('playlist:')
+        uri = "https://open.spotify.com/user/" + user + "/playlist/" + playlist[-1][0:22]
+    else:
+        raise DetectURIException("Could not convert url/uri to uri/url")
+    return uri
+
 
 @bot.event
 async def on_ready():
@@ -106,9 +138,24 @@ async def on_message(message):
                     if dad in message.content.lower():
                         await message.channel.send(random.choice(c.greetings)+', '+message.content[int(message.content.lower().find(dad))+len(dad):].strip()+'! I\'m Rufus.')
                         log.info(message)
+        try:
+            uri = ConvertSpotifyURI(message.content)
+            await message.add_reaction('🎵')
+            def check_reaction(reaction, user):
+                return user != bot.user and str(reaction.emoji) == '🎵'
+            try:
+                reaction, user = await bot.wait_for('reaction_add', timeout=240.0, check=check_reaction)
+            except asyncio.TimeoutError:
+                await message.remove_reaction('🎵', bot.user)
+            else:
+                await message.remove_reaction('🎵', bot.user)
+                await message.channel.send(uri)
+        except DetectURIException as err:
+            log.debug(err)
+            pass
     except:
         pass
-    log.info(message)
+    log.info("[%s]%s> %s" % (message.guild.name, message.author.name, message.content))
     await bot.process_commands(message)
 
 @bot.event
@@ -160,5 +207,5 @@ if __name__ == '__main__':
     for cog in COGS:
         bot.load_extension(cog)
 
-    log.debug('Starting bot.')
+    log.debug('Starting bot...')
     bot.run(c.data["botToken"], bot=True, reconnect=True)

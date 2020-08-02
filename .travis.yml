@@ -8,21 +8,21 @@ python:
 notifications:
   email: false
 before_install:
-- openssl aes-256-cbc -K $encrypted_c464028ef8d3_key -iv $encrypted_c464028ef8d3_iv
+- openssl aes-256-cbc -K ${encrypted_c464028ef8d3_key} -iv ${encrypted_c464028ef8d3_iv}
     -in deploy_rsa.enc -out ./deploy_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 ./deploy_rsa
-- echo -e "Host $STAGING_SERVER\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- echo -e "Host ${STAGING_SERVER}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - ssh-add ./deploy_rsa
 
 script:
-- ssh -i ./deploy_rsa $STAGING_SERVER_USER@$STAGING_SERVER "cd ~/git/rufus; docker-compose down; git pull; docker-compose build; docker-compose up -d"
+- ssh -i ./deploy_rsa ${STAGING_SERVER_USER}@${STAGING_SERVER} "cd ${STAGING_PATH}; git pull; docker-compose up -d --force-recreate --build"
 
 after_success:
 - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
 - chmod +x send.sh
-- ./send.sh success $WEBHOOK_URL
+- ./send.sh success ${WEBHOOK_URL}
 after_failure:
 - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
 - chmod +x send.sh
-- ./send.sh failure $WEBHOOK_URL
+- ./send.sh failure ${WEBHOOK_URL}
