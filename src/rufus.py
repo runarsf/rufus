@@ -87,7 +87,7 @@ def ConvertSpotifyURI(url):
         raise DetectURIException("Could not convert url/uri to uri/url")
     return uri
 
-
+# https://i.runarsf.dev/O8Fb7x7ymm.png vs. https://i.runarsf.dev/SdgC420gxM.png
 @bot.event
 async def on_ready():
     """
@@ -144,7 +144,7 @@ async def on_message(message):
             def check_reaction(reaction, user):
                 return user != bot.user and str(reaction.emoji) == '🎵'
             try:
-                reaction, user = await bot.wait_for('reaction_add', timeout=240.0, check=check_reaction)
+                reaction, user = await bot.wait_for('reaction_add', check=check_reaction)
             except asyncio.TimeoutError:
                 await message.remove_reaction('🎵', bot.user)
             else:
