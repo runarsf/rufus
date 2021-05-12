@@ -1,34 +1,25 @@
 import os
 import json
+from typing import List, Set, Dict, Tuple, Optional
 
-with open('secrets.json') as json_data_file:
-  data = json.load(json_data_file)
+from dotenv import load_dotenv
+load_dotenv()
 
-prefixes = ['rufus ', 'r ']
-description: str = f'prefixes: {str(prefixes).strip("[]")}'
-dockerStatus: bool = os.getenv('DOCKER_MODE', False)
-srcDir: str = (os.path.dirname(os.path.realpath(__file__)))
+#description: str = f'prefixes: {str(prefixes).strip("[]")}'
 
-owner_id: int = 177098893069254656
-dev_id = [324943524132814849, 359319833680281601]
+#owner_ids: int = [ 177098893069254656 ]
+dev_ids: List = [ 324943524132814849, 359319833680281601 ]
 
-scoped_prefixes = {
-    'guild': [
-        'r ',
-        'rufus '
-    ],
-    'direct': [
-        ''
-    ]
-}
+prefixes: List[str] = [ 'r ', 'rufus ' ]
 
 scoped_games = {
     'default': 'with algorithms',
     'docker': 'with containers'
 }
 
-rages = ['🚩', '😡', '😠', '🇮🇳', '🚫', '⛔', '🙅', '🚯', '👿', '🤐', '😱', '😳', '😭', '😢']
-swears = [
+# An array of swear words represented by arrays of unicode characters (int)
+# Generate strings with the `arr` bot command
+swears: List[List[int]] = [
   [99, 117, 109, 98, 117, 98, 98, 108, 101],
   [102, 117, 99, 107, 116, 114, 117, 109, 112, 101, 116],
   [107, 110, 111, 98, 104, 101, 97, 100],
@@ -77,22 +68,18 @@ swears = [
   [105, 109, 98, 101, 99, 105, 108, 101],
   [112, 104, 112]
 ]
-
-def formatSwears():
-  for index, swear in enumerate(swears):
-    for idx, character in enumerate(swear):
-      swears[index][idx] = chr(character)
-    swears[index] = "".join(swears[index])
+# Convert swear words from integers to characters
+for index, swear in enumerate(swears):
+  for idx, character in enumerate(swear):
+    swears[index][idx] = chr(character)
+  swears[index] = "".join(swears[index])
 
   sindex: int = len(swears)
 
-  #for index, swear in enumerate(swears[0:sindex]):
-    #swears.append(f' {swear}ing ')
-    #swears[index] = f'{swears[index]}'
+# The reactions that will be added to messages containing swear words
+rages: List[str] = ['🚩', '😡', '😠', '🇮🇳', '🚫', '⛔', '🙅', '🚯', '👿', '🤐', '😱', '😳', '😭', '😢']
 
-formatSwears()
-
-greetings = [
+greetings: List[str] = [
   'privet',
   'privyet',
   'chuchichäschtli',

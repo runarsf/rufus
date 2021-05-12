@@ -133,6 +133,19 @@ class CommandsCog(commands.Cog, name="General"):
         await ctx.send(file=discord.File(f'tempcolor{ctx.message.author.id}.png'))
         os.remove(f'tempcolor{ctx.message.author.id}.png')
 
+    @commands.command(name='steamid')
+    async def _steamid(self, ctx, vanityurl: str):
+        """ Retrieve a steamid64 from a vanity url.
+        """
+        URL = f'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key={os.environ.get("STEAM_API_KEY")}&vanityurl={vanityurl}'
+        DATA = requests.get(URL).json()
+
+        embed=discord.Embed(title=f'{vanityurl}', color=0x114455)
+        #embed.set_thumbnail(url=(member.avatar_url))
+        embed.set_footer(text=strftime("%d-%m-%Y %H:%M:%S", gmtime()))
+        embed.add_field(name="SteamID64", value=DATA["response"]["steamid"], inline=True)
+        await ctx.send(embed=embed)
+
     @commands.command(name='setvar', aliases=['set'])
     @checks.is_dev()
     async def _set_db_var(self, ctx, variableName: str, *, variableValue: str):
@@ -379,7 +392,7 @@ class CommandsCog(commands.Cog, name="General"):
         """ Search Wolfram alpha for query, if no answer is found, search Wikipedia.
         """
         try:
-            client = wolframalpha.Client(c.data["wolfram"])
+            client = wolframalpha.Client(os.environ.get("WOLFRAM_API_KEY"))
             res = client.query(searchString)
             answer = next(res.results).text
             await ctx.send(f'```apache\n{answer}```')
@@ -450,7 +463,7 @@ class CommandsCog(commands.Cog, name="General"):
         """ Find information about movies, series etc.
         """
         if not searchString == '':
-            URL = f'https://www.omdbapi.com/?t={searchString}&apikey={c.data["omdb"]}'
+            URL = f'https://www.omdbapi.com/?t={searchString}&apikey={os.environ.get("OMDB_API_KEY")}'
             DATA = requests.get(URL).json()
             try:
                 await ctx.send(f'```apache\nTitle: {DATA["Title"]}\nDate: {DATA["Released"]}\nLength: {DATA["Runtime"]}\nGenre: {DATA["Genre"]}\nDirector: {DATA["Director"]}\nActors: {DATA["Actors"]}\n\nPlot: {DATA["Plot"]}```')
@@ -487,7 +500,7 @@ class CommandsCog(commands.Cog, name="General"):
         """
         if detailed == '1' or detailed == 'yes':
             detailed = 'true'
-        URL = f'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={username}&api_key={c.data["lastfm"]}&format=json'
+        URL = f'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={username}&api_key={os.environ.get("LASTFM_API_KEY")}&format=json'
         DATA = requests.get(URL).json()
         TRACK = DATA['recenttracks']['track'][0]['name']
         ARTIST = DATA['recenttracks']['track'][0]['artist']['#text']

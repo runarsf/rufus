@@ -2,14 +2,14 @@ version: "3"
 
 services:
   rufus:
-    image: rufus
-    hostname: rufus
-    container_name: rufus
-    build: .
+    image: "rufus"
+    hostname: "rufus"
+    container_name: "rufus"
+    build: "."
     environment:
       TZ: "${TZ:-Europe/Oslo}"
-      DOCKERIZED: 'true'
-      GIT_PYTHON_REFRESH: quiet
+      DOCKERIZED: "true"
+      GIT_PYTHON_REFRESH: "quiet"
     volumes:
       - "./src:/app"
-    restart: unless-stopped
+    restart: "unless-stopped"

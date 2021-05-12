@@ -60,7 +60,7 @@ class HelpCog(commands.Cog, name="Help"):
             for cmd in self.bot.commands:
                 if str(cmd.cog.qualified_name) == str(cog.qualified_name) and not cmd.hidden:
                     nameAliases = str(cmd) if not ' | '.join(cmd.aliases) else '['+str(' | '.join(str(cmd).split(" ")+cmd.aliases)+']')
-                    body += '  • '+nameAliases+'\n'
+                    body += f'  • {nameAliases}\n'
 
             cogEmbed.add_field(name='Commands', value=body, inline=False)
 
@@ -81,7 +81,7 @@ class HelpCog(commands.Cog, name="Help"):
                 commandEmbed = discord.Embed(title='',
                         timestamp=datetime.datetime.utcnow(),
                         description=f'```ruby\n{usage}```\n{cmd.help}', color=discord.Color.from_rgb(194, 124, 13))
-                commandEmbed.set_author(name=nameAliases, icon_url=str(ctx.message.guild.get_member(ctx.message.author.id).avatar_url))
+                commandEmbed.set_author(name=nameAliases, icon_url=str(ctx.message.author.avatar_url))
                 commandEmbed.set_footer(text=cmd.cog.qualified_name, icon_url=gearIcon)
 
                 #sig = signature(help)

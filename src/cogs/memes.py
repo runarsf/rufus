@@ -22,22 +22,6 @@ class MemesCog(commands.Cog, name="Memes"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='pfp')
-    async def _emote_avatar(self, ctx, asEmotes: bool = True):
-        """ Print a happy dog in emotes.
-        """
-        rufusEmotes = [
-            '<:r0_0:567445956417552396>', '<:r1_0:567445959454490644>', '<:r2_0:567445960993669140>', '<:r3_0:567445963917099089>', '<:r4_0:567445963875287059>', '<:r5_0:567445965531906068>', '\n',
-            '<:r0_1:567445956841308160>', '<:r1_1:567445958888259614>', '<:r2_1:567445961018834944>', '<:r3_1:567445963225169920>', '<:r4_1:567445964902891522>', '<:r5_1:567445965506740260>', '\n',
-            '<:r0_2:567445956694507549>', '<:r1_2:567445959647166485>', '<:r2_2:567445961073491985>', '<:r3_2:567445963032100875>', '<:r4_2:567445965364133888>', '<:r5_2:567445965494026271>', '\n',
-            '<:r0_3:567445958510641162>', '<:r1_3:567445959672463381>', '<:r2_3:567445961962553409>', '<:r3_3:567445963384291330>', '<:r4_3:567445965448020002>', '<:r5_3:567445966853111864>', '\n',
-            '<:r0_4:567445958191743028>', '<:r1_4:567445960813314068>', '<:r2_4:567445961635266636>', '<:r3_4:567445963879219200>', '<:r4_4:567445965993279508>', '<:r5_4:567445965917913119>', '\n',
-            '<:r0_5:567445958821150721>', '<:r1_5:567445960914108416>', '<:r2_5:567445961715089428>', '<:r3_5:567445963501731850>', '<:r4_5:567445965607272478>', '<:r5_5:567445965984890900>'
-        ]
-        message = ''
-        for emote in rufusEmotes:
-            message += emote
-        await ctx.send(message)
 
     @commands.command(name='search')
     async def _reddit_search(self, ctx, *, query: str):
@@ -267,6 +251,49 @@ class MemesCog(commands.Cog, name="Memes"):
             await ctx.message.delete()
             async for message in ctx.channel.history(limit=1):
                 await ctx.send(mockify(str(message.content)))
+
+
+    @commands.command(name='xxx')
+    async def _xify(self, ctx, *, string: str = ''):
+        """ Convert string to the superior strxng.
+        """
+        def xify(string: str):
+            bad = [ "a", "e", "i", "o", "u", "y", "æ", "ø", "å" ]
+            for letter in bad:
+                string = string.replace(letter, "x")
+            return string
+        if string:
+            _noTestsPassed: bool = True
+            try:
+                int(string)
+            except ValueError:
+                pass # is not an integer, pass this, intentional™ error
+            else:
+                # is an integer
+                _noTestsPassed: bool = False
+                iterator = 0
+                async for message in ctx.channel.history(limit=int(string)+1):
+                    if iterator == int(string):
+                        await ctx.send(xify(str(message.content)))
+                    iterator += 1
+            try:
+                member = await discord.ext.commands.UserConverter().convert(ctx, string)
+            except discord.ext.commands.BadArgument:
+                pass # is not type discord.Member, pass this, intentional™ error
+            else:
+                # is type discord.Member
+                _noTestsPassed: bool = False
+                async for message in ctx.channel.history(limit=100):
+                    if message.author == member:
+                        await ctx.send(xify(str(message.content)))
+                        break
+            if _noTestsPassed:
+                await ctx.send(xify(str(string)))
+                await ctx.message.delete()
+        else:
+            await ctx.message.delete()
+            async for message in ctx.channel.history(limit=1):
+                await ctx.send(xify(str(message.content)))
 
 
     @commands.command(name='pat')

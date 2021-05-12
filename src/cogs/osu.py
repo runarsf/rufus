@@ -1,3 +1,4 @@
+import os
 import config as c
 import os.path
 import requests
@@ -45,9 +46,9 @@ class OsuCog(commands.Cog, name="osu!"):
         elif mode.lower() == 'mania' or mode.lower() == 'osu!mania':
             mode = 3
 
-        recentUrl = f'https://osu.ppy.sh/api/get_user_recent?k={c.data["osu"]}&u={username}&type=string&m={mode}'
+        recentUrl = f'https://osu.ppy.sh/api/get_user_recent?k={os.environ.get("OSU_API_KEY")}&u={username}&type=string&m={mode}'
         recentData = requests.get(recentUrl).json()
-        beatmapUrl = f'https://osu.ppy.sh/api/get_beatmaps?k={c.data["osu"]}&b={recentData[0]["beatmap_id"]}'
+        beatmapUrl = f'https://osu.ppy.sh/api/get_beatmaps?k={os.environ.get("OSU_API_KEY")}&b={recentData[0]["beatmap_id"]}'
         beatmapData = requests.get(beatmapUrl).json()
 
         embed=discord.Embed(title=f'most recent play for {username}', color=checks.getDominantColor('https://assets.ppy.sh/beatmaps/542081/covers/cover.jpg?1521116828'))
@@ -65,10 +66,10 @@ class OsuCog(commands.Cog, name="osu!"):
         """
         def getTopBeatmaps(amount: int = 1):
             result = ''
-            bestUrl = f'https://osu.ppy.sh/api/get_user_best?k={c.data["osu"]}&m={mode}&limit=3&u={username}&type=string'
+            bestUrl = f'https://osu.ppy.sh/api/get_user_best?k={os.environ.get("OSU_API_KEY")}&m={mode}&limit=3&u={username}&type=string'
             bestData = requests.get(bestUrl).json()
             for times in range(amount):
-                bestMapsUrl = f'https://osu.ppy.sh/api/get_beatmaps?k={c.data["osu"]}&b={bestData[times]["beatmap_id"]}'
+                bestMapsUrl = f'https://osu.ppy.sh/api/get_beatmaps?k={os.environ.get("OSU_API_KEY")}&b={bestData[times]["beatmap_id"]}'
                 bestMapsData = requests.get(bestMapsUrl).json()
                 result = f'{result}\n\t{times+1}. {bestMapsData[0]["title"]}'
             return result
@@ -82,7 +83,7 @@ class OsuCog(commands.Cog, name="osu!"):
         elif mode.lower() == 'mania' or mode.lower() == 'osu!mania':
             mode = 3
 
-        userUrl = f'https://osu.ppy.sh/api/get_user?k={c.data["osu"]}&m={mode}&u={username}&type=string'
+        userUrl = f'https://osu.ppy.sh/api/get_user?k={os.environ.get("OSU_API_KEY")}&m={mode}&u={username}&type=string'
         userData = requests.get(userUrl).json()
 
         embed=discord.Embed(title=f'osu! user information for {userData[0]["username"]}', color=checks.getDominantColor(f'https://a.ppy.sh/{userData[0]["user_id"]}'))

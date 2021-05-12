@@ -115,32 +115,6 @@ class OwnerCog(commands.Cog, name="Owner"):
             await ctx.message.add_reaction('👌')
             #await ctx.send(f'```Successfully reloaded {cog}!```')
 
-    @commands.command(name='pull', hidden=True)
-    @commands.is_owner()
-    async def _pull(self, ctx, cog: str = ''):
-        """ Pull github origin.
-            If argument is passed, cog will be reloaded.
-            Does not currently support docker mode.
-        """
-        if not c.dockerStatus:
-            try:
-                g = git.cmd.Git('./')
-                g.pull()
-            except Exception as error:
-                await ctx.send(f'```py\n{type(error).__name__}: {str(error)}\n```')
-                return
-            if cog != '':
-                try:
-                    bot.unload_extension(cog)
-                    bot.load_extension(cog)
-                except (AttributeError, ImportError) as error:
-                    await ctx.message.add_reaction('👎')
-                    await ctx.send(f'```py\n{type(error).__name__}: {str(error)}\n```')
-                    return
-                else:
-                    await ctx.message.add_reaction('👌')
-                    #await ctx.send(f'```Successfully reloaded {cog}!```')
-
     @commands.command(name='stop', hidden=True, aliases=['exit', 'die', 'logout'])
     @commands.is_owner()
     async def _stop(self, ctx):

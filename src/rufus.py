@@ -36,20 +36,18 @@ logging.basicConfig(stream=sys.stdout,
                     format='%(levelname)-8s %(message)s',
                     datefmt='%d/%m/%Y %H:%M:%S'
                     )
-log = logging.getLogger(__name__)
+log = logging.getLogger('discord') # __name__
 
 def get_prefix(_bot, message):
     """
     Return the prefix used in the specific channel.
     """
     if message.guild:
-        scope = 'guild'
-    else:
-        scope = 'direct'
-    return commands.when_mentioned_or(*c.scoped_prefixes[scope])(_bot, message)
+        return commands.when_mentioned_or(*c.prefixes)(_bot, message)
+    return commands.when_mentioned_or(*[])(_bot, message)
 
 bot = commands.Bot(command_prefix=get_prefix,
-                   description=c.description,
+                   #description=c.description,
                    case_insensitive=False)
 
 
@@ -127,8 +125,6 @@ async def on_message(message):
             if re.compile(r'(\s+|^)(' + '|'.join(c.swears) + ')(\s+|$)').search(message.content.lower()):
                 await message.add_reaction(random.choice(c.rages))
                 log.info(message)
-            if message.content.startswith('man '):
-                message.content = message.content.replace('man ', c.prefixes[0]+'help ')
             if message.content.upper() == 'F':
                 await message.channel.send('F')
         if str(rules.getrule('dad', message.guild.id)).lower() == 'true':
@@ -208,4 +204,4 @@ if __name__ == '__main__':
         bot.load_extension(cog)
 
     log.debug('Starting bot...')
-    bot.run(c.data["botToken"], bot=True, reconnect=True)
+    bot.run(os.environ.get("BOT_TOKEN"), bot=True, reconnect=False)

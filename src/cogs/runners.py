@@ -15,6 +15,7 @@ class Runners():
     """
     def python(message, code: str):
         return "docker is not installed"
+        # FIXME: c.srcDir is no longer a thing
         homedir = f'{c.srcDir}/runners/{message.author.id}'
         if os.path.isdir(homedir):
             return 'File already exists.'
@@ -56,6 +57,7 @@ CMD ["python", "-u", "/bot/code.py"]"""
     def old_python(message, code: str):
         # make folder to hold temporary files
 
+        # FIXME: c.srcDir is no longer a thing
         homedir = f'{c.srcDir}/runners/{message.author.id}'
         if os.path.isdir(homedir):
             return 'File already exists.'

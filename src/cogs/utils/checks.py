@@ -14,12 +14,7 @@ async def user_is_developer(ctx):
     if is_owner:
         return True
     else:
-        return ctx.message.author.id in c.dev_id
-    #is_dev = await ctx.message.author.id in c.dev_id
-    #if is_dev:
-    #    return True
-    #else:
-    #    return False
+        return ctx.message.author.id in c.dev_ids
 
 def is_dev():
     async def checker(ctx):
@@ -44,18 +39,3 @@ def getDominantColor(filename: str):
         return hexColor
     except:
         return discord.Color.from_rgb(48, 105, 152)
-
-# from bs4 import BeautifulSoup
-# def scraper(url: str, phrase: str = '<div class="beatmapset-header__content" style="background-image: url("URL_HERE");">'):
-#from bs4 import BeautifulSoup
-#import urllib.request
-#import re
-#import time
-
-#html_page = urllib.request.urlopen("https://osu.ppy.sh/beatmaps/1149713")
-#html_page = urllib.request.urlopen("https://osu.ppy.sh/beatmapsets/542081#osu/1149713")
-#soup = BeautifulSoup(html_page, features="html.parser")
-#soup = soup.findAll('div')
-
-#for line in soup:
-#    print(f'\n\n{line}')
