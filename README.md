@@ -8,13 +8,15 @@
 
 An [open-source](https://opensource.org/about "Guaranteeing the 'our' in source...") versatile|multipurpose [Discord](https://discordapp.com/) bot made with discord.py
 
+> ⚠ This bot is no longer under active development, and rarely receives bug fixes or updates. I have started working on [yaourter](https://github.com/runarsf/yaourter) instead, which utilizes slash-commands.
+
 ## Getting started
 There are several ways of utilizing Rufus for yourself, the following is a brief documentation on how to get it up and running as swiftly as possible.
 
 ### Using an existing instance
 - [Add](https://discordapp.com/oauth2/authorize?client_id=387390496038977536&scope=bot&permissions=2146958591) the bot to your own server.
 - Type `rufus help` for a list of all commands and prefixes.
-- `Disclaimer:` All bot-PMs, commands, mentions and errors will be logged, the logfile is cleared regularly and is only read if the bot is running into problems and/or for debugging purposes.
+- Disclaimer: All bot-PMs, commands, mentions and errors will be logged, the logfile is cleared regularly and is only read if the bot is running into problems and/or for debugging purposes.
 
 ### Running your own instance
 - You have two options when it comes to hosting your own instance; you can run the application without any *abstraction layer*, or use docker and docker-compose. Refer to the [developer docs](https://github.com/runarsf/rufus/wiki/Developer-docs) to get started.
